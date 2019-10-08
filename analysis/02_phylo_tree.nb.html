@@ -240,19 +240,13 @@ library(tidytree)</code></pre>
 <p>Load and combine data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJlZVxuXG5gYGAifQ== -->
-<pre class="r"><code>tree
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5QaHlsb2dlbmV0aWMgdHJlZSB3aXRoIDExIHRpcHMgYW5kIDEwIGludGVybmFsIG5vZGVzLlxuXG5UaXAgbGFiZWxzOlxuXHRMZW11cl9jYXR0YSwgVmFyZWNpYV92YXJpZWdhdGFfdmFyaWVnYXRhLCBDZWJ1c19hcGVsbGEsIFNhaW1pcmlfc2NpdXJldXMsIEdvcmlsbGFfZ29yaWxsYV9nb3JpbGxhLCBQYW5fcGFuaXNjdXMsIC4uLlxuXG5Sb290ZWQ7IGluY2x1ZGVzIGJyYW5jaCBsZW5ndGhzLlxuIn0= -->
-<pre><code>
-Phylogenetic tree with 11 tips and 10 internal nodes.
-
-Tip labels:
-    Lemur_catta, Varecia_variegata_variegata, Cebus_apella, Saimiri_sciureus, Gorilla_gorilla_gorilla, Pan_paniscus, ...
-
-Rooted; includes branch lengths.</code></pre>
-<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjozLCJucm93IjoxMn0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzV1V6Mi9hTUJUSERSUXFHRDlhSVRSTjI0Ri9BQTdiWmRmUmFydDAya1MzcVRmcnhUSEJ3ckZUMjZGanAvM1JPNWU5RUJ0SXBpRVMyOS8zL0g1ODRtUjUrL0N1OTlBamhMUklxOU1nclRaT1Nmdjd0NCt6OTRSY05ISFJJQmVrVzR3LzBXbDg4Q1RrQ3ErK04xd2JvUkxxUUVnZVU4blQzSGpEbTBnQzIxQlFNWDFhQzhlcHlWZXJtczhrTXZwSlVRWlp6dFpDMFZTckRkOTU0NnN5d0FvWTdyS1ppTG1wT296c1l5Nk00YklxRDgyYTI5elNGQmc4NXR5clk2bFBkVlpOb3dnTS9uYzF1WWNscFJtb1h6d29uVWdySFdtL3VreTBFVktDWDNhMUFaWGtEbFNkMEJJSnpjck0wd3FoUmRIZ0RBbk5Eb1NtSmFHS3oyUlJFSm9HUXRNcW9UTEFnZEMwSkZSMUdOMTdRbFY1dUR3UW10WUkzZWxUblRWQ2k1SlFUZTdkL0VOb1VTSDBxVXJveTM4SXZiZ3JPc1pqNEZ6d2ZmMERER2NDNkJhTTRBbTRzNWwzNmQvd0NCOHpaUHlVWXZEQmNja3RaV3RJK2NhTFYvY2dVbUVFdFV6a2h1YzJZUGlNM1RDZ2FTN1BNbys5dWdKMFoyZ3lJbXdZZVpQZHlTMm9ZNXpKVjFEVUdaMUlIZThjWnQ5eWN6VDJDeU15RXBZZHRaZWVDMDJxNDNFTFBnaE5JZUpTaU5wNzJGYlltUFg4V29HenpaQVZEK0d2L1pLdXRFbXhNeDRIT3NHQS9RcFZqOHdrMkJBNWlMMFllYzlYQnBQVzNMdDRMdWVobUFGZXpkOTQyKy8zZjNCNHJqbGY2c3dKcmRDMVdYeERPclVzRFZNVFJya3FRc2N6dHM3Vlp2YTJxT1JnTG4vbjg0R2Y5OC9tclRKOWMrL0Rkc0xwNUNvUktwelZ0aXdJaHdxeEVRdEpzQTJMdDY1b2JwN2g5ODBGR3FqYXVkTU93clllMHpJb2g3Yko4MS8vZVM4bVZRVUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_formatted"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_latin"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"ring_tailed_lemur","2":"Ring-tailed lemur","3":"Lemur_catta"},{"1":"black_and_white_ruffed_lemur","2":"Black-and-white ruffed lemur","3":"Varecia_variegata_variegata"},{"1":"brown_capuchin_monkey","2":"Brown capuchin monkey","3":"Cebus_apella"},{"1":"black_faced_spider_monkey","2":"Black-faced spider monkey","3":"Ateles_chamek"},{"1":"squirrel_monkey","2":"Squirrel monkey","3":"Saimiri_sciureus"},{"1":"rhesus_macaque","2":"Rhesus macaque","3":"Macaca_mulatta"},{"1":"long_tailed_macaque","2":"Long-tailed macaque","3":"Macaca_fascicularis"},{"1":"barbary_macaque","2":"Barbary macaque","3":"Macaca_sylvanus"},{"1":"chimpanzee","2":"Chimpanzee","3":"Pan_troglodytes_verus"},{"1":"bonobo","2":"Bonobo","3":"Pan_paniscus"},{"1":"gorilla","2":"Gorilla","3":"Gorilla_gorilla_gorilla"},{"1":"orangutan","2":"Orangutan","3":"Pongo_abelii"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[12]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
