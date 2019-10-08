@@ -89,6 +89,7 @@ ggtree(tree5, aes(col = group, size = n, alpha = n)) +
   geom_text(aes(x = branch, label = clade), col = "black", alpha = 1, size = 3, vjust = -1) +
   # tweak scales
   scale_color_viridis_d(end = .9) +
+  scale_size_area() +
   scale_alpha_continuous(range = c(.3, .8)) +
   # make room for tip labels
   expand_limits(x = .65) #+
