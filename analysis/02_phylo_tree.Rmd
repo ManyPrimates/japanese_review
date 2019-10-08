@@ -102,5 +102,24 @@ ggsave("../graphs/phylo.png", width = 8, height = 4)
 ```
 
 
+```{r}
+ggtree(tree5, aes(col = group, size = n, alpha = n), branch.length='none', layout='circular') +
+  # colored branches
+  geom_tree() +
+  #geom_tree(col = "black", size = .3, alpha = 1) +
+  # selected tip and branch labels
+  geom_tiplab(aes(label = species_formatted, angle = angle), offset = .2, col = "black", size = 3, alpha = 1) +
+  geom_text(aes(x = branch, label = clade), col = "black", alpha = 1, size = 3, vjust = -1) +
+  # tweak scales
+  scale_color_viridis_d(end = .9) +
+  scale_alpha_continuous(range = c(.3, .8)) +
+  # make room for tip labels
+  expand_limits(x = .65) #+
+  # # add legend
+  # guides(col = "none") +
+  # theme(legend.position = "right")
+```
 
-
+```{r}
+ggsave("../graphs/phylo_fan.png", width = 5, height = 5)
+```
