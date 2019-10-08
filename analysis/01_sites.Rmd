@@ -1,0 +1,43 @@
+---
+title: "Sites"
+output:
+  html_notebook:
+    css: style.css
+    theme: paper
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(cowplot)
+library(maps)
+```
+
+```{r, message=FALSE}
+data <- read_csv("../data/data.csv")
+labs <- read_csv("../data/site_coordinates.csv")
+```
+
+```{r}
+df <- data %>% 
+  group_by(site) %>% 
+  summarise(N = sum(n), M = mean(n), Mdn = median(n)) %>% 
+  full_join(labs)
+
+world <- map("world", plot = FALSE, fill = TRUE) %>% fortify()
+```
+
+```{r, fig.width=8, fig.height=4}
+ggplot(df, aes(x = long, y = lat)) +
+  geom_polygon(data = world, aes(group = group), fill = "grey") +
+  geom_point(aes(size = N, fill = N), shape = 21) +
+  coord_fixed(1.3, ylim = c(-55, 83.59961)) +
+  scale_size(range = c(2, 10)) +
+  scale_fill_viridis_c() +
+  theme_map() +
+  guides(size = "none", fill = "none")
+```
+
+```{r}
+ggsave('../graphs/sites.png', width = 8, height = 4, scale = 2)
+```
+
