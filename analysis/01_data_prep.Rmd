@@ -1,0 +1,70 @@
+---
+title: "Prep GSheet data"
+output:
+  html_notebook:
+    css: style.css
+    theme: paper
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(googlesheets)
+```
+
+# Load GSheets
+
+```{r}
+# allow access (in browser)
+gs_auth()
+```
+
+```{r}
+# grab gsheet by name or key
+lit <- gs_title("Lit review for Japanese Psychological Review")
+# lit <- gs_key("1TyhMOCyjHTUKysTjkqeJYQSqDo82Ik_9LdhmopxWT2M")
+```
+
+```{r}
+# list worksheets
+gs_ws_ls(lit)
+```
+
+```{r, message=FALSE}
+# download/assign different sheets to different dataframes
+studies <- gs_read(lit, skip = 15, progress = F)
+species <- gs_read(lit, ws = "Species", comment = "#", progress = F)
+sites <- gs_read(lit, ws = "Sites", comment = "#", progress = F)
+```
+
+```{r}
+glimpse(studies)
+```
+
+```{r}
+glimpse(species)
+```
+
+```{r}
+glimpse(sites)
+```
+
+# Data wrangle/clean
+
+...
+
+# Export
+
+```{r}
+write_csv(studies, "../data/studies_gsheet.csv")
+write_csv(species, "../data/species_gsheet.csv")
+write_csv(sites, "../data/sites_gsheet.csv")
+```
+
+***
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
