@@ -176,41 +176,10 @@ d4 <- data3 %>%
   group_by(label, species) %>% 
   summarise(Mdn = median(num)) # totalN = sum(num), sitesN = n_distinct(site)
 
-# for vertical line in ridge plot
-v <- tibble(.panel = c("Tree", "ٴSample sizes"),
-            reference = c(NA, median(data3$num))) # grand median
-```
-
-```{r}
-q <- ggtree(tree5, aes(col = group)) +
-  # this is a dummy point to expand the x scale
-  # the typical ways weirdly also expand it for the sample size panel once that's added
-  geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
-  # tip labels
-  geom_tippoint(aes(size = n), alpha = .5) +
-  geom_tiplab(offset = 4, size = 3) +
-  # tweak scales
-  scale_color_manual(values = c("grey30", cols)) +
-  scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
-  # add reference line (this will show up on right panel of facet_plot only)
-  geom_vline(data = v, aes(xintercept = reference), lty = 3, col = "grey") +
-  # display timescale at the bottom
-  theme_tree2()
-```
-
-```{r, fig.width=8, fig.height=2, eval=FALSE}
-# trying out which geoms to layer
-s1 <- ggplot(data3, aes(x = num, y = label, group = label)) +
-  geom_density_ridges(lwd = .3, col = "grey80", bandwidth = 1)
-
-s2 <- ggplot(data3, aes(x = num, y = label, group = label)) +
-  geom_crossbarh(data = data4, aes(x = Mdn, xmin = Mdn, xmax = Mdn), width = .5) +
-  geom_point(alpha = .5)
-
-s3 <- ggplot(data3, aes(x = num, y = label, group = label)) +
-  geom_boxploth()
-
-plot_grid(s1, s2, s3, nrow = 1)
+# for vertical line in ridge plot (grand median)
+# + hacky way to make horizontal grid lines for right panel only
+v <- tibble(reference = c(NA, median(data3$num)), .panel = c("Tree", "ٴSample sizes"))
+h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("ٴSample sizes", Ntip(tree5))))
 ```
 
 ```{r, fig.width=4, fig.height=3}
@@ -221,6 +190,28 @@ plot_grid(s1, s2, s3, nrow = 1)
 
 # dirty hack: there's a small character in front of "Sample sizes" to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
 
+# LEFT FACET
+q <- ggtree(tree5, aes(col = group)) +
+  # this is a dummy point to expand the x scale
+  # the typical ways weirdly also expand it for the sample size panel once that's added
+  geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
+  # tip labels
+  geom_tippoint(aes(size = n), alpha = .5) +
+  geom_tiplab(offset = 4, size = 3) +
+  # tweak scales
+  scale_color_manual(values = c("grey30", cols)) +
+  scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
+  # display timescale at the bottom
+  theme_tree2() +
+  # add reference lines (these will show up on right panel of facet_plot only)
+  geom_hline(data = h, aes(yintercept = reference), lwd = .2, col = "grey", alpha = .5) +
+  geom_vline(data = v, aes(xintercept = reference), lwd = 1.5, col = "grey", alpha = .3) +
+  # remove facet strips
+  # or element_text(size = 14)
+  theme(strip.text = element_blank(), strip.background = element_blank(),
+        plot.margin = unit(rep(.5, 4), "cm"))
+
+# ADD RIGHT FACET
 q %>% 
   facet_plot("ٴSample sizes", 
              d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
@@ -229,8 +220,10 @@ q %>%
              d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
              col = group), alpha = .5, width = .3) %>%
   facet_plot("ٴSample sizes", 
-             d3b, geom_point, aes(x = num2, group = label), alpha = .5) +
-  panel_border()
+             d3b, geom_point, aes(x = num2, group = label), alpha = .5) #+
+  # # for rugplot (vertical line instead of point):
+  # facet_plot("ٴSample sizes", 
+  #            d3b, geom_point, aes(x = num2, group = label), shape = "|", size = 3) +
 ```
 
 ```{r}
