@@ -218,13 +218,12 @@ plot_grid(s1, s2, s3, nrow = 1)
 q %>% 
   facet_plot("ٴ Sample sizes", 
              d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
-             alpha = .5, lwd = .3) %>% 
+             alpha = .5, lwd = .3, position = position_nudge(y = .1)) %>% 
   facet_plot("ٴ Sample sizes",
              data4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
-             col = group), alpha = .5, width = .3, position = position_nudge(y = -.1)) %>%
+             col = group), alpha = .5, width = .3) %>%
   facet_plot("ٴ Sample sizes", 
-             d3b, geom_point, aes(x = num2, group = label), alpha = .5, 
-             position = position_nudge(y = -.1)) +
+             d3b, geom_point, aes(x = num2, group = label), alpha = .5) +
   panel_border()
 ```
 
