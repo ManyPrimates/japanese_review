@@ -172,9 +172,13 @@ d3b <- data3 %>% # setdiff(data3, d3a) ## <- do setdiff instead to NOT show poin
   mutate(num2 = ifelse(flag, NA, num))
 
 # for vertical crossbar = median
-data4 <- data3 %>% 
+d4 <- data3 %>% 
   group_by(label, species) %>% 
   summarise(Mdn = median(num)) # totalN = sum(num), sitesN = n_distinct(site)
+
+# for vertical line in ridge plot
+v <- tibble(.panel = c("Tree", "ٴSample sizes"),
+            reference = c(NA, median(data3$num))) # grand median
 ```
 
 ```{r}
@@ -188,11 +192,13 @@ q <- ggtree(tree5, aes(col = group)) +
   # tweak scales
   scale_color_manual(values = c("grey30", cols)) +
   scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
+  # add reference line (this will show up on right panel of facet_plot only)
+  geom_vline(data = v, aes(xintercept = reference), lty = 3, col = "grey") +
   # display timescale at the bottom
   theme_tree2()
 ```
 
-```{r, fig.width=8, fig.height=2}
+```{r, fig.width=8, fig.height=2, eval=FALSE}
 # trying out which geoms to layer
 s1 <- ggplot(data3, aes(x = num, y = label, group = label)) +
   geom_density_ridges(lwd = .3, col = "grey80", bandwidth = 1)
@@ -216,13 +222,13 @@ plot_grid(s1, s2, s3, nrow = 1)
 # dirty hack: there's a small character in front of "Sample sizes" to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
 
 q %>% 
-  facet_plot("ٴ Sample sizes", 
+  facet_plot("ٴSample sizes", 
              d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
              alpha = .5, lwd = .3, position = position_nudge(y = .1)) %>% 
-  facet_plot("ٴ Sample sizes",
-             data4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
+  facet_plot("ٴSample sizes", 
+             d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
              col = group), alpha = .5, width = .3) %>%
-  facet_plot("ٴ Sample sizes", 
+  facet_plot("ٴSample sizes", 
              d3b, geom_point, aes(x = num2, group = label), alpha = .5) +
   panel_border()
 ```
