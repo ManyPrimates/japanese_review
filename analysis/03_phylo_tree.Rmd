@@ -1,0 +1,221 @@
+---
+title: "Phylogenetic Tree"
+output: 
+  html_notebook:
+    css: style.css
+    theme: paper
+---
+
+Load packages
+
+```{r, message=FALSE}
+library(tidyverse)
+library(gridExtra)
+library(cowplot)
+library(ggridges)
+library(treeio)
+library(ggtree)
+library(tidytree)
+```
+
+Load and combine data
+
+```{r, message=FALSE}
+species <- read_csv("../data/species_data.csv") %>% select(-species)
+data <- read_csv("../data/data.csv") %>% 
+  left_join(species, by = c("species" = "species_formatted")) %>% 
+  rename(label = species_latin)
+data2 <- data %>% group_by(species, label) %>% summarise(n = sum(n))
+fulltree <- read.nexus("../data/consensusTree_10kTrees_298Primates_V3.nex")
+refs <- read_csv("../data/ref_nodes.csv")
+```
+
+```{r}
+# turn tree into tidy dataframe
+tree2 <- as_tibble(fulltree)
+
+tree3 <- tree2 %>% 
+  left_join(data2) %>% 
+  mutate(
+    hasN = ifelse(is.na(n), 0, .5),
+    hasN2 = ifelse(is.na(n), .1, .5)) %>% 
+  left_join(refs) %>% 
+  # # also merge w datasheet listing node, n for inner nodes
+  # left_join(Ns, by = "node") %>% 
+  # mutate(n = coalesce(n.x, n.y)) %>% 
+  # select(-n.x, -n.y) %>% 
+  groupClade(c(493, 496, 429, 302, 408)) %>% 
+  mutate(group = fct_recode(group, "2" = "1"))
+
+# turn back into tree
+tree4 <- as.treedata(tree3)
+```
+
+# Figure out nodes
+
+This makes a rectangular and a circular tree with the node numbers displayed for reference (saved in the `graphs` folder).
+
+```{r}
+tree3.2 <- as.treedata(tree3)
+```
+
+```{r, fig.width=8, fig.height=20, eval=FALSE}
+# display node numbers for reference
+ggtree(tree3.2) +
+  # tip labels
+  geom_tippoint(aes(size = n), col = "seagreen", alpha = .5) +
+  geom_tiplab(offset = 1, size = 3) +
+  # node labels
+  geom_text(aes(label = node, x = branch), size = 2, col = "blue", vjust = -.5) +
+  expand_limits(x = 90) +
+  # display timescale at the bottom
+  theme_tree2()
+```
+
+```{r, eval=FALSE}
+ggsave("../graphs/full_tree_nodes.pdf", width = 8, height = 20, scale = 2)
+```
+
+```{r, fig.width=8, fig.height=8, eval=FALSE}
+ggtree(tree3.2, layout = "circular") +
+  geom_tippoint(aes(size = n), col = "seagreen", alpha = .5) +
+  geom_tiplab2(offset = 2, size = 3) +
+  geom_text2(aes(label = node), size = 1.5, col = "blue") +
+  xlim(NA, 100)
+```
+
+```{r, eval=FALSE}
+ggsave("../graphs/full_tree_nodes_circular.pdf", width = 8, height = 8, scale = 2)
+```
+
+# Circular tree of 298 primates
+
+```{r}
+cols <- viridis::viridis(4, end = .9)
+```
+
+```{r}
+# base plot
+p <- ggtree(tree4, aes(size = hasN, alpha = hasN2), layout = "circular") +
+  # root
+  geom_rootpoint(size = 1) +
+  # tips
+  geom_tippoint(aes(size = n), alpha = .5) +
+  geom_tiplab2(aes(alpha = hasN), offset = 2, size = 3) +
+  # tweak scales
+  scale_alpha_continuous(range = c(.3, 1)) +
+  scale_size_continuous(range = c(.5, 8)) +
+  # widen plotting area
+  xlim(NA, 100)
+```
+
+```{r}
+# highlight clades with background colors
+p2 <- p + 
+  geom_hilight(node = 493, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 496, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 429, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 303, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 408, fill = cols[4], alpha = .3) +
+  # plot tree again to be on top of the highlights
+  geom_tree() +
+  geom_rootpoint(size = 1)
+```
+
+```{r}
+# highlight clades with branch colors
+p3 <- p + 
+  aes(col = group) +
+  scale_color_manual(values = c("gray30", cols))
+```
+
+```{r}
+plots <- mget(c("p", "p2", "p3"))
+```
+
+```{r, fig.width=18, fig.height=6}
+grid.arrange(p, p2, p3, nrow = 1)
+```
+
+```{r}
+# png with 3x1
+ggsave("../graphs/phylo_full.png", arrangeGrob(grobs = plots, nrow = 1), 
+       width = 24, height = 8, scale = 2, dpi = 72)
+
+# pdf with 1 per page
+ggsave("../graphs/phylo_full.pdf", marrangeGrob(grobs = plots, nrow = 1, ncol = 1), 
+       width = 8, height = 8, scale = 2, dpi = 72)
+```
+
+# Sample size in detail
+
+```{r}
+# subset tree to just those species who have sample sizes reported, i.e. those who were tested
+to_drop <- tree3 %>% filter(is.na(n)) %>% pull(label)
+tree5 <- drop.tip(tree4, to_drop)
+```
+
+```{r}
+data3 <- data %>% 
+  select(label, everything()) %>% 
+  rename(num = n)
+
+d3a <- data3 %>% group_by(species) %>% filter(n_distinct(site) > 2)
+d3b <- setdiff(data3, d3a)
+```
+
+```{r}
+q <- ggtree(tree5, aes(col = group)) +
+  # this is a dummy point to expand the x scale
+  # the typical ways weirdly also expand it for the sample size panel once that's added
+  geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
+  # tip labels
+  geom_tippoint(aes(size = n), alpha = .5) +
+  geom_tiplab(offset = 4, size = 3) +
+  # tweak scales
+  scale_color_manual(values = c("grey30", cols)) +
+  scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
+  # display timescale at the bottom
+  theme_tree2()
+```
+
+```{r, eval=FALSE}
+ggplot(data3, aes(x = num, y = label, group = label)) +
+  geom_density_ridges(lwd = .3, col = "grey80", bandwidth = 1)
+
+ggplot(data3, aes(x = num, y = label, group = label)) +
+  geom_point()
+```
+
+```{r, fig.width=4, fig.height=3}
+# add densities (or points when densities can't be calculated / are meaningless)
+
+# dirty hack: there's a small character in front of "Sample sizes" to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
+
+q %>% 
+  facet_plot("ٴ Sample sizes", d3b, geom_point, aes(x = num, group = label, alpha = .5)) %>% 
+  facet_plot("ٴ Sample sizes", d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
+             alpha = .5, lwd = .3) +
+  panel_border()
+```
+
+```{r}
+ggsave("../graphs/phylo_ridge.png", width = 4, height = 3, scale = 2)
+```
+
+Relevant functions to tinker with, if necessary:
+
+```{r}
+facet_plot
+```
+
+```{r}
+ggtree:::add_panel
+```
+
+# Session info
+
+```{r}
+sessionInfo()
+```
+
