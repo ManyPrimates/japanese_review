@@ -176,6 +176,13 @@ d4 <- data3 %>%
   group_by(label, species) %>% 
   summarise(Mdn = median(num)) # totalN = sum(num), sitesN = n_distinct(site)
 
+# for cross = median (sample size by species and site)
+d5 <- data3 %>% 
+  group_by(label, species, site) %>% 
+  summarise(Mdn_site = median(num))%>% 
+  group_by(label, species) %>% 
+  summarise(Mdn_site2 = median(Mdn_site))
+
 # for vertical line in ridge plot (grand median)
 # + hacky way to make horizontal grid lines for right panel only
 v <- tibble(reference = c(NA, median(data3$num)), .panel = c("Tree", "ٴSample sizes"))
@@ -220,6 +227,8 @@ q %>%
              d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
              col = group), alpha = .5, width = .3) %>%
   facet_plot("ٴSample sizes", 
+             d5, geom_point, aes(x = Mdn_site2, group = label), shape=4, alpha = .8) %>%
+  facet_plot("ٴSample sizes", 
              d3b, geom_point, aes(x = num2, group = label), alpha = .5) #+
   # # for rugplot (vertical line instead of point):
   # facet_plot("ٴSample sizes", 
@@ -227,7 +236,7 @@ q %>%
 ```
 
 ```{r}
-ggsave("../graphs/phylo_ridge.png", width = 4, height = 3, scale = 2)
+ggsave("../graphs/phylo_ridge_site.png", width = 4, height = 3, scale = 2)
 ```
 
 Relevant functions to tinker with, if necessary:
