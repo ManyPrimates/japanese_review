@@ -203,13 +203,10 @@ ax <- tibble(lab = c("Distance", "Sample size"), x = c(67.5, max(data3$num)/2), 
 # 2+ sites = points + crossbar at median
 # X+ sites = densities (currently, X = 4 just to illustrate)
 
-# dirty hack: x in front of "Sample size" is to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
-
 # LEFT FACET
 q <- ggtree(tree5, aes(col = group)) +
-  # this is a dummy point to expand the x scale
-  # the typical ways weirdly also expand it for the sample size panel once that's added
-  # geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
+  # root
+  geom_rootedge(rootedge = 5) +
   # tip labels
   geom_tippoint(aes(size = n), alpha = .5) +
   geom_tiplab(offset = 4, size = 3) +
@@ -226,23 +223,25 @@ q <- ggtree(tree5, aes(col = group)) +
   # add reference lines (these will show up on right panel of facet_plot only)
   geom_hline(data = h, aes(yintercept = reference), lwd = .2, col = "grey", alpha = .5) +
   geom_vline(data = v, aes(xintercept = reference), lwd = 1.5, col = "grey", alpha = .3) +
-  # remove facet strips
-  # or element_text(size = 14)
+  # remove facet strips, expand bottom margin (to make space for x axis labels)
   theme(strip.text = element_blank(), strip.background = element_blank(),
         plot.margin = unit(c(.5, .5, 1.2, .5), "cm"))
+
+# dirty hack: x in front of "Sample size" is to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
 
 # ADD RIGHT FACET
 q %>% 
   # densities for species with enough sites
   facet_plot("xSample size", d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
              alpha = .5, lwd = .3, position = position_nudge(y = .1)) %>% 
-  # vertical crossbar for Mdn
+  # vertical crossbar for Mdn, for Mdn of site medians
   facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
              col = group), alpha = .5, width = .3) %>%
-  # x for Mdn_site
-  facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2, stroke = 1.5, alpha = .8) %>%
+  facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2, 
+             stroke = 1.5, alpha = .8) %>%
   # vertical mark for individual sites
-  facet_plot("xSample size", d3b, geom_point, aes(x = num2, group = label), shape = "|", size = 3) #+
+  facet_plot("xSample size", d3b, geom_jitter, aes(x = num2, group = label), shape = "|", size = 3,
+             width = .1, height = 0)
 ```
 
 ```{r}
