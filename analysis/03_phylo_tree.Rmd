@@ -172,21 +172,29 @@ d3b <- data3 %>% # setdiff(data3, d3a) ## <- do setdiff instead to NOT show poin
   mutate(num2 = ifelse(flag, NA, num))
 
 # for vertical crossbar = median
-d4 <- data3 %>% 
+d4a <- data3 %>% 
   group_by(label, species) %>% 
   summarise(Mdn = median(num)) # totalN = sum(num), sitesN = n_distinct(site)
 
 # for cross = median (sample size by species and site)
-d5 <- data3 %>% 
+d4b <- data3 %>% 
   group_by(label, species, site) %>% 
   summarise(Mdn_site = median(num))%>% 
   group_by(label, species) %>% 
   summarise(Mdn_site2 = median(Mdn_site))
 
+# make NA when equal to d4$Mdn
+d4 <- full_join(d4a, d4b) %>% 
+  mutate(Mdn_site2 = ifelse(Mdn == Mdn_site2, NA, Mdn_site2))
+
 # for vertical line in ridge plot (grand median)
 # + hacky way to make horizontal grid lines for right panel only
-v <- tibble(reference = c(NA, median(data3$num)), .panel = c("Tree", "ٴSample sizes"))
-h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("ٴSample sizes", Ntip(tree5))))
+v <- tibble(reference = c(NA, median(data3$num)), .panel = c("Tree", "xSample size"))
+h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("xSample size", Ntip(tree5))))
+
+# for axis labels
+ax <- tibble(lab = c("Distance", "Sample size"), x = c(67.5, max(data3$num)/2), y = -.3, 
+             .panel = c("Tree", "xSample size"))
 ```
 
 ```{r, fig.width=4, fig.height=3}
@@ -195,13 +203,13 @@ h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("ٴSample s
 # 2+ sites = points + crossbar at median
 # X+ sites = densities (currently, X = 4 just to illustrate)
 
-# dirty hack: there's a small character in front of "Sample sizes" to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
+# dirty hack: x in front of "Sample size" is to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
 
 # LEFT FACET
 q <- ggtree(tree5, aes(col = group)) +
   # this is a dummy point to expand the x scale
   # the typical ways weirdly also expand it for the sample size panel once that's added
-  geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
+  # geom_point(data = tibble(x = 135, y = 1, .panel = "Tree", group = NA)) +
   # tip labels
   geom_tippoint(aes(size = n), alpha = .5) +
   geom_tiplab(offset = 4, size = 3) +
@@ -210,43 +218,35 @@ q <- ggtree(tree5, aes(col = group)) +
   scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
   # display timescale at the bottom
   theme_tree2() +
+  xlim_tree(135) +
+  # add axis labels
+  geom_text(data = ax, aes(label = lab), col = "black") +
+  scale_y_continuous(limits = c(1, Ntip(tree5)), oob = function(x, ...) x) +
+  coord_cartesian(clip = "off") +
   # add reference lines (these will show up on right panel of facet_plot only)
   geom_hline(data = h, aes(yintercept = reference), lwd = .2, col = "grey", alpha = .5) +
   geom_vline(data = v, aes(xintercept = reference), lwd = 1.5, col = "grey", alpha = .3) +
   # remove facet strips
   # or element_text(size = 14)
   theme(strip.text = element_blank(), strip.background = element_blank(),
-        plot.margin = unit(rep(.5, 4), "cm"))
+        plot.margin = unit(c(.5, .5, 1.2, .5), "cm"))
 
 # ADD RIGHT FACET
 q %>% 
-  facet_plot("ٴSample sizes", 
-             d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
+  # densities for species with enough sites
+  facet_plot("xSample size", d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
              alpha = .5, lwd = .3, position = position_nudge(y = .1)) %>% 
-  facet_plot("ٴSample sizes", 
-             d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
+  # vertical crossbar for Mdn
+  facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
              col = group), alpha = .5, width = .3) %>%
-  facet_plot("ٴSample sizes", 
-             d5, geom_point, aes(x = Mdn_site2, group = label), shape=4, alpha = .8) %>%
-  facet_plot("ٴSample sizes", 
-             d3b, geom_point, aes(x = num2, group = label), alpha = .5) #+
-  # # for rugplot (vertical line instead of point):
-  # facet_plot("ٴSample sizes", 
-  #            d3b, geom_point, aes(x = num2, group = label), shape = "|", size = 3) +
+  # x for Mdn_site
+  facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2, stroke = 1.5, alpha = .8) %>%
+  # vertical mark for individual sites
+  facet_plot("xSample size", d3b, geom_point, aes(x = num2, group = label), shape = "|", size = 3) #+
 ```
 
 ```{r}
 ggsave("../graphs/phylo_ridge_site.png", width = 4, height = 3, scale = 2)
-```
-
-Relevant functions to tinker with, if necessary:
-
-```{r}
-facet_plot
-```
-
-```{r}
-ggtree:::add_panel
 ```
 
 # Session info
