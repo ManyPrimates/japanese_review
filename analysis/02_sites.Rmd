@@ -43,7 +43,7 @@ ggplot(df, aes(x = long, y = lat)) +
 ```
 
 ```{r}
-ggsave("map.pdf", width = 20, height = 10, scale = 2)
+ggsave("../graphs/map.pdf", width = 20, height = 10, scale = 2)
 ```
 
 ```{r, fig.width=8, fig.height=4}
@@ -102,7 +102,7 @@ plot_grid(mx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
 ```
 
 ```{r}
-ggsave("map_insets.pdf", width = 8, height = 5.5, scale = 2)
+ggsave("../graphs/map_insets.pdf", width = 8, height = 5.5, scale = 2)
 ```
 
 
