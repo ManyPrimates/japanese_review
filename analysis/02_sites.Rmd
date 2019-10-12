@@ -50,15 +50,22 @@ ggsave("../graphs/map.pdf", width = 20, height = 10, scale = 2)
 m <- ggplot(df, aes(x = long, y = lat)) +
   geom_polygon(data = world, aes(group = group), fill = "grey90") +
   geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
-  scale_size_area("Number of\nStudies", max_size = 15) +
-  scale_fill_viridis_c("Number of\nStudies") +
   theme_map() +
-  guides(size = "none")
+  # # to make fill into discrete; overlap with size legend
+  # scale_size_area("Number of\nStudies", max_size = 15) +
+  # scale_fill_viridis_c("Number of\nStudies", guide = "legend") +
+  # to have them side by side
+  scale_fill_viridis_c("", breaks = c(1, 20, 40, 60)) +
+  scale_size_area("", max_size = 15, breaks = c(1, 20, 40, 60)) +
+  theme(legend.box = "horizontal") +
+  guides(fill = guide_colorbar(reverse = T, barheight = 10, order = 0), 
+         size = guide_legend(keyheight = 2.6, title.theme = element_text(size = 4)))
 
 legend <- get_legend(m)
+# plot_grid(legend)
 
 mx <- m +
-  annotate("rect", ymin = c(24, 31, 24), ymax = c(46, 61, 50), xmin = c(124, -12, -130), 
+  annotate("rect", ymin = c(24, 31, 24), ymax = c(46, 62, 50), xmin = c(124, -12, -130), 
            xmax = c(146, 32, -64), size = .5, col = "grey", fill = NA) + 
   coord_fixed(1.3, ylim = c(-55, 83.59961)) +
   theme(legend.position = "none")
@@ -96,7 +103,8 @@ m3 <- m +
 ```
 
 ```{r, fig.width=8, fig.height=5.5, cache=TRUE}
-bottom_row <- plot_grid(m3, m2, m1, legend, nrow = 1, rel_widths = c(2, 1.18, .85, .5))
+leg <- plot_grid(NA, legend, ncol = 1, rel_heights = c(.1, .9), labels = c("", "Number of Studies"), label_x = -.35)
+bottom_row <- plot_grid(m3, m2, NA, m1, NA, leg, nrow = 1, rel_widths = c(2, 1.18, .06, .85, .08, .7))
 plot_grid(mx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
   theme(plot.margin = unit(c(.5, .5, 1.5, .5), "cm"))
 ```
