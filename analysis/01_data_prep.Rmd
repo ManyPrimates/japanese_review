@@ -13,10 +13,7 @@ library(googlesheets)
 
 # Load GSheets
 
-```{r}
-# allow access (in browser)
-gs_auth()
-```
+when you first run this, allow access in browser (can also use `gs_auth()` command separately)
 
 ```{r}
 # grab gsheet by name or key
@@ -30,34 +27,211 @@ gs_ws_ls(lit)
 ```
 
 ```{r, message=FALSE}
+# time stamp for reference
+Sys.time()
+
 # download/assign different sheets to different dataframes
-studies <- gs_read(lit, skip = 15, progress = F)
 species <- gs_read(lit, ws = "Species", comment = "#", progress = F)
 sites <- gs_read(lit, ws = "Sites", comment = "#", progress = F)
+studies <- gs_read(lit, skip = 15, progress = F)
 ```
 
-```{r}
-glimpse(studies)
-```
+# Data clean: Species
 
 ```{r}
+# check data types
 glimpse(species)
 ```
 
 ```{r}
+# number of NAs for each variable
+summarise_all(species, function(x) sum(is.na(x)))
+```
+
+```{r}
+# any common names duplicated?
+filter(species, !is.na(species_file), duplicated(species_file))
+```
+
+```{r}
+species <- select(species, -notes)
+```
+
+```{r}
+write_csv(species, "../data/species_gsheet.csv")
+```
+
+# Data clean: Sites
+
+```{r}
+# check data types
 glimpse(sites)
 ```
 
-# Data wrangle/clean
+```{r}
+# number of NAs for each variable
+summarise_all(sites, function(x) sum(is.na(x)))
+```
 
-...
+```{r}
+# any duplicated sites?
+filter(sites, duplicated(site))
+```
 
-# Export
+```{r}
+filter(sites, is.na(lat) | is.na(long))
+```
+
+```{r}
+# lat should be within +/- 90, long within +/- 180
+range(sites$lat)
+range(sites$long)
+```
+
+```{r}
+sites <- select(sites, -notes)
+```
+
+```{r}
+write_csv(sites, "../data/sites_gsheet.csv")
+```
+
+# Data clean: Studies
+
+## General
+
+```{r}
+# check data types, eg n, female, dropout should be numeric
+glimpse(studies)
+```
+
+```{r}
+# add original gsheet row numbers for reference
+studies <- mutate(studies, row = row_number() + 16) %>% select(row, everything())
+```
+
+```{r}
+# TODO check whether these should be excluded
+# if not, remove the comment in the "to_exclude" column
+# if yes, delete that line
+studies %>% 
+    filter(str_detect(to_exclude, "exclude")) %>% 
+    mutate(authors = str_sub(authors, 1, 15), title = str_sub(title, 1, 35)) %>% 
+    select(row, authors, title, year)
+
+studies <- studies %>% filter(is.na(to_exclude)) %>% select(-to_exclude)
+```
+
+```{r}
+# add a studyID variable (to easily group by study)
+studies$studyID <- studies %>% group_indices(title)
+studies <- select(studies, row, studyID, everything())
+```
+
+```{r}
+# number of NAs for each variable
+summarise_all(studies, function(x) sum(is.na(x)))
+```
+
+```{r}
+sort(unique(studies$year))
+```
+
+```{r}
+sort(unique(studies$age))
+```
+
+```{r}
+sort(unique(studies$species_comparison))
+```
+
+```{r}
+# more females than total sample?
+filter(studies, female > n)
+```
+
+```{r}
+# yes or no
+sort(unique(studies$attempt_replication))
+```
+
+```{r}
+# yes, no, (partial?)
+sort(unique(studies$successful_replication))
+```
+
+```{r}
+# if no replication attempt, then successful_replication should be NA
+filter(studies, attempt_replication == "no", !is.na(successful_replication))
+```
+
+```{r}
+# if no replication attempt, then successful_replication should not be NA
+filter(studies, attempt_replication == "yes", is.na(successful_replication))
+```
+
+## Duplicate study entries
+
+```{r}
+# this lists studies with more than 1 entry for a given title, species, and site
+# this can be ok -- eg Schubiger et al 2016 exp 1 marmosets replication attempt, exp2 naive marmosets not replication attempt -- but check
+# if data from different experiments, total number of different individuals should be listed
+# eg if exp 1 n = 10, exp 2 retests 8 of those 10, then only listed once with n = 10
+studies %>% 
+    group_by(title, species, site) %>%
+    filter(n() > 1) %>% 
+    ungroup %>% 
+    mutate(authors = str_sub(authors, 1, 15), title = str_sub(title, 1, 35)) %>% 
+    select(row, authors, title, year, species) %>% 
+    arrange(title)
+
+# Wobber et al 2014 ok
+# Schubiger et al 2016 ok
+```
+
+```{r}
+# scan for duplicate entries that differ in case (eg Sentence vs. Title case) or with typos
+# show only first 25 characters --> check out potential duplicates in next chunk below
+sort(unique(studies$title)) %>% str_sub(1, 25)
+```
+
+```{r}
+candidates <- c(55:65, 77:82, 138:139, 157:158, 166:167, 299:300, 314:315, 355:356, 
+                374:376, 427:429, 463:464)
+
+str_sub(sort(unique(studies$title)), 1, 60)[candidates]
+```
+
+## Journals
+
+```{r}
+sort(unique(studies$journal))
+```
+
+## Species
+
+```{r, eval=FALSE}
+sort(unique(studies$species))
+```
+
+```{r}
+# common names listed on "Studies" tab that don't appear on "Species" tab
+setdiff(studies$species, species$species_file) %>% sort
+```
+
+## Sites
+
+```{r, eval=FALSE}
+sort(unique(studies$site))
+```
+
+```{r}
+# common names listed on "Studies" tab that don't appear on "Sites" tab
+setdiff(studies$site, sites$site) %>% sort
+```
 
 ```{r}
 write_csv(studies, "../data/studies_gsheet.csv")
-write_csv(species, "../data/species_gsheet.csv")
-write_csv(sites, "../data/sites_gsheet.csv")
 ```
 
 ***

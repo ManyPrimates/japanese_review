@@ -1,131 +1,184 @@
-site,area,country,lat,long,note
-Wolfgang Köhler Primate Research Center,Leipzig,Germany,51.348537,12.3716514,NA
-Lincoln Park Zoo,"Chicago, IL",USA,41.9210919,-87.6339909,NA
-Kumamoto Sanctuary,Kumamoto,Japan,32.6408466,130.4824801,NA
-German Primate Center,Göttingen,Germany,51.5609703,9.9528945,NA
-Sweetwaters Chimpanzee Sanctuary,Nanyuki,Kenya,-0.004259,36.963671,NA
-Heidelberg Zoo,Heidelberg,Germany,49.415154,8.663884,NA
-Edinburgh Zoo,Edinburgh,UK,55.942326,-3.267318,NA
-Kristiansand Zoo,Kristiansand,Norway,58.1856575,8.144123,NA
-Monkey Haven,Isle of Wight,UK,50.705786,-1.262753,NA
-Language Research Center,"Atlanta, GA",USA,33.753068,-84.3852819,NA
-Ape Cognition & Conservation Initiative,"Des Moines, IA",USA,41.545615,-93.532313,NA
-Duke Lemur Center,"Durham, NC",USA,35.9941971,-78.9623365,NA
-Yerkes National Primate Research Center,"Atlanta, GA",USA,33.803676,-84.318564,NA
-Tchimpounga Chimpanzee Sanctuary,NA,Republic of Congo,-4.392769,11.793972,"Location identified based by searching on the map, no google maps entry for the site itself"
-National Center for Chimpanzee Care,"Bastrop, TX",USA,30.2098,-97.30001,Location of Michale E. Keeling Center for Comparative Medicine and Research
-Budongo Forest Conservation Field Station,Budongo,Uganda,1.804417,31.633437,NA
-ISTC-CNR Primate Centre,Rome,Italy,41.917862,12.488197,Location of Bioparco di Roma
-Animaya Zoo,Merida,Mexico,20.984641,-89.686794,NA
-Primate Research Institute,Inuyama,Japan,35.387972,136.958243,NA
-New York State Psychiatric Institute,"New York, NY",USA,40.842703,-73.943827,NA
-Inkawu Vervet Project,Mawana Game Reserve,South Africa,-28.005266,31.204076,location of game reserve
-Cayo Santiago,Humacao,Puerto Rico,18.157179,-65.733637,NA
-Iguazú Falls National Park,Puerto Iguazu,Argentina,-25.678468,-54.466256,NA
-CNRS Primate Centre in Rousset-sur-Arc,Rousset-sur-Arc,France,43.481009,5.620889,location of Rousette
-Marwell Zoo,Winchester,UK,50.992207,1.280794,NA
-Mulhouse Zoo,Mulhouse,France,47.73188,7.348061,NA
-Duisburg Zoo,Duisburg,Germany,51.436622,6.806439,NA
-Tierpark Hamm,Hamm,Germany,51.663146,7.815817,NA
-NICHD Laboratory of Comparative Ethology,"Poolesville, MAD",USA,39.130337,-77.475947,NA
-Zoo Atlanta,"Atlanta, GA",USA,33.734241,84.371903,NA
-Lola ya Bonobo Sanctuary,Kinshasa,Democratic Republic of Kongo,-4.489936,15.268428,NA
-Biomedical Primate Research Centre,Rijswijk,Netherlands,52.034603,4.357697,NA
-Parco Faunistico Piano dell’Abatino,Monteleone Sabino,Italy,42.244844,12.858572,NA
-Oxford University Primate Center,Oxford,UK,51.754863,-1.25441,location of Oxford University
-RIKEN Center for Brain Science,Wako,Japan,35.77987,139.614804,NA
-Franklin and Marshall College,"Lancaster, PA",USA,40.048805,-76.319933,location of FAC
-Taronga Zoo,Sidney,Australia,-33.842622,151.243072,NA
-Centre de Primatologie de l'Université de Strasbourg,Strasbourg,France,48.627198,7.692843,NA
-Chimfunshi Wildlife Orphanage,Kashamata,Zambia,-12.034323,28.269076,NA
-Gibbon Conservation Center,"Santa Clarita, CA",USA,34.466317,-118.46821,NA
-Shanghai Institutes for Biological Sciences,Shanghai,China,31.201665,121.453074,NA
-Beijing Zoo,Beijing,China,39.939127,116.339593,NA
-Beijing Wildlife Park,Beijing,China,39.517207,116.399673,NA
-Charles University Prague,Prague,Czech Republic,50.086973,14.423478,Prague Zoo?
-François’ Langur Breeding Center,Wuzhou,China,23.477806,111.280859,location of Wuzhou
-Seoul Zoo,Seoul,South Korea,37.42761,127.017014,NA
-Primate Research Center IPB,Bogor,Indonesia,-6.585332,106.817381,NA
-Prague Zoo,Prague,Czech Republic,50.11799,14.406261,NA
-Anthropological Institute Primate Research Station,Zurich,Switzerland,47.397718,8.549875,NA
-Seneca Park Zoo,"Rochester, NY",USA,43.205792,-77.622447,NA
-University of Texas Health Science Center,"Houston, TX",USA,29.788242,-95.210043,NA
-University of Toyama,Toyama,Japan,36.698214,137.188379,NA
-University of Georgia,"Athens, GA",USA,33.947979,-83.377429,NA
-McLean Hospital,"Belmont, MA",USA,42.393393,-71.190361,NA
-Toronto Zoo,Toronto,Canada,43.8179,-79.185365,NA
-German Primate Center research station,Kirindy,Madagascar,-20.037666,44.724014,NA
-Simenti Centre de Recherche de Primatologie,NA,Senegal,13.015179,-12.916946,NA
-Comparative Cognition Laboratory at Yale,"New Haven, CT",USA,41.316499,-72.921871,NA
-Detroit Zoological Society,"Detroit, MI",USA,42.479238,-83.169118,NA
-Singapore Zoo,Singapore,Singapore,1.404627,103.793463,NA
-Lake Nabugabo,NA,Uganda,-0.355909,31.912559,NA
-Loskop Dam Nature Reserve,NA,South Africa,-25.424404,29.387108,NA
-Cognitive Evolution Laboratory at Harvard,"Cambridge, MA",USA,42.377144,-71.116231,NA
-Bucknell University,"Lewisburg, PA",USA,40.954756,-76.885097,NA
-Beijing Normal University,Beijing,China,39.962159,116.366712,NA
-University of Rochester,"Rochester, NY",USA,43.130537,-77.626025,NA
-Duke University,"Durham, NC",USA,36.001912,-78.935427,NA
-Awaji island,NA,Japan,NA,NA,NA
-Buffer zone between Pongara National Park and Wonga-Wongue Presidential Park,NA,Gabon,NA,NA,NA
-Katsuyama,NA,Japan,NA,NA,NA
-Center for Comparative Medicine and Research,"Lebanon, NH",USA,43.67548,-72.272537,NA
-Ngamba Island Chimpanzee Sanctuary,Entebbe,Uganda,-0.1005,32.652824,NA
-Smithsonian’s National Zoological Park,"Washington, DC",USA,38.929899,-77.049387,NA
-Southern China Primates Research Center,Guangdong,China,23.302267,113.339218,NA
-California Institute of Technology,"Pasadena, CA",USA,34.137604,-118.125172,NA
-California National Primate Research Centre,"Davis, CA",USA,38.539846,-121.80423,NA
-University of Modena and Reggio Emilia,Modena,Italy,44.645311,10.927873,NA
-Durrell Wildlife Trust,Trinity,UK,49.229791,-2.076258,NA
-Basel Zoo,Basel,Switzerland,47.547554,7.579246,NA
-Twycross Zoo,Atherstone,UK,52.652678,-1.528202,NA
-Allwetterzoo Münster,Münster,Germany,51.948072,7.590139,NA
-Apenheul Primate Park,Apeldoorn,Netherlands,52.215561,5.918901,NA
-Blackpool Zoo,Blackpool,UK,53.81559,-3.010274,NA
-Paignton Zoo,Paignton,UK,50.427602,-3.582072,NA
-University of California Davis,"Davis, CA",USA,38.538207,-121.761777,NA
-Korea Institute of Toxicology,Daejeon,South Korea,36.388168,127.361632,NA
-Bandipur National Park,Bandipur,India,11.758566,76.445306,NA
-Planckendael,Mechelen,Belgium,51.001964,4.516475,NA
-La Vallée des Singes,Romagne,France,46.242811,0.290174,NA
-Dortmund Zoo,Dortmund,Germany,51.473827,7.468889,NA
-Nyaru Menteng,Palangka,Indonesia,-2.035955,113.780037,NA
-Orangutan Care Center and Quarantine,Kalimantan,Indonesia,-3.052272,111.918414,NA
-Quarantine Batu M’Belin,Medan,Indonesia,3.371201,98.591512,NA
-Danau Alo Release site,NA,Indonesia,NA,NA,NA
-University of Rome,Rome,Italy,41.903763,12.514213,NA
-University of Toyama,Toyama,Japan,36.698103,137.188111,NA
-KU Leuven,Leuven,Belgium,50.878158,4.700939,NA
-Institut des Maladies Neurodégénératives,Bordeaux,France,44.825343,-0.606232,NA
-Serra da Capivara National Park,NA,Brazil,-8.69685,-42.572347,NA
-Tohoku University,Tohoku,Japan,38.253935,140.874074,NA
-Doshisha University,Kyoto,Japan,35.030083,135.760656,NA
-University of Arizona,"Tuscon, AZ",USA,32.231949,-110.950281,NA
-Laboratoire d’Ecologie Générale du Muséum National d’Histoire Naturelle,Brunoy,France,48.694929,2.496519,NA
-Zoo Beauval,St Aignan,France,47.247977,1.354366,NA
-Zoo La Palmyre,Les Mathes,France,45.687305,-1.16394,NA
-Zoo La Boissière du Doré,Boissière du Doré,France,47.246796,-1.196536,NA
-Oregon National Primate Research Center,"Beaverthon, OR",USA,45.524439,-122.874197,NA
-La Plata Zoo and Botanical Park,Buenos Aires,Argentina,-34.908462,-57.942105,NA
-University of Massachusetts Amherst,"Amherst, MA",USA,42.386785,-72.521369000000007,NA
-Leintalzoo,Schwaigern,Germany,49.143051,9.077738,NA
-Frankfurt Zoo,Frankfurt,Germany,50.115902,8.702965,NA
-Berlin Zoo,Berlin,Germany,52.507991,13.337755,NA
-Harlow Center for Biological Psychology,"Madison, WI",USA,43.068824,-89.405584,NA
-Washington National Primate Research Center,"Seattle, WA",USA,47.617721,-122.355083,NA
-"Southwest National Primate Center,","San Antonio, TX",USA,29.440235,-98.63879,NA
-New England Primate Research Center,"Westborough, MA",USA,42.326287,-71.498716,NA
-University of Vienna,Vienna,Austria,48.213032,16.360098,NA
-Animal Educators in Valley Center,NA,USA,NA,NA,NA
-Zurich Zoo,Zurich,Switzerland,47.387124,8.574788,NA
-Callitrichid Research Center,"Omaha, NB",USA,41.258186,-96.010658,NA
-Endangered Primate Rescue Center,Cuc Phuong National Park,Vietnam,20.247138,105.715263,NA
-Taï National Park,NA,Ivory Coast,5.690011,-6.939509,NA
-Rockhampton Zoo,Queensland,Australia,-23.398028,150.491044,NA
-Perth Zoo,Perth,Australia,-31.975394,115.852793,NA
-La Forêt des Singes,Rocamadour,France,44.804168,1.633527,NA
-"Institute of Neuroscience, Chinese Academy of Sciences",Shanghai,China,31.201628,121.453406,NA
-Augusta University,"Augusta, GA",USA,33.476008,-82.023253,NA
-Princeton Neuroscience Institute,"Princeton, NJ",USA,40.343197,-74.65247,NA
-St. Catherine’s Island,Georgia,USA,31.631765,-81.152937,NA
-McGill University,Montreal,Canada,45.504725,-73.577258,NA
+site,area,country,lat,long
+Wolfgang Köhler Primate Research Center,Leipzig,Germany,51.348537,12.3716514
+Lincoln Park Zoo,"Chicago, IL",USA,41.9210919,-87.6339909
+Kumamoto Sanctuary,Kumamoto,Japan,32.6408466,130.4824801
+German Primate Center,Göttingen,Germany,51.5609703,9.9528945
+Sweetwaters Chimpanzee Sanctuary,Nanyuki,Kenya,-0.004259,36.963671
+Heidelberg Zoo,Heidelberg,Germany,49.415154,8.663884
+Edinburgh Zoo,Edinburgh,UK,55.942326,-3.267318
+Kristiansand Zoo,Kristiansand,Norway,58.1856575,8.144123
+Monkey Haven,Isle of Wight,UK,50.705786,-1.262753
+Language Research Center,"Atlanta, GA",USA,33.753068,-84.3852819
+Ape Cognition & Conservation Initiative,"Des Moines, IA",USA,41.545615,-93.532313
+Duke Lemur Center,"Durham, NC",USA,35.9941971,-78.9623365
+Yerkes National Primate Research Center,"Atlanta, GA",USA,33.803676,-84.318564
+Tchimpounga Chimpanzee Sanctuary,NA,Republic of Congo,-4.392769,11.793972
+Michale E. Keeling Center for Comparative Medicine and Research,"Bastrop, TX",USA,30.2098,-97.30001
+Budongo Forest Conservation Field Station,Budongo,Uganda,1.804417,31.633437
+ISTC-CNR Primate Centre,Rome,Italy,41.917862,12.488197
+Animaya Zoo,Merida,Mexico,20.984641,-89.686794
+Primate Research Institute,Inuyama,Japan,35.387972,136.958243
+New York State Psychiatric Institute,"New York, NY",USA,40.842703,-73.943827
+Inkawu Vervet Project,Mawana Game Reserve,South Africa,-28.005266,31.204076
+Cayo Santiago,Humacao,Puerto Rico,18.157179,-65.733637
+Iguazú Falls National Park,Puerto Iguazu,Argentina,-25.678468,-54.466256
+CNRS Primate Centre in Rousset-sur-Arc,Rousset-sur-Arc,France,43.481009,5.620889
+Marwell Zoo,Winchester,UK,50.992207,1.280794
+Mulhouse Zoo,Mulhouse,France,47.73188,7.348061
+Duisburg Zoo,Duisburg,Germany,51.436622,6.806439
+Tierpark Hamm,Hamm,Germany,51.663146,7.815817
+Laboratory of Comparative Ethology,"Dickerson, MD",USA,39.130337,-77.475947
+Zoo Atlanta,"Atlanta, GA",USA,33.734241,-84.371903
+Lola ya Bonobo Sanctuary,Kinshasa,Democratic Republic of Kongo,-4.489936,15.268428
+Biomedical Primate Research Centre,Rijswijk,Netherlands,52.034603,4.357697
+Parco Faunistico Piano dell’Abatino,Monteleone Sabino,Italy,42.244844,12.858572
+Oxford University Primate Center,Oxford,UK,51.754863,-1.25441
+RIKEN Center for Brain Science,Wako,Japan,35.77987,139.614804
+Franklin and Marshall College,"Lancaster, PA",USA,40.048805,-76.319933
+Taronga Zoo,Sidney,Australia,-33.842622,151.243072
+Centre de Primatologie de l'Université de Strasbourg,Strasbourg,France,48.627198,7.692843
+Chimfunshi Wildlife Orphanage,Kashamata,Zambia,-12.034323,28.269076
+Gibbon Conservation Center,"Santa Clarita, CA",USA,34.466317,-118.46821
+Shanghai Institutes for Biological Sciences,Shanghai,China,31.201665,121.453074
+Beijing Zoo,Beijing,China,39.939127,116.339593
+Beijing Wildlife Park,Beijing,China,39.517207,116.399673
+Charles University Prague,Prague,Czech Republic,50.086973,14.423478
+François’ Langur Breeding Center,Wuzhou,China,23.477806,111.280859
+Seoul Zoo,Seoul,South Korea,37.42761,127.017014
+Primate Research Center IPB,Bogor,Indonesia,-6.585332,106.817381
+Prague Zoo,Prague,Czech Republic,50.11799,14.406261
+Anthropological Institute Primate Research Station,Zurich,Switzerland,47.397718,8.549875
+Seneca Park Zoo,"Rochester, NY",USA,43.205792,-77.622447
+University of Texas Health Science Center,"Houston, TX",USA,29.788242,-95.210043
+University of Toyama,Toyama,Japan,36.698214,137.188379
+University of Georgia,"Athens, GA",USA,33.947979,-83.377429
+McLean Hospital,"Belmont, MA",USA,42.393393,-71.190361
+Toronto Zoo,Toronto,Canada,43.8179,-79.185365
+German Primate Center research station,Kirindy,Madagascar,-20.037666,44.724014
+Simenti Centre de Recherche de Primatologie,NA,Senegal,13.015179,-12.916946
+Comparative Cognition Laboratory at Yale,"New Haven, CT",USA,41.316499,-72.921871
+Detroit Zoological Society,"Detroit, MI",USA,42.479238,-83.169118
+Singapore Zoo,Singapore,Singapore,1.404627,103.793463
+Lake Nabugabo,NA,Uganda,-0.355909,31.912559
+Loskop Dam Nature Reserve,NA,South Africa,-25.424404,29.387108
+Cognitive Evolution Laboratory at Harvard,"Cambridge, MA",USA,42.377144,-71.116231
+Bucknell University,"Lewisburg, PA",USA,40.954756,-76.885097
+Beijing Normal University,Beijing,China,39.962159,116.366712
+University of Rochester,"Rochester, NY",USA,43.130537,-77.626025
+Duke University,"Durham, NC",USA,36.001912,-78.935427
+Awaji Monkey Center,NA,Japan,34.245127,134.883316
+Buffer zone between Pongara National Park and Wonga-Wongue Presidential Park,NA,Gabon,-0.116023,9.568093
+Katsuyama,NA,Japan,36.073804,136.526408
+Center for Comparative Medicine and Research,"Lebanon, NH",USA,43.67548,-72.272537
+Ngamba Island Chimpanzee Sanctuary,Entebbe,Uganda,-0.1005,32.652824
+Smithsonian’s National Zoological Park,"Washington, DC",USA,38.929899,-77.049387
+Southern China Primates Research Center,Guangdong,China,23.302267,113.339218
+California Institute of Technology,"Pasadena, CA",USA,34.137604,-118.125172
+California National Primate Research Center,"Davis, CA",USA,38.539846,-121.80423
+University of Modena and Reggio Emilia,Modena,Italy,44.645311,10.927873
+Durrell Wildlife Trust,Trinity,UK,49.229791,-2.076258
+Basel Zoo,Basel,Switzerland,47.547554,7.579246
+Twycross Zoo,Atherstone,UK,52.652678,-1.528202
+Allwetterzoo Münster,Münster,Germany,51.948072,7.590139
+Apenheul Primate Park,Apeldoorn,Netherlands,52.215561,5.918901
+Blackpool Zoo,Blackpool,UK,53.81559,-3.010274
+Paignton Zoo,Paignton,UK,50.427602,-3.582072
+University of California Davis,"Davis, CA",USA,38.538207,-121.761777
+Korea Institute of Toxicology,Daejeon,South Korea,36.388168,127.361632
+Bandipur National Park,Bandipur,India,11.758566,76.445306
+Planckendael Zoo,Mechelen,Belgium,51.001964,4.516475
+La Vallée des Singes,Romagne,France,46.242811,0.290174
+Dortmund Zoo,Dortmund,Germany,51.473827,7.468889
+Nyarung Menteng,Palangka,Indonesia,-2.035955,113.780037
+Orangutan Care Center and Quarantine,Kalimantan,Indonesia,-3.052272,111.918414
+Quarantine Batu M’Belin,Medan,Indonesia,3.371201,98.591512
+Danau Alo Release site,Riau,Indonesia,-0.934635,102.446257
+University of Rome,Rome,Italy,41.903763,12.514213
+KU Leuven,Leuven,Belgium,50.878158,4.700939
+Institut des Maladies Neurodégénératives,Bordeaux,France,44.825343,-0.606232
+Serra da Capivara National Park,NA,Brazil,-8.69685,-42.572347
+Tohoku University,Tohoku,Japan,38.253935,140.874074
+Doshisha University,Kyoto,Japan,35.030083,135.760656
+University of Arizona,"Tuscon, AZ",USA,32.231949,-110.950281
+Laboratoire d’Ecologie Générale du Muséum National d’Histoire Naturelle,Brunoy,France,48.694929,2.496519
+Zoo Beauval,St Aignan,France,47.247977,1.354366
+Zoo La Palmyre,Les Mathes,France,45.687305,-1.16394
+Zoo La Boissière du Doré,Boissière du Doré,France,47.246796,-1.196536
+Oregon National Primate Research Center,"Beaverthon, OR",USA,45.524439,-122.874197
+La Plata Zoo and Botanical Park,Buenos Aires,Argentina,-34.908462,-57.942105
+University of Massachusetts Amherst,"Amherst, MA",USA,42.386785,-72.521369000000007
+Leintalzoo,Schwaigern,Germany,49.143051,9.077738
+Frankfurt Zoo,Frankfurt,Germany,50.115902,8.702965
+Berlin Zoo,Berlin,Germany,52.507991,13.337755
+Harlow Center for Biological Psychology,"Madison, WI",USA,43.068824,-89.405584
+Washington National Primate Research Center,"Seattle, WA",USA,47.617721,-122.355083
+Southwest National Primate Center,"San Antonio, TX",USA,29.440235,-98.63879
+New England Primate Research Center,"Westborough, MA",USA,42.326287,-71.498716
+University of Vienna,Vienna,Austria,48.213032,16.360098
+Animal Educators,"Valley Center, CA",USA,33.281667,-116.988472
+Zurich Zoo,Zurich,Switzerland,47.387124,8.574788
+Callitrichid Research Center,"Omaha, NB",USA,41.258186,-96.010658
+Endangered Primate Rescue Center,Cuc Phuong National Park,Vietnam,20.247138,105.715263
+Taï National Park,NA,Ivory Coast,5.690011,-6.939509
+Rockhampton Zoo,Queensland,Australia,-23.398028,150.491044
+Perth Zoo,Perth,Australia,-31.975394,115.852793
+La Forêt des Singes,Rocamadour,France,44.804168,1.633527
+"Institute of Neuroscience, Chinese Academy of Sciences",Shanghai,China,31.201628,121.453406
+Augusta University,"Augusta, GA",USA,33.476008,-82.023253
+Princeton Neuroscience Institute,"Princeton, NJ",USA,40.343197,-74.65247
+St. Catherine’s Island,Georgia,USA,31.631765,-81.152937
+McGill University,Montreal,Canada,45.504725,-73.577258
+Station Biologique de Paimpont,Paimpont,France,48.003925,-2.228661
+Blouberg Nature Reserve,NA,South Africa,-23.017894,29.069148
+Rikkyo University,Tokyo,Japan,35.73036,139.702217
+Ifrane National Park,NA,Morocco,33.563008,-5.237152
+University of Iowa,"Iowa City, IA",USA,41.662666,-91.554767
+Lund University Primate Research Station,Lund,Sweden,60.652277,17.336485
+CNRS Centre de Neuroscience Cognitive,Bron,France,45.744177,4.903178
+University of Veterinary Medicine Hannover,Hannover,Germany,52.355002,9.801492
+CNRS INSERM,Paris,France,48.826642,2.365483
+Fazenda Boa Vista Field Laboratory,Piauí,Brazil,-5.483267,-42.166659
+Criadouro Conservacionista de Animais Silvestres Arca de Noé,Morro Reuter,Brazil,-29.528569,-51.070335
+Newcastle University,Newcastle,UK,54.979181,-1.614757
+Tokushima Bunri University,Sanuki,Japan,34.052807,134.557471
+Great Ape Research Institute,Okayama,Japan,34.528841,133.994065
+CNRS National Museum of Natural History,Paris,France,48.843418,2.3635
+Chamundi Hill range,Mysore,India,12.28237,76.680966
+Rockefeller University,"New York City, NY",USA,40.763178,-73.955787
+Affenwald Straußberg,Sondershausen,Germany,51.395055,10.745647
+Faunia Zoo,Madrid,Spain,40.392124,-3.612404
+University of Ferrara,Ferrara,Italy,44.83327,11.626334
+Zoo Lodz,Lodz,Poland,51.76384,19.412702
+Zoo Wroclaw,Wroclaw,Poland,51.10446,17.075331
+Zoo Warszawa,Warszawa,Poland,52.258175,21.022069
+Zoo Poznan,Poznan,Poland,52.40058,16.995461
+Garda Zoological Park,Bussolengo,Italy,45.478535,10.79399
+Buffalo Zoo,"Buffalo, NY",USA,42.937162,-78.851609
+Reserva Biológica Lomas Barbudal,NA,Costa Rica,10.456191,-85.339707
+Givskud Zoo,Givskud,Denmark,55.80829,9.351685
+Jacksonville Zoo and Gardens,"Jacksonville, FL",USA,30.402279,-81.643258
+Carleton College,"Northfield, MN",USA,44.461312,-93.155751
+Kyoto University,Kyoto,Japan,35.026244,135.78079
+Centre international de recherches médicales de Franceville,Franceville,Gabon,-1.615054,13.582168
+University of Western Ontario,London,Canada,43.009558,-81.27383
+National Center of Neurology and Psychiatry,Tokyo,Japan,35.737186,139.476096
+University of California San Diego,"San Diego, CA",USA,32.879909,-117.234105
+Affenberg Landskron,Gratschach,Austria,46.644168,13.899489
+MRC Human Reproductive Sciences Unit,Edinburgh,UK,55.921333,-3.127806
+Atlantic Forest in Aldeia,Pernambuco,Brazil,-8.045449,-35.039132
+Centre de Recherche Cerveau & Cognition,Toulouse,France,43.612621,1.398824
+Instituto Brasileiro de Meio Ambiente e dos Recursos Renováveis,Brasília,Brazil,-15.767222,-47.861389
+National Institute of Mental Health,"North Bethesda, MD",USA,39.056631,-77.120307
+University of Ferrera,Ferrera,Italy,44.833424,11.626295
+Trentham Monkey Forest,Stoke-on-Trent,UK,52.950679,-2.198392
+Mpala Research Centre,Laikipia Plateau,Kenya,0.311806,36.899392
+Koshima Island,NA,Japan,31.451615,131.37591
+Tietê Ecological Park,São Paulo,Brazil,-23.495337,-46.519996
+Lomas Barbudal Biological Reserve,Bagaces,Costa Rica,10.507234,-85.370808
+Área de Conservación Regional Comunal de Tamshiyacu-Tahuayo,NA,Peru,-4.293519,-73.236237
+Poço das Antas Biological Reserve & Fazenda Afetiva-Jorge,NA,Brazil,-22.501798,-42.267462
+Madre Selva Biological Station,NA,Peru,-3.616667,-72.233333
+Suaq Balimbing,Sumatra,Indonesia,3.65,97.416667
+Tuanan,Central Kalimantan,Indonesia,-2.15,114.433333
+"Serra do Japi, Ribeirão Cachoeira, Nazaré Paulista",São Paulo,Brazil,-23.234278,-46.935778
+Beijing Normal University,Beijing,China,39.96276,116.366347

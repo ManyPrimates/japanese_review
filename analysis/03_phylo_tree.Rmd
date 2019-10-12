@@ -130,15 +130,15 @@ p3 <- p +
   scale_color_manual(values = c("gray30", cols))
 ```
 
-```{r}
+```{r, cache=T}
 plots <- mget(c("p", "p2", "p3"))
 ```
 
-```{r, fig.width=18, fig.height=6}
+```{r, fig.width=18, fig.height=6, cache=T}
 grid.arrange(p, p2, p3, nrow = 1)
 ```
 
-```{r}
+```{r, cache=T}
 # png with 3x1
 ggsave("../graphs/phylo_full.png", arrangeGrob(grobs = plots, nrow = 1), 
        width = 24, height = 8, scale = 2, dpi = 72)
@@ -197,7 +197,7 @@ ax <- tibble(lab = c("Distance", "Sample size"), x = c(67.5, max(data3$num)/2), 
              .panel = c("Tree", "xSample size"))
 ```
 
-```{r, fig.width=4, fig.height=3}
+```{r, fig.width=4, fig.height=3, cache=T}
 # right-side viz depends on the number of sites per species:
 # 1 site = vertical crossbar only
 # 2+ sites = points + crossbar at median

@@ -1,304 +1,310 @@
-node,species_tree,species_file,Notes
-NA,Ateles_chamek,black-faced spider monkey,This isn't in the 10ktrees database. Might group this with a closely related species --jw
-NA,Callicebus/Plecturocebus_cupreus,coppery tit monkey,not included -kc
-NA,Eulemur_rufifrons,refronted lemur,not included -kc
-NA,Hoolock_leuconedys,Eastern hoolock,not included-kc
-NA,NA,NA,NA
-1,Allenopithecus_nigroviridis,Allen's swamp monkey,NA
-2,Cercopithecus_albogularis,NA,NA
-3,Cercopithecus_ascanius,NA,NA
-4,Cercopithecus_campbelli,NA,NA
-5,Cercopithecus_campbelli_lowei,NA,NA
-6,Cercopithecus_cephus,NA,NA
-7,Cercopithecus_cephus_cephus,NA,NA
-8,Cercopithecus_cephus_ngottoensis,NA,NA
-9,Cercopithecus_diana,Diana monkey,NA
-10,Cercopithecus_erythrogaster,NA,NA
-11,Cercopithecus_erythrogaster_erythrogaster,NA,NA
-12,Cercopithecus_erythrotis,NA,NA
-13,Cercopithecus_hamlyni,NA,NA
-14,Cercopithecus_lhoesti,L'Hoest's monkey,NA
-15,Cercopithecus_mitis,NA,NA
-16,Cercopithecus_mona,NA,NA
-17,Cercopithecus_neglectus,De Brazza's monkey,NA
-18,Cercopithecus_nictitans,NA,NA
-19,Cercopithecus_petaurista,NA,NA
-20,Cercopithecus_pogonias,NA,NA
-21,Cercopithecus_preussi,NA,NA
-22,Cercopithecus_solatus,NA,NA
-23,Cercopithecus_wolfi,NA,NA
-24,Chlorocebus_aethiops,NA,NA
-25,Chlorocebus_pygerythrus,vervet monkey,NA
-26,Chlorocebus_pygerythrus_cynosurus,NA,NA
-27,Chlorocebus_sabaeus,green monkey,NA
-28,Chlorocebus_tantalus,NA,NA
-29,Erythrocebus_patas,NA,NA
-30,Miopithecus_talapoin,NA,NA
-31,Allocebus_trichotis,NA,NA
-32,Avahi_cleesei,NA,NA
-33,Avahi_laniger,NA,NA
-34,Avahi_occidentalis,NA,NA
-35,Avahi_unicolor,NA,NA
-36,Cheirogaleus_crossleyi,NA,NA
-37,Cheirogaleus_major,NA,NA
-38,Cheirogaleus_medius,NA,NA
-39,Daubentonia_madagascariensis,aye aye,NA
-40,Eulemur_coronatus,NA,NA
-41,Eulemur_fulvus_albifrons,NA,NA
-42,Eulemur_fulvus_albocollaris,NA,NA
-43,Eulemur_fulvus_collaris,NA,NA
-44,Eulemur_fulvus_fulvus,NA,NA
-45,Eulemur_fulvus_mayottensis,NA,NA
-46,Eulemur_fulvus_rufus,NA,NA
-47,Eulemur_fulvus_sanfordi,NA,NA
-48,Eulemur_macaco_flavifrons,NA,NA
-49,Eulemur_macaco_macaco,black lemur,NA
-50,Eulemur_mongoz,mongoose lemur,NA
-51,Eulemur_rubriventer,NA,NA
-52,Hapalemur_aureus,NA,NA
-53,Hapalemur_griseus,NA,NA
-54,Hapalemur_griseus_alaotrensis,NA,NA
-55,Hapalemur_griseus_griseus,NA,NA
-56,Hapalemur_griseus_meridionalis,NA,NA
-57,Hapalemur_griseus_occidentalis,NA,NA
-58,Hapalemur_simus,NA,NA
-59,Indri_indri,NA,NA
-60,Lemur_catta,ring-tailed lemur,NA
-61,Lepilemur_aeeclis,NA,NA
-62,Lepilemur_ankaranensis,NA,NA
-63,Lepilemur_dorsalis,NA,NA
-64,Lepilemur_edwardsi,NA,NA
-65,Lepilemur_hubbardorum,NA,NA
-66,Lepilemur_leucopus,NA,NA
-67,Lepilemur_manasamody,NA,NA
-68,Lepilemur_microdon,NA,NA
-69,Lepilemur_mitsinjoensis,NA,NA
-70,Lepilemur_mustelinus,NA,NA
-71,Lepilemur_otto,NA,NA
-72,Lepilemur_randrianasoli,NA,NA
-73,Lepilemur_ruficaudatus,NA,NA
-74,Lepilemur_sahamalazensis,NA,NA
-75,Lepilemur_seali,NA,NA
-76,Lepilemur_septentrionalis,NA,NA
-77,Microcebus_berthae,Madame Berthe's mouse lemur,NA
-78,Microcebus_bongolavensis,NA,NA
-79,Microcebus_danfossi,NA,NA
-80,Microcebus_griseorufus,NA,NA
-81,Microcebus_jollyae,NA,NA
-82,Microcebus_lehilahytsara,NA,NA
-83,Microcebus_lokobensis,NA,NA
-84,Microcebus_macarthurii,NA,NA
-85,Microcebus_mamiratra,NA,NA
-86,Microcebus_mittermeieri,NA,NA
-87,Microcebus_murinus,grey mouse lemur,NA
-88,Microcebus_myoxinus,NA,NA
-89,Microcebus_ravelobensis,NA,NA
-90,Microcebus_rufus,NA,NA
-91,Microcebus_sambiranensis,NA,NA
-92,Microcebus_simmonsi,NA,NA
-93,Microcebus_tavaratra,NA,NA
-94,Mirza_coquereli,NA,NA
-95,Mirza_zaza,NA,NA
-96,Phaner_furcifer,NA,NA
-97,Phaner_furcifer_pallescens,NA,NA
-98,Propithecus_coquereli,Coquerel's sifaka,NA
-99,Propithecus_deckenii,NA,NA
-100,Propithecus_diadema,NA,NA
-101,Propithecus_edwardsi,NA,NA
-102,Propithecus_tattersalli,NA,NA
-103,Propithecus_verreauxi,NA,NA
-104,Varecia_rubra,red ruffed lemur,NA
-105,Varecia_variegata_variegata,black-and-white ruffed lemur,NA
-106,Alouatta_belzebul,NA,NA
-107,Alouatta_caraya,NA,NA
-108,Alouatta_guariba,NA,NA
-109,Alouatta_palliata,NA,NA
-110,Alouatta_pigra,NA,NA
-111,Alouatta_sara,NA,NA
-112,Alouatta_seniculus,NA,NA
-113,Ateles_belzebuth,NA,NA
-114,Ateles_fusciceps,NA,NA
-115,Ateles_geoffroyi,Geoffroy's spider monkey,NA
-116,Ateles_paniscus,NA,NA
-117,Brachyteles_arachnoides,NA,NA
-118,Lagothrix_lagotricha,NA,NA
-119,Aotus_azarai,NA,NA
-120,Aotus_azarai_boliviensis,NA,NA
-121,Aotus_brumbacki,NA,NA
-122,Aotus_infulatus,NA,NA
-123,Aotus_lemurinus,NA,NA
-124,Aotus_lemurinus_griseimembra,NA,NA
-125,Aotus_nancymaae,NA,NA
-126,Aotus_nigriceps,NA,NA
-127,Aotus_trivirgatus,NA,NA
-128,Aotus_vociferans,NA,NA
-129,Callimico_goeldii,NA,NA
-130,Callithrix_argentata,NA,NA
-131,Callithrix_aurita,NA,NA
-132,Callithrix_emiliae,NA,NA
-133,Callithrix_geoffroyi,white-faced marmoset,NA
-134,Callithrix_humeralifera,NA,NA
-135,Callithrix_jacchus,common marmoset,NA
-136,Callithrix_kuhli,NA,NA
-137,Callithrix_mauesi,NA,NA
-138,Callithrix_penicillata,NA,NA
-139,Callithrix_pygmaea,pygmy marmoset,NA
-140,Cebus_albifrons,NA,NA
-141,Cebus_apella,tufted capuchin,now frequently listed as Sapajus apella --jw includes S. libidinosus (bearded capuchin) - kc
-142,Cebus_capucinus,white-faced capuchin,NA
-143,Cebus_olivaceus,NA,NA
-144,Cebus_xanthosternos,NA,NA
-145,Leontopithecus_chrysomelas,NA,NA
-146,Leontopithecus_chrysopygus,NA,NA
-147,Leontopithecus_rosalia,golden lion tamarin,NA
-148,Saguinus_bicolor,NA,NA
-149,Saguinus_fuscicollis,NA,NA
-150,Saguinus_fuscicollis_melanoleucus,NA,NA
-151,Saguinus_geoffroyi,NA,NA
-152,Saguinus_imperator,emperor tamarin,NA
-153,Saguinus_leucopus,NA,NA
-154,Saguinus_midas,NA,NA
-155,Saguinus_mystax,NA,NA
-156,Saguinus_niger,NA,NA
-157,Saguinus_oedipus,cotton-top tamarin,NA
-158,Saguinus_tripartitus,NA,NA
-159,Saimiri_boliviensis,Bolivian squirrel monkey,NA
-160,Saimiri_oerstedii,NA,NA
-161,Saimiri_sciureus,common squirrel monkey,NA
-162,Saimiri_ustus,NA,NA
-163,Arctocebus_aureus,NA,NA
-164,Arctocebus_calabarensis,NA,NA
-165,Loris_lydekkerianus,NA,NA
-166,Loris_tardigradus,NA,NA
-167,Nycticebus_bengalensis,NA,NA
-168,Nycticebus_coucang,NA,NA
-169,Nycticebus_javanicus,NA,NA
-170,Nycticebus_menagensis,NA,NA
-171,Nycticebus_pygmaeus,pygmy slow loris,NA
-172,Perodicticus_potto,NA,NA
-173,Bunopithecus_hoolock,NA,"now split into 2-3 species in the genus Hoolock, in the database we have the Eastern hoolock (Hoolock leuconedys) -kc"
-174,Gorilla_beringei,NA,NA
-175,Gorilla_gorilla_gorilla,Western lowland gorilla,NA
-176,Gorilla_gorilla_graueri,NA,NA
-177,Hylobates_agilis,NA,NA
-178,Hylobates_klossii,NA,NA
-179,Hylobates_lar,white-handed gibbon,"changed from ""common gibbon"", never heard of this name -kc"
-180,Hylobates_moloch,Javan gibbon,NA
-181,Hylobates_muelleri,Mueller's gibbon,NA
-182,Hylobates_pileatus,pileated gibbon,NA
-183,Nomascus_concolor,NA,NA
-184,Nomascus_gabriellae,buff-cheeked gibbon,"changed from ""red-cheeked gibbon"", buff-cheeked is more frequently used -kc"
-185,Nomascus_leucogenys,Northern white-cheeked gibbon,"changed from ""white-cheeked gibbon"" -kc"
-186,Nomascus_nasutus,NA,NA
-187,Nomascus_siki,Southern white-cheeked gibbon,NA
-188,Pan_paniscus,bonobo,changed from pygmy chimpanzee --jw
-189,Pan_troglodytes_schweinfurthii,eastern chimpanzee,we may want to just combine these to Pan_troglodytes = chimpanzee for the common ancestor node --jw
-190,Pan_troglodytes_troglodytes,central chimpanzee,NA
-191,Pan_troglodytes_vellerosus,Nigeria-Cameroon chimpanzee,NA
-192,Pan_troglodytes_verus,West African chimpanzee,NA
-193,Pongo_abelii,Sumatran orangutan,not sure what to do about hybrids --jw
-194,Pongo_pygmaeus,Bornean orangutan,NA
-195,Symphalangus_syndactylus,siamang,NA
-196,Cacajao_calvus,NA,NA
-197,Cacajao_melanocephalus,NA,NA
-198,Callicebus_donacophilus,NA,NA
-199,Callicebus_hoffmannsi,NA,NA
-200,Callicebus_moloch,NA,NA
-201,Callicebus_personatus,NA,NA
-202,Callicebus_torquatus,NA,NA
-203,Chiropotes_satanas,NA,NA
-204,Pithecia_irrorata,NA,NA
-205,Pithecia_pithecia,white-faced saki,NA
-206,Cercocebus_agilis,NA,NA
-207,Cercocebus_galeritus,NA,NA
-208,Cercocebus_torquatus,red-capped mangabey,NA
-209,Cercocebus_torquatus_atys,NA,NA
-210,Lophocebus_albigena,NA,NA
-211,Lophocebus_aterrimus,NA,NA
-212,Macaca_arctoides,NA,NA
-213,Macaca_assamensis,NA,NA
-214,Macaca_brunnescens,NA,NA
-215,Macaca_cyclopis,NA,NA
-216,Macaca_fascicularis,long-tailed macaque,changed from crab-eating macaque (I feel like long-tailed is more common but I'm open to either) --jw
-217,Macaca_fuscata,Japanese macaque,NA
-218,Macaca_hecki,NA,NA
-219,Macaca_leonina,NA,NA
-220,Macaca_maura,NA,NA
-221,Macaca_mulatta,rhesus macaque,NA
-222,Macaca_munzala,NA,NA
-223,Macaca_nemestrina,Southern pig-tailed macaque,NA
-224,Macaca_nemestrina_leonina,NA,NA
-225,Macaca_nemestrina_siberu,NA,NA
-226,Macaca_nigra,NA,NA
-227,Macaca_nigrescens,NA,NA
-228,Macaca_ochreata,NA,NA
-229,Macaca_pagensis,NA,NA
-230,Macaca_radiata,NA,NA
-231,Macaca_silenus,lion-tailed macaque,NA
-232,Macaca_sinica,NA,NA
-233,Macaca_sylvanus,barbary macaque,changed from Barbary ape --jw
-234,Macaca_thibetana,NA,NA
-235,Macaca_tonkeana,tonkean macaque,NA
-236,Mandrillus_leucophaeus,NA,NA
-237,Mandrillus_sphinx,NA,NA
-238,Papio_anubis,olive baboon,NA
-239,Papio_cynocephalus,NA,NA
-240,Papio_hamadryas,hamadryas baboon,NA
-241,Papio_papio,Guinea baboon,NA
-242,Papio_ursinus,chacma baboon,NA
-243,Rungwecebus_kipunji,NA,NA
-244,Theropithecus_gelada,NA,NA
-245,Colobus_angolensis,NA,NA
-246,Colobus_angolensis_palliatus,NA,NA
-247,Colobus_guereza,NA,NA
-248,Colobus_polykomos,NA,NA
-249,Colobus_satanas,NA,NA
-250,Colobus_vellerosus,NA,NA
-251,Nasalis_larvatus,NA,NA
-252,Piliocolobus_badius,NA,NA
-253,Piliocolobus_foai,NA,NA
-254,Piliocolobus_gordonorum,NA,NA
-255,Piliocolobus_kirkii,NA,NA
-256,Piliocolobus_pennantii,NA,NA
-257,Piliocolobus_preussi,NA,NA
-258,Piliocolobus_rufomitratus,NA,NA
-259,Piliocolobus_tephrosceles,NA,NA
-260,Piliocolobus_tholloni,NA,NA
-261,Presbytis_comata,NA,NA
-262,Presbytis_melalophos,NA,NA
-263,Procolobus_verus,NA,NA
-264,Pygathrix_cinerea,grey-shanked douc langur,NA
-265,Pygathrix_nemaeus,red-shanked douc langur,NA
-266,Rhinopithecus_avunculus,NA,NA
-267,Rhinopithecus_bieti,NA,NA
-268,Rhinopithecus_brelichi,NA,NA
-269,Rhinopithecus_roxellana,golden snub-nosed monkey,NA
-270,Semnopithecus_entellus,NA,NA
-271,Trachypithecus_auratus,NA,NA
-272,Trachypithecus_cristatus,NA,NA
-273,Trachypithecus_delacouri,NA,NA
-274,Trachypithecus_francoisi,François' langur,NA
-275,Trachypithecus_geei,NA,NA
-276,Trachypithecus_germaini,NA,NA
-277,Trachypithecus_johnii,NA,NA
-278,Trachypithecus_laotum,NA,NA
-279,Trachypithecus_obscurus,NA,NA
-280,Trachypithecus_phayrei,NA,NA
-281,Trachypithecus_pileatus,NA,NA
-282,Trachypithecus_poliocephalus,NA,NA
-283,Trachypithecus_vetulus,NA,NA
-284,Euoticus_elegantulus,NA,NA
-285,Galago_alleni,NA,NA
-286,Galago_gallarum,NA,NA
-287,Galago_granti,NA,NA
-288,Galago_matschiei,NA,NA
-289,Galago_moholi,NA,NA
-290,Galago_senegalensis,NA,NA
-291,Galagoides_demidoff,NA,NA
-292,Galagoides_zanzibaricus,NA,NA
-293,Otolemur_crassicaudatus,NA,NA
-294,Otolemur_garnettii,NA,NA
-295,Tarsius_bancanus,NA,NA
-296,Tarsius_dentatus,NA,NA
-297,Tarsius_lariang,NA,NA
-298,Tarsius_syrichta,NA,NA
+node,species_tree,species_file
+NA,Ateles_chamek,black-faced spider monkey
+NA,Callicebus/Plecturocebus_cupreus,coppery titi monkey
+NA,Eulemur_rufifrons,red-fronted lemur
+NA,Hoolock_leuconedys,Eastern hoolock
+NA,Sapajus/Cebus_libidinosus,bearded capuchin
+NA,Sapajus/Cebus_nigritus,black tufted capuchin
+NA,Callicebus nigrifrons,black-fronted titi monkey
+NA,Ateles_fusciceps_rufiventris,Colombian spider monkey
+NA,Pan_troglodytes,chimpanzee
+NA,Pongo_spp,orangutan
+NA,NA,NA
+1,Allenopithecus_nigroviridis,Allen's swamp monkey
+2,Cercopithecus_albogularis,NA
+3,Cercopithecus_ascanius,NA
+4,Cercopithecus_campbelli,NA
+5,Cercopithecus_campbelli_lowei,NA
+6,Cercopithecus_cephus,NA
+7,Cercopithecus_cephus_cephus,NA
+8,Cercopithecus_cephus_ngottoensis,NA
+9,Cercopithecus_diana,Diana monkey
+10,Cercopithecus_erythrogaster,NA
+11,Cercopithecus_erythrogaster_erythrogaster,NA
+12,Cercopithecus_erythrotis,NA
+13,Cercopithecus_hamlyni,NA
+14,Cercopithecus_lhoesti,L'Hoest's monkey
+15,Cercopithecus_mitis,NA
+16,Cercopithecus_mona,NA
+17,Cercopithecus_neglectus,De Brazza's monkey
+18,Cercopithecus_nictitans,NA
+19,Cercopithecus_petaurista,NA
+20,Cercopithecus_pogonias,NA
+21,Cercopithecus_preussi,NA
+22,Cercopithecus_solatus,NA
+23,Cercopithecus_wolfi,NA
+24,Chlorocebus_aethiops,NA
+25,Chlorocebus_pygerythrus,vervet monkey
+26,Chlorocebus_pygerythrus_cynosurus,NA
+27,Chlorocebus_sabaeus,green monkey
+28,Chlorocebus_tantalus,NA
+29,Erythrocebus_patas,NA
+30,Miopithecus_talapoin,NA
+31,Allocebus_trichotis,NA
+32,Avahi_cleesei,NA
+33,Avahi_laniger,NA
+34,Avahi_occidentalis,NA
+35,Avahi_unicolor,NA
+36,Cheirogaleus_crossleyi,NA
+37,Cheirogaleus_major,NA
+38,Cheirogaleus_medius,fat-tailed dwarf lemur
+39,Daubentonia_madagascariensis,aye-aye
+40,Eulemur_coronatus,crowned lemur
+41,Eulemur_fulvus_albifrons,NA
+42,Eulemur_fulvus_albocollaris,NA
+43,Eulemur_fulvus_collaris,NA
+44,Eulemur_fulvus_fulvus,NA
+45,Eulemur_fulvus_mayottensis,NA
+46,Eulemur_fulvus_rufus,NA
+47,Eulemur_fulvus_sanfordi,NA
+48,Eulemur_macaco_flavifrons,blue-eyed black lemur
+49,Eulemur_macaco_macaco,black lemur
+50,Eulemur_mongoz,mongoose lemur
+51,Eulemur_rubriventer,NA
+52,Hapalemur_aureus,NA
+53,Hapalemur_griseus,NA
+54,Hapalemur_griseus_alaotrensis,NA
+55,Hapalemur_griseus_griseus,NA
+56,Hapalemur_griseus_meridionalis,NA
+57,Hapalemur_griseus_occidentalis,NA
+58,Hapalemur_simus,NA
+59,Indri_indri,NA
+60,Lemur_catta,ring-tailed lemur
+61,Lepilemur_aeeclis,NA
+62,Lepilemur_ankaranensis,NA
+63,Lepilemur_dorsalis,NA
+64,Lepilemur_edwardsi,NA
+65,Lepilemur_hubbardorum,NA
+66,Lepilemur_leucopus,NA
+67,Lepilemur_manasamody,NA
+68,Lepilemur_microdon,NA
+69,Lepilemur_mitsinjoensis,NA
+70,Lepilemur_mustelinus,NA
+71,Lepilemur_otto,NA
+72,Lepilemur_randrianasoli,NA
+73,Lepilemur_ruficaudatus,NA
+74,Lepilemur_sahamalazensis,NA
+75,Lepilemur_seali,NA
+76,Lepilemur_septentrionalis,NA
+77,Microcebus_berthae,Madame Berthe's mouse lemur
+78,Microcebus_bongolavensis,NA
+79,Microcebus_danfossi,NA
+80,Microcebus_griseorufus,NA
+81,Microcebus_jollyae,NA
+82,Microcebus_lehilahytsara,NA
+83,Microcebus_lokobensis,NA
+84,Microcebus_macarthurii,NA
+85,Microcebus_mamiratra,NA
+86,Microcebus_mittermeieri,NA
+87,Microcebus_murinus,gray mouse lemur
+88,Microcebus_myoxinus,NA
+89,Microcebus_ravelobensis,NA
+90,Microcebus_rufus,NA
+91,Microcebus_sambiranensis,NA
+92,Microcebus_simmonsi,NA
+93,Microcebus_tavaratra,NA
+94,Mirza_coquereli,NA
+95,Mirza_zaza,NA
+96,Phaner_furcifer,NA
+97,Phaner_furcifer_pallescens,NA
+98,Propithecus_coquereli,Coquerel's sifaka
+99,Propithecus_deckenii,NA
+100,Propithecus_diadema,NA
+101,Propithecus_edwardsi,NA
+102,Propithecus_tattersalli,NA
+103,Propithecus_verreauxi,NA
+104,Varecia_rubra,red ruffed lemur
+105,Varecia_variegata_variegata,black-and-white ruffed lemur
+106,Alouatta_belzebul,NA
+107,Alouatta_caraya,NA
+108,Alouatta_guariba,NA
+109,Alouatta_palliata,NA
+110,Alouatta_pigra,NA
+111,Alouatta_sara,NA
+112,Alouatta_seniculus,NA
+113,Ateles_belzebuth,NA
+114,Ateles_fusciceps,NA
+115,Ateles_geoffroyi,Geoffroy's spider monkey
+116,Ateles_paniscus,NA
+117,Brachyteles_arachnoides,NA
+118,Lagothrix_lagotricha,NA
+119,Aotus_azarai,NA
+120,Aotus_azarai_boliviensis,NA
+121,Aotus_brumbacki,NA
+122,Aotus_infulatus,Azara's owl monkey
+123,Aotus_lemurinus,NA
+124,Aotus_lemurinus_griseimembra,NA
+125,Aotus_nancymaae,NA
+126,Aotus_nigriceps,black-headed owl monkey
+127,Aotus_trivirgatus,NA
+128,Aotus_vociferans,NA
+129,Callimico_goeldii,NA
+130,Callithrix_argentata,NA
+131,Callithrix_aurita,NA
+132,Callithrix_emiliae,NA
+133,Callithrix_geoffroyi,white-faced marmoset
+134,Callithrix_humeralifera,NA
+135,Callithrix_jacchus,common marmoset
+136,Callithrix_kuhli,NA
+137,Callithrix_mauesi,NA
+138,Callithrix_penicillata,NA
+139,Callithrix_pygmaea,pygmy marmoset
+140,Cebus_albifrons,NA
+141,Cebus_apella,tufted capuchin
+142,Cebus_capucinus,white-faced capuchin
+143,Cebus_olivaceus,NA
+144,Cebus_xanthosternos,NA
+145,Leontopithecus_chrysomelas,NA
+146,Leontopithecus_chrysopygus,NA
+147,Leontopithecus_rosalia,golden lion tamarin
+148,Saguinus_bicolor,NA
+149,Saguinus_fuscicollis,brown-mantled tamarin
+150,Saguinus_fuscicollis_melanoleucus,NA
+151,Saguinus_geoffroyi,NA
+152,Saguinus_imperator,emperor tamarin
+153,Saguinus_leucopus,NA
+154,Saguinus_midas,NA
+155,Saguinus_mystax,NA
+156,Saguinus_niger,NA
+157,Saguinus_oedipus,cotton-top tamarin
+158,Saguinus_tripartitus,NA
+159,Saimiri_boliviensis,Bolivian squirrel monkey
+160,Saimiri_oerstedii,NA
+161,Saimiri_sciureus,common squirrel monkey
+162,Saimiri_ustus,NA
+163,Arctocebus_aureus,NA
+164,Arctocebus_calabarensis,NA
+165,Loris_lydekkerianus,NA
+166,Loris_tardigradus,NA
+167,Nycticebus_bengalensis,NA
+168,Nycticebus_coucang,NA
+169,Nycticebus_javanicus,NA
+170,Nycticebus_menagensis,NA
+171,Nycticebus_pygmaeus,pygmy slow loris
+172,Perodicticus_potto,NA
+173,Bunopithecus_hoolock,NA
+174,Gorilla_beringei,NA
+175,Gorilla_gorilla_gorilla,Western gorilla
+176,Gorilla_gorilla_graueri,NA
+177,Hylobates_agilis,NA
+178,Hylobates_klossii,NA
+179,Hylobates_lar,white-handed gibbon
+180,Hylobates_moloch,Javan gibbon
+181,Hylobates_muelleri,Mueller's gibbon
+182,Hylobates_pileatus,pileated gibbon
+183,Nomascus_concolor,NA
+184,Nomascus_gabriellae,buff-cheeked gibbon
+185,Nomascus_leucogenys,Northern white-cheeked gibbon
+186,Nomascus_nasutus,NA
+187,Nomascus_siki,Southern white-cheeked gibbon
+188,Pan_paniscus,bonobo
+189,Pan_troglodytes_schweinfurthii,eastern chimpanzee
+190,Pan_troglodytes_troglodytes,central chimpanzee
+191,Pan_troglodytes_vellerosus,Nigeria-Cameroon chimpanzee
+192,Pan_troglodytes_verus,West African chimpanzee
+193,Pongo_abelii,Sumatran orangutan
+194,Pongo_pygmaeus,Bornean orangutan
+195,Symphalangus_syndactylus,siamang
+196,Cacajao_calvus,NA
+197,Cacajao_melanocephalus,NA
+198,Callicebus_donacophilus,NA
+199,Callicebus_hoffmannsi,NA
+200,Callicebus_moloch,NA
+201,Callicebus_personatus,NA
+202,Callicebus_torquatus,NA
+203,Chiropotes_satanas,NA
+204,Pithecia_irrorata,NA
+205,Pithecia_pithecia,white-faced saki
+206,Cercocebus_agilis,NA
+207,Cercocebus_galeritus,NA
+208,Cercocebus_torquatus,red-capped mangabey
+209,Cercocebus_torquatus_atys,NA
+210,Lophocebus_albigena,NA
+211,Lophocebus_aterrimus,black crested mangabey
+212,Macaca_arctoides,NA
+213,Macaca_assamensis,NA
+214,Macaca_brunnescens,NA
+215,Macaca_cyclopis,NA
+216,Macaca_fascicularis,long-tailed macaque
+217,Macaca_fuscata,Japanese macaque
+218,Macaca_hecki,NA
+219,Macaca_leonina,NA
+220,Macaca_maura,NA
+221,Macaca_mulatta,rhesus macaque
+222,Macaca_munzala,NA
+223,Macaca_nemestrina,Southern pig-tailed macaque
+224,Macaca_nemestrina_leonina,NA
+225,Macaca_nemestrina_siberu,NA
+226,Macaca_nigra,Celebes crested macaque
+227,Macaca_nigrescens,NA
+228,Macaca_ochreata,NA
+229,Macaca_pagensis,NA
+230,Macaca_radiata,bonnet macaque
+231,Macaca_silenus,lion-tailed macaque
+232,Macaca_sinica,NA
+233,Macaca_sylvanus,Barbary macaque
+234,Macaca_thibetana,NA
+235,Macaca_tonkeana,Tonkean macaque
+236,Mandrillus_leucophaeus,NA
+237,Mandrillus_sphinx,NA
+238,Papio_anubis,olive baboon
+239,Papio_cynocephalus,NA
+240,Papio_hamadryas,hamadryas baboon
+241,Papio_papio,Guinea baboon
+242,Papio_ursinus,chacma baboon
+243,Rungwecebus_kipunji,NA
+244,Theropithecus_gelada,NA
+245,Colobus_angolensis,NA
+246,Colobus_angolensis_palliatus,NA
+247,Colobus_guereza,NA
+248,Colobus_polykomos,NA
+249,Colobus_satanas,NA
+250,Colobus_vellerosus,NA
+251,Nasalis_larvatus,NA
+252,Piliocolobus_badius,NA
+253,Piliocolobus_foai,NA
+254,Piliocolobus_gordonorum,NA
+255,Piliocolobus_kirkii,NA
+256,Piliocolobus_pennantii,NA
+257,Piliocolobus_preussi,NA
+258,Piliocolobus_rufomitratus,NA
+259,Piliocolobus_tephrosceles,NA
+260,Piliocolobus_tholloni,NA
+261,Presbytis_comata,NA
+262,Presbytis_melalophos,NA
+263,Procolobus_verus,NA
+264,Pygathrix_cinerea,gray-shanked douc langur
+265,Pygathrix_nemaeus,red-shanked douc langur
+266,Rhinopithecus_avunculus,NA
+267,Rhinopithecus_bieti,NA
+268,Rhinopithecus_brelichi,NA
+269,Rhinopithecus_roxellana,golden snub-nosed monkey
+270,Semnopithecus_entellus,NA
+271,Trachypithecus_auratus,NA
+272,Trachypithecus_cristatus,NA
+273,Trachypithecus_delacouri,NA
+274,Trachypithecus_francoisi,François' langur
+275,Trachypithecus_geei,NA
+276,Trachypithecus_germaini,NA
+277,Trachypithecus_johnii,NA
+278,Trachypithecus_laotum,NA
+279,Trachypithecus_obscurus,NA
+280,Trachypithecus_phayrei,NA
+281,Trachypithecus_pileatus,NA
+282,Trachypithecus_poliocephalus,NA
+283,Trachypithecus_vetulus,NA
+284,Euoticus_elegantulus,NA
+285,Galago_alleni,NA
+286,Galago_gallarum,NA
+287,Galago_granti,NA
+288,Galago_matschiei,NA
+289,Galago_moholi,NA
+290,Galago_senegalensis,NA
+291,Galagoides_demidoff,NA
+292,Galagoides_zanzibaricus,NA
+293,Otolemur_crassicaudatus,NA
+294,Otolemur_garnettii,NA
+295,Tarsius_bancanus,NA
+296,Tarsius_dentatus,NA
+297,Tarsius_lariang,NA
+298,Tarsius_syrichta,NA

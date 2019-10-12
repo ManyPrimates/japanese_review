@@ -10,52 +10,101 @@ output:
 library(tidyverse)
 library(cowplot)
 library(maps)
+library(ggforce)
+library(viridis)
 ```
 
 ```{r, message=FALSE}
-data <- read_csv("../data/data.csv")
-labs <- read_csv("../data/site_coordinates.csv")
+studies <- read_csv("../data/studies_gsheet.csv")
+sites <- read_csv("../data/sites_gsheet.csv")
 ```
 
 ```{r}
-df <- data %>% 
+df <- studies %>% 
   group_by(site) %>% 
-  summarise(N = sum(n), M = mean(n), Mdn = median(n), sp = sum(length(unique(species)))) %>% 
-  full_join(labs)
+  summarise(Nstudies = n_distinct(studyID)) %>% 
+  left_join(sites)
+```
 
+```{r}
 world <- map("world", plot = FALSE, fill = TRUE) %>% fortify()
 ```
 
-```{r, fig.width=8, fig.height=4}
+```{r, fig.width=20, fig.height=10, cache=TRUE}
+# sanity check that coordinates are in the right country
+# within a country, all Xs should be the same color
 ggplot(df, aes(x = long, y = lat)) +
-  geom_polygon(data = world, aes(group = group), fill = "grey") +
-  geom_point(aes(size = N, fill = N), shape = 21) +
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90") +
+  geom_point(aes(col = country), size = 5, shape = 4, stroke = 2, alpha = .8) +
   coord_fixed(1.3, ylim = c(-55, 83.59961)) +
-  scale_size(range = c(2, 10)) +
-  scale_fill_viridis_c() +
+  scale_color_viridis_d() +
   theme_map() +
-  guides(size = "none", fill = "none")
+  guides(col = "none")
 ```
 
 ```{r}
-ggsave('../graphs/sites.png', width = 8, height = 4, scale = 2)
+ggsave("map.pdf", width = 20, height = 10, scale = 2)
 ```
 
 ```{r, fig.width=8, fig.height=4}
-ggplot(df, aes(x = long, y = lat)) +
-  geom_polygon(data = world, aes(group = group), fill = "grey") +
-  geom_point(aes(size = N, fill = sp), shape = 21) +
+m <- ggplot(df, aes(x = long, y = lat)) +
+  geom_polygon(data = world, aes(group = group), fill = "grey90") +
+  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
+  scale_size_area("Number of\nStudies", max_size = 15) +
+  scale_fill_viridis_c("Number of\nStudies") +
+  theme_map() +
+  guides(size = "none")
+
+legend <- get_legend(m)
+
+mx <- m +
+  annotate("rect", ymin = c(24, 31, 24), ymax = c(46, 61, 50), xmin = c(124, -12, -130), 
+           xmax = c(146, 32, -64), size = .5, col = "grey", fill = NA) + 
   coord_fixed(1.3, ylim = c(-55, 83.59961)) +
-  scale_size(range = c(2, 10)) +
-  scale_fill_gradient2(name = "Number of \nSpecies",
-                       breaks = c(1:max(df$sp)),
-                       labels = c(1:max(df$sp))) +
-  theme_map()
+  theme(legend.position = "none")
+```
+
+## Zoom in on sections
+
+```{r}
+# japan
+m1 <- m + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(25, 45), xlim = c(125, 145)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+
+# europe
+m2 <- m + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(32, 60), xlim = c(-10, 30)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+
+# contiguous us
+usa = map("state", plot = FALSE, fill = TRUE) %>% fortify() # "usa"
+
+m3 <- m + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_polygon(data = usa, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(25, 49), xlim = c(-127, -67)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+```
+
+```{r, fig.width=8, fig.height=5.5, cache=TRUE}
+bottom_row <- plot_grid(m3, m2, m1, legend, nrow = 1, rel_widths = c(2, 1.18, .85, .5))
+plot_grid(mx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
+  theme(plot.margin = unit(c(.5, .5, 1.5, .5), "cm"))
 ```
 
 ```{r}
-ggsave('../graphs/sites_species.png', width = 8, height = 4, scale = 2)
+ggsave("map_insets.pdf", width = 8, height = 5.5, scale = 2)
 ```
+
 
 ***
 

@@ -1786,14 +1786,7 @@ library(googlesheets)</code></pre>
 <!-- rnb-text-begin -->
 <div id="load-gsheets" class="section level1">
 <h1>Load GSheets</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBhY2Nlc3MgKGluIGJyb3dzZXIpXG5nc19hdXRoKClcbmBgYCJ9 -->
-<pre class="r"><code># allow access (in browser)
-gs_auth()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
+<p>when you first run this, allow access in browser (can also use <code>gs_auth()</code> command separately)</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncmFiIGdzaGVldCBieSBuYW1lIG9yIGtleVxubGl0IDwtIGdzX3RpdGxlKFwiTGl0IHJldmlldyBmb3IgSmFwYW5lc2UgUHN5Y2hvbG9naWNhbCBSZXZpZXdcIilcbmBgYCJ9 -->
@@ -1821,88 +1814,753 @@ gs_ws_ls(lit)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkb3dubG9hZC9hc3NpZ24gZGlmZmVyZW50IHNoZWV0cyB0byBkaWZmZXJlbnQgZGF0YWZyYW1lc1xuc3R1ZGllcyA8LSBnc19yZWFkKGxpdCwgc2tpcCA9IDE1LCBwcm9ncmVzcyA9IEYpXG5zcGVjaWVzIDwtIGdzX3JlYWQobGl0LCB3cyA9IFwiU3BlY2llc1wiLCBjb21tZW50ID0gXCIjXCIsIHByb2dyZXNzID0gRilcbnNpdGVzIDwtIGdzX3JlYWQobGl0LCB3cyA9IFwiU2l0ZXNcIiwgY29tbWVudCA9IFwiI1wiLCBwcm9ncmVzcyA9IEYpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB0aW1lIHN0YW1wIGZvciByZWZlcmVuY2VcblN5cy50aW1lKClcbmBgYCJ9 -->
+<pre class="r"><code># time stamp for reference
+Sys.time()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMjAxOS0xMC0xMSAyMToxNDo0NCBFRFRcIlxuIn0= -->
+<pre><code>[1] &quot;2019-10-11 21:14:44 EDT&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkb3dubG9hZC9hc3NpZ24gZGlmZmVyZW50IHNoZWV0cyB0byBkaWZmZXJlbnQgZGF0YWZyYW1lc1xuc3BlY2llcyA8LSBnc19yZWFkKGxpdCwgd3MgPSBcIlNwZWNpZXNcIiwgY29tbWVudCA9IFwiI1wiLCBwcm9ncmVzcyA9IEYpXG5zaXRlcyA8LSBnc19yZWFkKGxpdCwgd3MgPSBcIlNpdGVzXCIsIGNvbW1lbnQgPSBcIiNcIiwgcHJvZ3Jlc3MgPSBGKVxuc3R1ZGllcyA8LSBnc19yZWFkKGxpdCwgc2tpcCA9IDE1LCBwcm9ncmVzcyA9IEYpXG5gYGAifQ== -->
 <pre class="r"><code># download/assign different sheets to different dataframes
-studies &lt;- gs_read(lit, skip = 15, progress = F)
 species &lt;- gs_read(lit, ws = &quot;Species&quot;, comment = &quot;#&quot;, progress = F)
-sites &lt;- gs_read(lit, ws = &quot;Sites&quot;, comment = &quot;#&quot;, progress = F)</code></pre>
+sites &lt;- gs_read(lit, ws = &quot;Sites&quot;, comment = &quot;#&quot;, progress = F)
+studies &lt;- gs_read(lit, skip = 15, progress = F)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="data-clean-species" class="section level1">
+<h1>Data clean: Species</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShzdHVkaWVzKVxuYGBgIn0= -->
-<pre class="r"><code>glimpse(studies)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjaGVjayBkYXRhIHR5cGVzXG5nbGltcHNlKHNwZWNpZXMpXG5gYGAifQ== -->
+<pre class="r"><code># check data types
+glimpse(species)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiA4NDhcblZhcmlhYmxlczogMTRcbiQgYXV0aG9ycyAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIkJvaG4sIENhbGwsIFRvbWFzZWxsb1wiLCBcIkJvaG4sIENhbGwsIFRvbWFzZWxsb1wiLCBcIkJvaG4sIENhbGwsIFRvbeKAplxuJCB5ZWFyICAgICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiMjAxNVwiLCBcIjIwMTVcIiwgXCIyMDE1XCIsIFwiMjAxNVwiLCBcIjIwMTdcIiwgXCIyMDE3XCIsIFwiMjAxNlwiLCBcIjIwMTZcIiwgXCIy4oCmXG4kIHRpdGxlICAgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJDb21tdW5pY2F0aW9uIGFib3V0IGFic2VudCBlbnRpdGllcyBpbiBncmVhdCBhcGVzIGFuZCBodW1hbiBpbmZhbuKAplxuJCBqb3VybmFsICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiU2NpZW50aWZpYyBSZeKAplxuJCBzcGVjaWVzICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwic3VtYXRyYW4gb3Jhbmd1dGFuXCIsIFwid2VzdGVybiBnb3JpbGxhXCIsIFwiYm9ub2JvXCIsIFwiY2hpbXBhbnplZVwiLCBcIuKAplxuJCBuICAgICAgICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiNlwiLCBcIjRcIiwgXCI3XCIsIFwiMTlcIiwgXCI3XCIsIFwiN1wiLCBcIjZcIiwgXCI0XCIsIFwiN1wiLCBcIjE4XCIsIFwiMTFcIiwgXCI0XCIsIFwiNVwi4oCmXG4kIGZlbWFsZSAgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCI0XCIsIFwiM1wiLCBcIjVcIiwgXCIxM1wiLCBcIjVcIiwgXCIzXCIsIFwiNFwiLCBcIjNcIiwgXCI1XCIsIFwiMTJcIiwgXCI2XCIsIFwiM1wiLCBcIjRcIizigKZcbiQgZHJvcG91dCAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIjBcIiwgXCIwXCIsIFwiMVwiLCBcIjJcIiwgTkEsIE5BLCBcIjBcIiwgXCIwXCIsIFwiMFwiLCBcIjBcIiwgXCI0XCIsIFwiMlwiLCBcIjBcIiwgXCIwXCLigKZcbiQgYWdlICAgICAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIm1peGVkXCIsIFwibWl4ZWRcIiwgXCJtaXhlZFwiLCBcIm1peGVkXCIsIFwiYWR1bHRcIiwgXCJhZHVsdFwiLCBcIm1peGVkXCIsIFwibWnigKZcbiQgc2l0ZSAgICAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIldvbGZnYW5nIEvDtmhsZXIgUHJpbWF0ZSBSZXNlYXJjaCBDZW50ZXJcIiwgXCJXb2xmZ2FuZyBLw7ZobGVyIFByaW1hdOKAplxuJCBhdHRlbXB0X3JlcGxpY2F0aW9uICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCDigKZcbiQgc3VjY2Vzc2Z1bF9yZXBsaWNhdGlvbiBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIFwieWVzXCIsIFwieWVzXCIsIFwieWVzXCIsIFwi4oCmXG4kIHNwZWNpZXNfY29tcGFyaXNvbiAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIOKAplxuJCB0b19leGNsdWRlICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQeKAplxuIn0= -->
-<pre><code>Observations: 848
-Variables: 14
-$ authors                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Bohn, Call, Tomasello&quot;, &quot;Bohn, Call, Tomasello&quot;, &quot;Bohn, Call, Tom…
-$ year                   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2017&quot;, &quot;2017&quot;, &quot;2016&quot;, &quot;2016&quot;, &quot;2…
-$ title                  [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Communication about absent entities in great apes and human infan…
-$ journal                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Scientific Re…
-$ species                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;sumatran orangutan&quot;, &quot;western gorilla&quot;, &quot;bonobo&quot;, &quot;chimpanzee&quot;, &quot;…
-$ n                      [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;6&quot;, &quot;4&quot;, &quot;7&quot;, &quot;19&quot;, &quot;7&quot;, &quot;7&quot;, &quot;6&quot;, &quot;4&quot;, &quot;7&quot;, &quot;18&quot;, &quot;11&quot;, &quot;4&quot;, &quot;5&quot;…
-$ female                 [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;4&quot;, &quot;3&quot;, &quot;5&quot;, &quot;13&quot;, &quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;3&quot;, &quot;5&quot;, &quot;12&quot;, &quot;6&quot;, &quot;3&quot;, &quot;4&quot;,…
-$ dropout                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, NA, NA, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;4&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;…
-$ age                    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;mixed&quot;, &quot;mixed&quot;, &quot;mixed&quot;, &quot;mixed&quot;, &quot;adult&quot;, &quot;adult&quot;, &quot;mixed&quot;, &quot;mi…
-$ site                   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Wolfgang Köhler Primate Research Center&quot;, &quot;Wolfgang Köhler Primat…
-$ attempt_replication    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, …
-$ successful_replication [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;, &quot;…
-$ species_comparison     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, …
-$ to_exclude             [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShzcGVjaWVzKVxuYGBgIn0= -->
-<pre class="r"><code>glimpse(species)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiAzMDNcblZhcmlhYmxlczogNFxuJCBub2RlICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxkYmw+XHUwMDFiWzM5bVx1MDAxYlsyM20gTkEsIE5BLCBOQSwgTkEsIE5BLCAxLCAyLCAzLCA0LCA1LCA2LCA3LCA4LCA5LCAxMCwgMTEsIDEyLCAxMywgMTQsIDE1LCAxNiwgMeKAplxuJCBzcGVjaWVzX3RyZWUgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJBdGVsZXNfY2hhbWVrXCIsIFwiQ2FsbGljZWJ1cy9QbGVjdHVyb2NlYnVzX2N1cHJldXNcIiwgXCJFdWxlbXVyX3J1Zmlmcm9uc1wiLCBcIkjigKZcbiQgc3BlY2llc19maWxlIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiYmxhY2stZmFjZWQgc3BpZGVyIG1vbmtleVwiLCBcImNvcHBlcnkgdGl0IG1vbmtleVwiLCBcInJlZnJvbnRlZCBsZW11clwiLCBcIkVhc3Rl4oCmXG4kIE5vdGVzICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIlRoaXMgaXNuJ3QgaW4gdGhlIDEwa3RyZWVzIGRhdGFiYXNlLiBNaWdodCBncm91cCB0aGlzIHdpdGggYSBjbG9zZWx5IHJlbGF0ZeKAplxuIn0= -->
-<pre><code>Observations: 303
+<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiAzMDlcblZhcmlhYmxlczogNFxuJCBub2RlICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxkYmw+XHUwMDFiWzM5bVx1MDAxYlsyM20gTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCAxLCAyLCAzLCA0LCA1LCA2LCA3LCA4LCA5LCAxMCwg4oCmXG4kIHNwZWNpZXNfdHJlZSBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIkF0ZWxlc19jaGFtZWtcIiwgXCJDYWxsaWNlYnVzL1BsZWN0dXJvY2VidXNfY3VwcmV1c1wiLCBcIkV1bGVtdXJfcnVmaWZyb25zXCIsIFwi4oCmXG4kIHNwZWNpZXNfZmlsZSBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcImJsYWNrLWZhY2VkIHNwaWRlciBtb25rZXlcIiwgXCJjb3BwZXJ5IHRpdGkgbW9ua2V5XCIsIFwicmVkLWZyb250ZWQgbGVtdXJcIiwgXCJF4oCmXG4kIG5vdGVzICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIlRoaXMgaXNuJ3QgaW4gdGhlIDEwa3RyZWVzIGRhdGFiYXNlLiBNaWdodCBncm91cCB0aGlzIHdpdGggYSBjbG9zZWx5IHJlbGF04oCmXG4ifQ== -->
+<pre><code>Observations: 309
 Variables: 4
-$ node         [3m[38;5;246m&lt;dbl&gt;[39m[23m NA, NA, NA, NA, NA, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-$ species_tree [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Ateles_chamek&quot;, &quot;Callicebus/Plecturocebus_cupreus&quot;, &quot;Eulemur_rufifrons&quot;, &quot;H…
-$ species_file [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;black-faced spider monkey&quot;, &quot;coppery tit monkey&quot;, &quot;refronted lemur&quot;, &quot;Easte…
-$ Notes        [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;This isn't in the 10ktrees database. Might group this with a closely relate…</code></pre>
+$ node         [3m[38;5;246m&lt;dbl&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, …
+$ species_tree [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Ateles_chamek&quot;, &quot;Callicebus/Plecturocebus_cupreus&quot;, &quot;Eulemur_rufifrons&quot;, &quot;…
+$ species_file [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;black-faced spider monkey&quot;, &quot;coppery titi monkey&quot;, &quot;red-fronted lemur&quot;, &quot;E…
+$ notes        [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;This isn't in the 10ktrees database. Might group this with a closely relat…</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShzaXRlcylcbmBgYCJ9 -->
-<pre class="r"><code>glimpse(sites)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBudW1iZXIgb2YgTkFzIGZvciBlYWNoIHZhcmlhYmxlXG5zdW1tYXJpc2VfYWxsKHNwZWNpZXMsIGZ1bmN0aW9uKHgpIHN1bShpcy5uYSh4KSkpXG5gYGAifQ== -->
+<pre class="r"><code># number of NAs for each variable
+summarise_all(species, function(x) sum(is.na(x)))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiAxMzBcblZhcmlhYmxlczogNlxuJCBzaXRlICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiV29sZmdhbmcgS8O2aGxlciBQcmltYXRlIFJlc2VhcmNoIENlbnRlclwiLCBcIkxpbmNvbG4gUGFyayBab29cIiwgXCJLdW1hbW90byBTYW5jdHVhcuKAplxuJCBhcmVhICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiTGVpcHppZ1wiLCBcIkNoaWNhZ28sIElMXCIsIFwiS3VtYW1vdG9cIiwgXCJHw7Z0dGluZ2VuXCIsIFwiTmFueXVraVwiLCBcIkhlaWRlbGJlcmdcIiwgXCJFZGlu4oCmXG4kIGNvdW50cnkgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJHZXJtYW55XCIsIFwiVVNBXCIsIFwiSmFwYW5cIiwgXCJHZXJtYW55XCIsIFwiS2VueWFcIiwgXCJHZXJtYW55XCIsIFwiVUtcIiwgXCJOb3J3YXlcIiwgXCJVS1wiLCBcIuKAplxuJCBsYXQgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08ZGJsPlx1MDAxYlszOW1cdTAwMWJbMjNtIDUxLjM0ODUzNywgNDEuOTIxMDkyLCAzMi42NDA4NDcsIDUxLjU2MDk3MCwgLTAuMDA0MjU5LCA0OS40MTUxNTQsIDU1Ljk0MjMyNiwgNTguMeKAplxuJCBsb25nICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08ZGJsPlx1MDAxYlszOW1cdTAwMWJbMjNtIDEyLjM3MTY1MSwgLTg3LjYzMzk5MSwgMTMwLjQ4MjQ4MCwgOS45NTI4OTQsIDM2Ljk2MzY3MSwgOC42NjM4ODQsIC0zLjI2NzMxOCwgOC4xNOKAplxuJCBub3RlICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBcIkxvY2F0aW9uIGlkZW50aWZpZWQgYmFzZWQgYnnigKZcbiJ9 -->
-<pre><code>Observations: 130
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NCwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUE5VlR6VTdETUF4Mi96WldZRXlheEZ1c2x3bUpHeGZFQXlDUWRwdXlOTnVxbGFSS1U4R1JwK1hNRTJ3NFhaSnUyU1F1WEtqVTF2NWlmL25pMk0rUHMyazZTd0VnZ3FnWFFKU2dDY25yeTlQa0hpQU8wUWtnaG9IK2YyRFFHSTBZMyt0MkFlRHl3QTRPN0svT0RtNDlvb1NUTjFhak1Xcko5bURNUmM2TWZWVlhqQmFzbml2SlRyQmxVVEpISkpRbU9tSWZTUEdlMlIyMGhQQVRQenQ4dk1CWU01b2pSUmhtanRiNjRFdW1KYW10NU5DQUl5cktrbEVsNUR3WHpjTEpHamdjbmUweFk3THpTTVlkQ1YwVFNhaGk4cC93NlB6UTV2L0ZQZjRxN3FZVHQyb1lYc2g1WVREVVYvZndEZEJ4T2FHUkZZcEpscUNmc3lWcFN1VTZZMU5VbmdUYkNSZVlOdDkzanEzQlNVeWFFMFd5cGNRbTdLTGNhbDlVcWhDOE5pMlhlTW1COUlCUnczVTc1eE82YnZobU1yM1RPNWd4QXpnL2ZyRjM2TVJ3OVJoZkZkelZ2U1FMVmhwbmlIUFRqazFXeVlMYlVxU0kxcGtTaXRpNFZOZk5JUHRxYjM4QVd0bFAzRVVFQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["node"],"name":[1],"type":["int"],"align":["right"]},{"label":["species_tree"],"name":[2],"type":["int"],"align":["right"]},{"label":["species_file"],"name":[3],"type":["int"],"align":["right"]},{"label":["notes"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"11","2":"1","3":"230","4":"278"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbnkgY29tbW9uIG5hbWVzIGR1cGxpY2F0ZWQ/XG5maWx0ZXIoc3BlY2llcywgIWlzLm5hKHNwZWNpZXNfZmlsZSksIGR1cGxpY2F0ZWQoc3BlY2llc19maWxlKSlcbmBgYCJ9 -->
+<pre class="r"><code># any common names duplicated?
+filter(species, !is.na(species_file), duplicated(species_file))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjo0LCJucm93IjowfSwicmRmIjoiSDRzSUFBQUFBQUFBQTIxUVVXckRNQXhWR3J1bFlTbUJuU1A1S1pRZFlPd0FZNFA4RFM5eFcxUFhEcmJMZHZxMnNtTVhsa1ZnSkQxSlQwOStmMjIzUlZzQVFBNzVNb09jWWdqMDgrT3RmZ0VnQzB3eUlMRDIvaGVibmpFZytEWXdXalh2L3d5dWpmNXBGRHR6aTBrNTAwQTd5YXlOMHdrc2V1WllzemM0TjIxUFhGVVFNNEpFNlo3SCtNa092QlBjZmpuRC8yRjdJZm1EU0x0QWRKMXNXT25CQ2Eyd3RQQUgwNG0wekV5QTZxSzhwcjd1amhkMXFyYzdyei9VUnl0bllqTHVKTGZJUlNQWGtxdURVQStKa24xekdaTU5mbVM0dlJtTVVDNTlGS0syY2RxeDFGZDBXaVlrSEFmWE8yRk5UZTdvQVFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["node"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["species_tree"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_file"],"name":[3],"type":["chr"],"align":["left"]},{"label":["notes"],"name":[4],"type":["chr"],"align":["left"]}],"data":[],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[0]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BlY2llcyA8LSBzZWxlY3Qoc3BlY2llcywgLW5vdGVzKVxuYGBgIn0= -->
+<pre class="r"><code>species &lt;- select(species, -notes)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KHNwZWNpZXMsIFwiLi4vZGF0YS9zcGVjaWVzX2dzaGVldC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>write_csv(species, &quot;../data/species_gsheet.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="data-clean-sites" class="section level1">
+<h1>Data clean: Sites</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjaGVjayBkYXRhIHR5cGVzXG5nbGltcHNlKHNpdGVzKVxuYGBgIn0= -->
+<pre class="r"><code># check data types
+glimpse(sites)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiAxODNcblZhcmlhYmxlczogNlxuJCBzaXRlICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiV29sZmdhbmcgS8O2aGxlciBQcmltYXRlIFJlc2VhcmNoIENlbnRlclwiLCBcIkxpbmNvbG4gUGFyayBab29cIiwgXCJLdW1hbW90byBTYW5jdHVh4oCmXG4kIGFyZWEgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJMZWlwemlnXCIsIFwiQ2hpY2FnbywgSUxcIiwgXCJLdW1hbW90b1wiLCBcIkfDtnR0aW5nZW5cIiwgXCJOYW55dWtpXCIsIFwiSGVpZGVsYmVyZ1wiLCBcIkVkaeKAplxuJCBjb3VudHJ5IFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiR2VybWFueVwiLCBcIlVTQVwiLCBcIkphcGFuXCIsIFwiR2VybWFueVwiLCBcIktlbnlhXCIsIFwiR2VybWFueVwiLCBcIlVLXCIsIFwiTm9yd2F5XCIsIFwiVUtcIiwg4oCmXG4kIGxhdCAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxkYmw+XHUwMDFiWzM5bVx1MDAxYlsyM20gNTEuMzQ4NTM3LCA0MS45MjEwOTIsIDMyLjY0MDg0NywgNTEuNTYwOTcwLCAtMC4wMDQyNTksIDQ5LjQxNTE1NCwgNTUuOTQyMzI2LCA1OC7igKZcbiQgbG9uZyAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGRibD5cdTAwMWJbMzltXHUwMDFiWzIzbSAxMi4zNzE2NTEsIC04Ny42MzM5OTEsIDEzMC40ODI0ODAsIDkuOTUyODk0LCAzNi45NjM2NzEsIDguNjYzODg0LCAtMy4yNjczMTgsIDguMeKAplxuJCBub3RlcyAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBcIkxvY2F0aW9uIGlkZW50aWZpZWQgYmFzZWQgYuKAplxuIn0= -->
+<pre><code>Observations: 183
 Variables: 6
-$ site    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Wolfgang Köhler Primate Research Center&quot;, &quot;Lincoln Park Zoo&quot;, &quot;Kumamoto Sanctuar…
-$ area    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Leipzig&quot;, &quot;Chicago, IL&quot;, &quot;Kumamoto&quot;, &quot;Göttingen&quot;, &quot;Nanyuki&quot;, &quot;Heidelberg&quot;, &quot;Edin…
-$ country [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Germany&quot;, &quot;USA&quot;, &quot;Japan&quot;, &quot;Germany&quot;, &quot;Kenya&quot;, &quot;Germany&quot;, &quot;UK&quot;, &quot;Norway&quot;, &quot;UK&quot;, &quot;…
-$ lat     [3m[38;5;246m&lt;dbl&gt;[39m[23m 51.348537, 41.921092, 32.640847, 51.560970, -0.004259, 49.415154, 55.942326, 58.1…
-$ long    [3m[38;5;246m&lt;dbl&gt;[39m[23m 12.371651, -87.633991, 130.482480, 9.952894, 36.963671, 8.663884, -3.267318, 8.14…
-$ note    [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;Location identified based by…</code></pre>
+$ site    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Wolfgang Köhler Primate Research Center&quot;, &quot;Lincoln Park Zoo&quot;, &quot;Kumamoto Sanctua…
+$ area    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Leipzig&quot;, &quot;Chicago, IL&quot;, &quot;Kumamoto&quot;, &quot;Göttingen&quot;, &quot;Nanyuki&quot;, &quot;Heidelberg&quot;, &quot;Edi…
+$ country [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Germany&quot;, &quot;USA&quot;, &quot;Japan&quot;, &quot;Germany&quot;, &quot;Kenya&quot;, &quot;Germany&quot;, &quot;UK&quot;, &quot;Norway&quot;, &quot;UK&quot;, …
+$ lat     [3m[38;5;246m&lt;dbl&gt;[39m[23m 51.348537, 41.921092, 32.640847, 51.560970, -0.004259, 49.415154, 55.942326, 58.…
+$ long    [3m[38;5;246m&lt;dbl&gt;[39m[23m 12.371651, -87.633991, 130.482480, 9.952894, 36.963671, 8.663884, -3.267318, 8.1…
+$ notes   [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;Location identified based b…</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBudW1iZXIgb2YgTkFzIGZvciBlYWNoIHZhcmlhYmxlXG5zdW1tYXJpc2VfYWxsKHNpdGVzLCBmdW5jdGlvbih4KSBzdW0oaXMubmEoeCkpKVxuYGBgIn0= -->
+<pre class="r"><code># number of NAs for each variable
+summarise_all(sites, function(x) sum(is.na(x)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUE4MVV6VTdETUF4T2Y5S3hTb3hKZTQ1VlNIRGd4Z1h4QUFpazNhWXN6YlpxSWFtU1ZNQ045K0hsZUlJTlowczZtakVoSkNTbzFOWjI3TStmWGJ0M041T0xmSklqaEJLVVpCRktNSWdJUDl6ZmpxOFFTbU5RSXBTaXZuMC9nOU1JaEF6dTArM0I3dkx5OElqOW1Qd1dKTUNDUERMdGdESm5USFZsbUplSllzVEpQU29iWWRTTFV4Tk9qUGZpVWl4YVNHa3NaQ2RQWDhtbnd1ZXlaT0pYZUd6Z0NoeFRYVFBxaWs3QXpSVy8xVkZJbm5LaVBmbllHVWRVY3M2b2tXcEtsMFFSYXBqeUpOb2pVTlpkVUx6NTV6akRQVTRwbXhsbmZ3YnlnNHBzZk96amYzZTh2cVY1dHFlNWFCak15ZGNVMGNCTzFQVzdXNVF1NWNRVGdDQVAwQ3ZabkRTODVhWlhWUjFROEFONkFtSFQzVUQ3Ymh6NDVDVXhwSmdyMkkyOVYzdmFrN1dwcE5CdUUzQVFIS25BTUd5RTNiSnlUSmVOV0kwdnoyMEdkUGdmaUQ3SldWQTBkbGdaRTR0SytDK0ZPWmt4N3BRQnJQTjJtNHRhVmNLM0lnZXJMb3cweFB2bHRtL09zdXYyK2dOTWM4b2ovZ1FBQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["site"],"name":[1],"type":["int"],"align":["right"]},{"label":["area"],"name":[2],"type":["int"],"align":["right"]},{"label":["country"],"name":[3],"type":["int"],"align":["right"]},{"label":["lat"],"name":[4],"type":["int"],"align":["right"]},{"label":["long"],"name":[5],"type":["int"],"align":["right"]},{"label":["notes"],"name":[6],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"16","3":"0","4":"0","5":"0","6":"171"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbnkgZHVwbGljYXRlZCBzaXRlcz9cbmZpbHRlcihzaXRlcywgZHVwbGljYXRlZChzaXRlKSlcbmBgYCJ9 -->
+<pre class="r"><code># any duplicated sites?
+filter(sites, duplicated(site))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjo2LCJucm93IjoxfSwicmRmIjoiSDRzSUFBQUFBQUFBQTIxUXdVb0RNUkNkN1c2MjdJSmx3WU40Nncvc2dpZ282a0dzZVBRZ0ZucnhFTGV4amFaSnlXYlYzdndqcjM2RzMrSlY2RHE3VFlvRUE1TzhlWG1aekp2YnE4bGhPa2tCSUlRd0RpQWtDSUdNNzY3ekU0Q29oMGtBRVNUdCtZYWlYUVF4UnZibll2K1M4U2N1WjhNYnBSZFVETWVTdnpCZGNiUHloSDByOUdneW1uTkpFUXhhOG1MMGMvWjUvdjIxemUvMzlPbEhjN3g5QkpBMHVMenVFcTFlQzBrWHJNSmtCNlAzanRzL1FsSUtXbFZlQyttVUdsbzhhbnp2eTEzTnJITytJU00weHh5bW1sRm5zRlMxTkhwbDAxQlE0MVJDb1c5WFVwbXU1TnI3cTYrV2hpdUpWNzEyenNSck10QWVrZFd5N1c2YWwvTmFQdWRIQjYwVE95T3dZd2hzT0J4di9vd2FXNHZZV2pHVE15NmRLU0xvQXhNMkdlQm91eWtVUzgybGM1UWlXeFZHR2VwMGFhbUVZenB6c1A0Rnl2R0x5RjhDQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["site"],"name":[1],"type":["chr"],"align":["left"]},{"label":["area"],"name":[2],"type":["chr"],"align":["left"]},{"label":["country"],"name":[3],"type":["chr"],"align":["left"]},{"label":["lat"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["long"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["notes"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Beijing Normal University","2":"Beijing","3":"China","4":"39.96276","5":"116.3663","6":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmlsdGVyKHNpdGVzLCBpcy5uYShsYXQpIHwgaXMubmEobG9uZykpXG5gYGAifQ== -->
+<pre class="r"><code>filter(sites, is.na(lat) | is.na(long))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjo2LCJucm93IjowfSwicmRmIjoiSDRzSUFBQUFBQUFBQTIxUVVXckRNQXhWbWppbGhwYkF6cEY4ZFAzb0FjWU9NRGJvcjVaNlhhZ25GOXRoMitXN0tZNDltS25CNk9uNTZWblMwOFBoWGg0a0FKUlExZ1dVZ2lHSWwrZkhkZzlRTFRncG9JTFZGTDlZZE1lZzV0dkFmUEs0eVdMay94bXRyUG5zQ0QrVTQyUjlReUI2amM3RjZrVEtJM3JzM2l6WDVmTGsxWVRtWnJKeWcxY0pvMVVZOGJJM0kzbjdIZE5TbzA4cWJlajBaMmw4c0x4bWZ5M054UStHK0dreHJVSmtUUlkySTVxUnB1Nk9iZjgrMHJuZGJhZEp3dnQ4MWpkd1BmOVovVVF2RWIxcVJhZUIwbEJDNDZ2U01kbndTc01XdW9zZEtFMGttWFdkTng2VFR2WkdKeVlNQjlkZnR4ZEt2QUlDQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["site"],"name":[1],"type":["chr"],"align":["left"]},{"label":["area"],"name":[2],"type":["chr"],"align":["left"]},{"label":["country"],"name":[3],"type":["chr"],"align":["left"]},{"label":["lat"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["long"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["notes"],"name":[6],"type":["chr"],"align":["left"]}],"data":[],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[0]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsYXQgc2hvdWxkIGJlIHdpdGhpbiArLy0gOTAsIGxvbmcgd2l0aGluICsvLSAxODBcbnJhbmdlKHNpdGVzJGxhdClcbmBgYCJ9 -->
+<pre class="r"><code># lat should be within +/- 90, long within +/- 180
+range(sites$lat)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0zNC45MDg0NiAgNjAuNjUyMjhcbiJ9 -->
+<pre><code>[1] -34.90846  60.65228</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFuZ2Uoc2l0ZXMkbG9uZylcbmBgYCJ9 -->
+<pre class="r"><code>range(sites$long)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xMjIuODc0MiAgMTUxLjI0MzFcbiJ9 -->
+<pre><code>[1] -122.8742  151.2431</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2l0ZXMgPC0gc2VsZWN0KHNpdGVzLCAtbm90ZXMpXG5gYGAifQ== -->
+<pre class="r"><code>sites &lt;- select(sites, -notes)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KHNpdGVzLCBcIi4uL2RhdGEvc2l0ZXNfZ3NoZWV0LmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>write_csv(sites, &quot;../data/sites_gsheet.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="data-clean-studies" class="section level1">
+<h1>Data clean: Studies</h1>
+<div id="general" class="section level2">
+<h2>General</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjaGVjayBkYXRhIHR5cGVzLCBlZyBuLCBmZW1hbGUsIGRyb3BvdXQgc2hvdWxkIGJlIG51bWVyaWNcbmdsaW1wc2Uoc3R1ZGllcylcbmBgYCJ9 -->
+<pre class="r"><code># check data types, eg n, female, dropout should be numeric
+glimpse(studies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiT2JzZXJ2YXRpb25zOiA4NjRcblZhcmlhYmxlczogMTVcbiQgYXV0aG9ycyAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcIkJvaG4sIENhbGwsIFRvbWFzZWxsb1wiLCBcIkJvaG4sIENhbGwsIFRvbWFzZWxsb1wiLCBcIkJvaG4sIENhbGwsIFRv4oCmXG4kIHllYXIgICAgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCIyMDE1XCIsIFwiMjAxNVwiLCBcIjIwMTVcIiwgXCIyMDE1XCIsIFwiMjAxN1wiLCBcIjIwMTdcIiwgXCIyMDE2XCIsIFwiMjAxNlwiLCBcIuKAplxuJCB0aXRsZSAgICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiQ29tbXVuaWNhdGlvbiBhYm91dCBhYnNlbnQgZW50aXRpZXMgaW4gZ3JlYXQgYXBlcyBhbmQgaHVtYW4gaW5mYeKAplxuJCBqb3VybmFsICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiQ29nbml0aW9uXCIsIFwiU2NpZW50aWZpYyBS4oCmXG4kIHNwZWNpZXMgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJTdW1hdHJhbiBvcmFuZ3V0YW5cIiwgXCJXZXN0ZXJuIGdvcmlsbGFcIiwgXCJib25vYm9cIiwgXCJjaGltcGFuemVlXCIsIOKAplxuJCBuICAgICAgICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08ZGJsPlx1MDAxYlszOW1cdTAwMWJbMjNtIDYsIDQsIDcsIDE5LCA3LCA3LCA2LCA0LCA3LCAxOCwgMTEsIDQsIDUsIDQsIDMsIDMsIDMsIDEsIDIsIDIsIDIs4oCmXG4kIGZlbWFsZSAgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxkYmw+XHUwMDFiWzM5bVx1MDAxYlsyM20gNCwgMywgNSwgMTMsIDUsIDMsIDQsIDMsIDUsIDEyLCA2LCAzLCA0LCAzLCAyLCAyLCAyLCAxLCAxLCAxLCAyLCDigKZcbiQgZHJvcG91dCAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGRibD5cdTAwMWJbMzltXHUwMDFiWzIzbSAwLCAwLCAxLCAyLCBOQSwgTkEsIDAsIDAsIDAsIDAsIDQsIDIsIDAsIDAsIDAsIDAsIDIsIDAsIDEsIDEsIDAsIOKAplxuJCBhZ2UgICAgICAgICAgICAgICAgICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwibWl4ZWRcIiwgXCJtaXhlZFwiLCBcIm1peGVkXCIsIFwibWl4ZWRcIiwgXCJhZHVsdFwiLCBcImFkdWx0XCIsIFwibWl4ZWRcIiwgXCJt4oCmXG4kIHNpdGUgICAgICAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJXb2xmZ2FuZyBLw7ZobGVyIFByaW1hdGUgUmVzZWFyY2ggQ2VudGVyXCIsIFwiV29sZmdhbmcgS8O2aGxlciBQcmltYeKAplxuJCBhdHRlbXB0X3JlcGxpY2F0aW9uICAgIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLOKAplxuJCBzdWNjZXNzZnVsX3JlcGxpY2F0aW9uIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgXCJ5ZXNcIiwgXCJ5ZXNcIiwgXCJ5ZXNcIiwg4oCmXG4kIHNwZWNpZXNfY29tcGFyaXNvbiAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIsIFwibm9cIiwgXCJub1wiLCBcIm5vXCIs4oCmXG4kIHRvX2V4Y2x1ZGUgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE7igKZcbiQgbm90ZXMgICAgICAgICAgICAgICAgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTkEsIE5BLCBOQSwgTuKAplxuIn0= -->
+<pre><code>Observations: 864
+Variables: 15
+$ authors                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Bohn, Call, Tomasello&quot;, &quot;Bohn, Call, Tomasello&quot;, &quot;Bohn, Call, To…
+$ year                   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2015&quot;, &quot;2017&quot;, &quot;2017&quot;, &quot;2016&quot;, &quot;2016&quot;, &quot;…
+$ title                  [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Communication about absent entities in great apes and human infa…
+$ journal                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Cognition&quot;, &quot;Scientific R…
+$ species                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Sumatran orangutan&quot;, &quot;Western gorilla&quot;, &quot;bonobo&quot;, &quot;chimpanzee&quot;, …
+$ n                      [3m[38;5;246m&lt;dbl&gt;[39m[23m 6, 4, 7, 19, 7, 7, 6, 4, 7, 18, 11, 4, 5, 4, 3, 3, 3, 1, 2, 2, 2,…
+$ female                 [3m[38;5;246m&lt;dbl&gt;[39m[23m 4, 3, 5, 13, 5, 3, 4, 3, 5, 12, 6, 3, 4, 3, 2, 2, 2, 1, 1, 1, 2, …
+$ dropout                [3m[38;5;246m&lt;dbl&gt;[39m[23m 0, 0, 1, 2, NA, NA, 0, 0, 0, 0, 4, 2, 0, 0, 0, 0, 2, 0, 1, 1, 0, …
+$ age                    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;mixed&quot;, &quot;mixed&quot;, &quot;mixed&quot;, &quot;mixed&quot;, &quot;adult&quot;, &quot;adult&quot;, &quot;mixed&quot;, &quot;m…
+$ site                   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;Wolfgang Köhler Primate Research Center&quot;, &quot;Wolfgang Köhler Prima…
+$ attempt_replication    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;,…
+$ successful_replication [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;, …
+$ species_comparison     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;,…
+$ to_exclude             [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ notes                  [3m[38;5;246m&lt;chr&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhZGQgb3JpZ2luYWwgZ3NoZWV0IHJvdyBudW1iZXJzIGZvciByZWZlcmVuY2VcbnN0dWRpZXMgPC0gbXV0YXRlKHN0dWRpZXMsIHJvdyA9IHJvd19udW1iZXIoKSArIDE2KSAlPiUgc2VsZWN0KHJvdywgZXZlcnl0aGluZygpKVxuYGBgIn0= -->
+<pre class="r"><code># add original gsheet row numbers for reference
+studies &lt;- mutate(studies, row = row_number() + 16) %&gt;% select(row, everything())</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBUT0RPIGNoZWNrIHdoZXRoZXIgdGhlc2Ugc2hvdWxkIGJlIGV4Y2x1ZGVkXG4jIGlmIG5vdCwgcmVtb3ZlIHRoZSBjb21tZW50IGluIHRoZSBcInRvX2V4Y2x1ZGVcIiBjb2x1bW5cbiMgaWYgeWVzLCBkZWxldGUgdGhhdCBsaW5lXG5zdHVkaWVzICU+JSBcbiAgICBmaWx0ZXIoc3RyX2RldGVjdCh0b19leGNsdWRlLCBcImV4Y2x1ZGVcIikpICU+JSBcbiAgICBtdXRhdGUoYXV0aG9ycyA9IHN0cl9zdWIoYXV0aG9ycywgMSwgMTUpLCB0aXRsZSA9IHN0cl9zdWIodGl0bGUsIDEsIDM1KSkgJT4lIFxuICAgIHNlbGVjdChyb3csIGF1dGhvcnMsIHRpdGxlLCB5ZWFyKVxuYGBgIn0= -->
+<pre class="r"><code># TODO check whether these should be excluded
+# if not, remove the comment in the &quot;to_exclude&quot; column
+# if yes, delete that line
+studies %&gt;% 
+    filter(str_detect(to_exclude, &quot;exclude&quot;)) %&gt;% 
+    mutate(authors = str_sub(authors, 1, 15), title = str_sub(title, 1, 35)) %&gt;% 
+    select(row, authors, title, year)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjo0LCJucm93Ijo4fSwicmRmIjoiSDRzSUFBQUFBQUFBQTRWVDMyc1VNUkJPdmIzK2d0YUNMejRPOUxWMytLTm85YW5GWWl0U2xlc1Zpay9PN2M1Mmc5bkprV1I3dllJZytPUi83RlBQWkhkVGo0VmlJTXpzbDIrK21VbG1SOGVYTHpjdk40VVFQZEZiWFJHOXZuZEYvMkw4Zm5BZ1JQTElmNnlJUkd3RWUrTkpUN3lUK0wzdDkvcmg4Yy9BRm9lZlJXTUpHbHQ4YTIxNy9xUDkvblhUMk45UFJidDJnazZiNFBHNUxLZFc4eDZjVmNiZ3ZJWFhScFRaQW1lUmRjUVptWnAyV2szSVJQaE1PN0tEa2M2TXZOSjc4Qi80YTRGOHRRY25CZDRpNTNoZlFWcXdKcVdDTmswNHdwOUkxUWsvRW1lb1ZLZnUzWEZCVUVwanRBR215bWdHTzdlT1NrQUxocTRKRlVYcWlBYklxT1pXV3RBNVpPaXdwVmhnRFhRdHMzL1VYRkhxcEdZTGtzSDVKQVlsNTlxUWRXOGhyM3doTGZXTG9ad01zWk9vd0hlV1FXVUpKbk5JY2Vya05VRmFST3BwT0kzOGxHcnA4VXpEQmNzU3VmTHhlSzlLUnJJdlVLazVmT0JjVlNFZ2c2UEthZGFsVE9FOFB0SHVXUk9xMEpGQkpXOHhsQjJrWjFKbHZzRXNqKyswZTZKUkRZNmw4YTE1c1RGS0JSZStXTTk5cDVVdUp4SzVjNy9KaTJmUDk1ZjhOMHYrNndmd2d5WC8xUU02M1FIdnB3cXRiWk5IY0RNODBUQTNXRktIdm1IMGJNZ2VEeUZiZmo4SzA3NVlMUDUwZFNOcHAvNTVHckRubytPQVkrVUtiV3lrTytudUJ5YVpFeHB2N3pxYWEzcGFUNGJQR243SmZxZnFGZE1CZGlvT1ZXU0R0S2o0KzJEL0lMUlduemRycS9YWGwveWt5WmtzV3ExK3E3VktmQ1U1VnRoWE9LRTRpZHUrcTdyYjRkVFBqb3QzNkZFN2ROcVBVa1JTclNKU055ZnUvZ0xhbTRQZWlnUUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["authors"],"name":[2],"type":["chr"],"align":["left"]},{"label":["title"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"41","2":"Simpson, Murray","3":"The mirror neuron system as reveale","4":"2014"},{"1":"62","2":"Redshaw","3":"Re-analysis of data reveals no evid","4":"2019"},{"1":"169","2":"Anderson, Huber","3":"Reflections in the rainforest: full","4":"2017"},{"1":"195","2":"Motes-Rodrigo,","3":"Preferential hand use by captive ch","4":"2019"},{"1":"196","2":"Motes-Rodrigo,","3":"Hand Preferences in Two Unimanual a","4":"2018"},{"1":"470","2":"Zhang, Ghazanfa","3":"Perinatally Influenced Autonomic Sy","4":"2016"},{"1":"623","2":"Schnoell, Huebn","3":"Manual lateralization in wild redfr","4":"2014"},{"1":"803","2":"Nelson, Kendall","3":"Goal-Directed Tail Use in Colombian","4":"2018"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zdHVkaWVzIDwtIHN0dWRpZXMgJT4lIGZpbHRlcihpcy5uYSh0b19leGNsdWRlKSkgJT4lIHNlbGVjdCgtdG9fZXhjbHVkZSlcbmBgYCJ9 -->
+<pre class="r"><code>
+studies &lt;- studies %&gt;% filter(is.na(to_exclude)) %&gt;% select(-to_exclude)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhZGQgYSBzdHVkeUlEIHZhcmlhYmxlICh0byBlYXNpbHkgZ3JvdXAgYnkgc3R1ZHkpXG5zdHVkaWVzJHN0dWR5SUQgPC0gc3R1ZGllcyAlPiUgZ3JvdXBfaW5kaWNlcyh0aXRsZSlcbnN0dWRpZXMgPC0gc2VsZWN0KHN0dWRpZXMsIHJvdywgc3R1ZHlJRCwgZXZlcnl0aGluZygpKVxuYGBgIn0= -->
+<pre class="r"><code># add a studyID variable (to easily group by study)
+studies$studyID &lt;- studies %&gt;% group_indices(title)
+studies &lt;- select(studies, row, studyID, everything())</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBudW1iZXIgb2YgTkFzIGZvciBlYWNoIHZhcmlhYmxlXG5zdW1tYXJpc2VfYWxsKHN0dWRpZXMsIGZ1bmN0aW9uKHgpIHN1bShpcy5uYSh4KSkpXG5gYGAifQ== -->
+<pre class="r"><code># number of NAs for each variable
+summarise_all(studies, function(x) sum(is.na(x)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MTYsIm5yb3ciOjF9LCJyZGYiOiJINHNJQUFBQUFBQUFBNTFTMjBvRE1SRE4zbHE2b2hRTGdoL1JSUkRCRHloQ0h4V0Z2cFdZVGR0b05nbTVvUFhKTDI5TjJreTdMdlhGaGQwOWN5Wm5Nbk9TcDhuc3RweVZDS0VNWmIwRVpZV0hxSGg1ZmhqZkk1U25Qa2hRamdiaC8ra1hqVHdZK3ZkOGw5Zy8vOFc5UC9oQkMzOGRjWHJkNHFjdGZOYkN5UkZuNmVuNjJXTm5zRUxnaHBvNDJEQ1NtWllmRWZhTmRmVjZPb0VRTzd1UzJzUXdYMU9zb1pKbGxsTlk5eWFkRnBnZnFpaEtHQVZaSWlMb0xXaURqNkphU3lXZGhTN3dFaks1WVJid0NGdExHMlhubWlyT0NMWk1RcmtyNHdpaHhpd2NQNUc5akUzTWlXd1Uxc3djTW9XUU5wand5NW1CTjZFQ2Q0Sjk2YmYvYlAzVHRaQndiTUJDSU1zYVcxd3R0TmY3YU5PUjlLVUtqWGxSR2k1VjBSRW51a01NblFpZDFHT3ljdUo5ZkhjVGRqaHhlMW8zSU9qRG51azIxaXJBY3lxV1RJQ2JCY2V2Rkk3cHdvKzhtN2hTbWdrNGg5S3pwckxTSG82ekpKSURzeHNPYlg0QUJSY29Fa3dEQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["int"],"align":["right"]},{"label":["studyID"],"name":[2],"type":["int"],"align":["right"]},{"label":["authors"],"name":[3],"type":["int"],"align":["right"]},{"label":["year"],"name":[4],"type":["int"],"align":["right"]},{"label":["title"],"name":[5],"type":["int"],"align":["right"]},{"label":["journal"],"name":[6],"type":["int"],"align":["right"]},{"label":["species"],"name":[7],"type":["int"],"align":["right"]},{"label":["n"],"name":[8],"type":["int"],"align":["right"]},{"label":["female"],"name":[9],"type":["int"],"align":["right"]},{"label":["dropout"],"name":[10],"type":["int"],"align":["right"]},{"label":["age"],"name":[11],"type":["int"],"align":["right"]},{"label":["site"],"name":[12],"type":["int"],"align":["right"]},{"label":["attempt_replication"],"name":[13],"type":["int"],"align":["right"]},{"label":["successful_replication"],"name":[14],"type":["int"],"align":["right"]},{"label":["species_comparison"],"name":[15],"type":["int"],"align":["right"]},{"label":["notes"],"name":[16],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"0","3":"0","4":"0","5":"0","6":"6","7":"0","8":"9","9":"122","10":"537","11":"73","12":"11","13":"1","14":"770","15":"0","16":"849"}],"options":{"columns":{"min":{},"max":[10],"total":[16]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc29ydCh1bmlxdWUoc3R1ZGllcyR5ZWFyKSlcbmBgYCJ9 -->
+<pre class="r"><code>sort(unique(studies$year))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMjAxNFwiICAgICBcIjIwMTVcIiAgICAgXCIyMDE2XCIgICAgIFwiMjAxN1wiICAgICBcIjIwMThcIiAgICAgXCIyMDE5XCIgICAgIFwiaW4gcHJlc3NcIlxuIn0= -->
+<pre><code>[1] &quot;2014&quot;     &quot;2015&quot;     &quot;2016&quot;     &quot;2017&quot;     &quot;2018&quot;     &quot;2019&quot;     &quot;in press&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc29ydCh1bmlxdWUoc3R1ZGllcyRhZ2UpKVxuYGBgIn0= -->
+<pre class="r"><code>sort(unique(studies$age))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYWR1bHRcIiAgICBcImluZmFudFwiICAgXCJqdXZlbmlsZVwiIFwibWl4ZWRcIiAgIFxuIn0= -->
+<pre><code>[1] &quot;adult&quot;    &quot;infant&quot;   &quot;juvenile&quot; &quot;mixed&quot;   </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc29ydCh1bmlxdWUoc3R1ZGllcyRzcGVjaWVzX2NvbXBhcmlzb24pKVxuYGBgIn0= -->
+<pre class="r"><code>sort(unique(studies$species_comparison))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibm9cIiAgXCJ5ZXNcIlxuIn0= -->
+<pre><code>[1] &quot;no&quot;  &quot;yes&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBtb3JlIGZlbWFsZXMgdGhhbiB0b3RhbCBzYW1wbGU/XG5maWx0ZXIoc3R1ZGllcywgZmVtYWxlID4gbilcbmBgYCJ9 -->
+<pre class="r"><code># more females than total sample?
+filter(studies, female &gt; n)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjoxNiwibnJvdyI6MH0sInJkZiI6Ikg0c0lBQUFBQUFBQUE0MVNYV3ZESUJRMVRXeHBvQ1dzc0gvUnZHeUQvWUF5Mk92WW9HL0ZHZHU2R1ExNlpldWY3MllTYjh0Q0J4WGtudnQxdkI1OVdhM3Y4blZPQ0VsSk9rNUlTZ01rOU8zMWFmbElTRFlLVGtJeU1tM3RkeWhhQkZDRVBTZjlta1ZiWEdubi85aHIrNlA5TTlqVW1xOVNzMXE0ODBCL0NpaFh6TG5ZamNHOFlzREtyUTE5dzNMa0tycmRCOU53U0lRVEI3NDZQSy9RWlI3Mnhycm9aZ2ZCTERLQkJDV3c3c040cTVrNnNUU0NTNEZ0aVk1Z3ZCVTFPemRWMWpUR0EwN0JkcGpKbkFURUN3WWc2Z1kyVmpSS2NnYlNJTjJ0ODV3TDU3WmVYY2pleENFMjNOUU5zOUtkTWxRYjZFUTREdFNabUtZbENLbFIreG5vUU5iRURnS0YxNjJlMVpMdnZmNWNQdHkzMm5mNWZzMHU0S0kvTS91SlhCUzFFWG9uTmQ2YUt2WXVVTTU1ZUovdTNjckdTbzE2NVNIcVNqQndrajNuUm1Ha3V4dzUvZ0xvRUd6UUJBTUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["studyID"],"name":[2],"type":["int"],"align":["right"]},{"label":["authors"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["title"],"name":[5],"type":["chr"],"align":["left"]},{"label":["journal"],"name":[6],"type":["chr"],"align":["left"]},{"label":["species"],"name":[7],"type":["chr"],"align":["left"]},{"label":["n"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["female"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["dropout"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[11],"type":["chr"],"align":["left"]},{"label":["site"],"name":[12],"type":["chr"],"align":["left"]},{"label":["attempt_replication"],"name":[13],"type":["chr"],"align":["left"]},{"label":["successful_replication"],"name":[14],"type":["chr"],"align":["left"]},{"label":["species_comparison"],"name":[15],"type":["chr"],"align":["left"]},{"label":["notes"],"name":[16],"type":["chr"],"align":["left"]}],"data":[],"options":{"columns":{"min":{},"max":[10],"total":[16]},"rows":{"min":[10],"max":[10],"total":[0]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB5ZXMgb3Igbm9cbnNvcnQodW5pcXVlKHN0dWRpZXMkYXR0ZW1wdF9yZXBsaWNhdGlvbikpXG5gYGAifQ== -->
+<pre class="r"><code># yes or no
+sort(unique(studies$attempt_replication))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY29uY2VwdHVhbFwiIFwibm9cIiAgICAgICAgIFwicGFydGlhbFwiICAgIFwieWVzXCIgICAgICAgXG4ifQ== -->
+<pre><code>[1] &quot;conceptual&quot; &quot;no&quot;         &quot;partial&quot;    &quot;yes&quot;       </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB5ZXMsIG5vLCAocGFydGlhbD8pXG5zb3J0KHVuaXF1ZShzdHVkaWVzJHN1Y2Nlc3NmdWxfcmVwbGljYXRpb24pKVxuYGBgIn0= -->
+<pre class="r"><code># yes, no, (partial?)
+sort(unique(studies$successful_replication))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibm9cIiAgICAgIFwicGFydGlhbFwiIFwieWVzXCIgICAgXG4ifQ== -->
+<pre><code>[1] &quot;no&quot;      &quot;partial&quot; &quot;yes&quot;    </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpZiBubyByZXBsaWNhdGlvbiBhdHRlbXB0LCB0aGVuIHN1Y2Nlc3NmdWxfcmVwbGljYXRpb24gc2hvdWxkIGJlIE5BXG5maWx0ZXIoc3R1ZGllcywgYXR0ZW1wdF9yZXBsaWNhdGlvbiA9PSBcIm5vXCIsICFpcy5uYShzdWNjZXNzZnVsX3JlcGxpY2F0aW9uKSlcbmBgYCJ9 -->
+<pre class="r"><code># if no replication attempt, then successful_replication should be NA
+filter(studies, attempt_replication == &quot;no&quot;, !is.na(successful_replication))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjoxNiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUE0VlRTMjhUTVJEMkpyc05YWWtRVVlrclBuQUFxWWw0aU5jSm9yWklJQ0ZWRkdodmxlTjFFcmRlZStXSFNMZ0FmNFZmeUM5b0dXL3NKVmhJckdUdGVMNTUrWnVaRDRkblQ4cXpFaUhVUi8yZERQVUxFRkh4NmVPYjhRdUU4aDVjTXBTalhmOWZnZEVlQ0NNNFE2OTQvZlU3Q3QvTjFoQmxQd0llbllhbnFwNHBZZmZ4QWVHU0pXaisrT0dqWjRudTlKaFl5N1EwV0VsOHduVERwQVZQZkxJa0RUUDRTSERLTGY3TWpTTUNUOEVVWUxEa0VyOG51bGFHV1lQdkh4QWh1RjFxdnNJWGhOS2xNdytTTkhlbk5kT2NFb25mS2FjbHhGSnpmS3g1VGF3U2FyRk96RzlSVmRlUXBnNDVPZ3J1UlFiQy9jYmY5MisvdkRqNG1ZUXJhcjVpVmFJY1RTV2tGL2lvY2hTcTBDYkJlMUlsbXY2YS9kL29wVlRZVTFvM2xsVllzd1lZSko2emZUeHpGa01JYkJ5bHpKaTVFOXY0cTJRQWRyWDZNcEdrYm5QNmh2ZDgrNi9oU3d3TEtvaEpDeXNyWXNsa3JzRS9OWTh4UiswSlQ0TmtRUndZNjZyMTI4TjRKYzR1UFR0aGh0YU02QmpKY2l0WXRMdllOTGFMMGpES1dYVExaQkIyNWd4STc1d3FyUnJsYkt5Q0xDS1NHMjZqdkJmNFBOOWlLMEIzL25ENUQvUjJLT0ljeHFraG1wc09LYVN5TFFsWENUc0QxZmdBQVBYODhoVUpyWmxPcDhoSnoyYzFocW1YbCtPbnp6MzNtKzNjM3RUMlJIbTB5WmxmaDFoRjVJYkpoZC9hVUtJZ014YnBIRUovMnI1TkdzMWw1S3NFclpsWVpUdmFTNnBFMUxTUFExZS9BWVNaSVZoMEJBQUEifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["studyID"],"name":[2],"type":["int"],"align":["right"]},{"label":["authors"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["title"],"name":[5],"type":["chr"],"align":["left"]},{"label":["journal"],"name":[6],"type":["chr"],"align":["left"]},{"label":["species"],"name":[7],"type":["chr"],"align":["left"]},{"label":["n"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["female"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["dropout"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[11],"type":["chr"],"align":["left"]},{"label":["site"],"name":[12],"type":["chr"],"align":["left"]},{"label":["attempt_replication"],"name":[13],"type":["chr"],"align":["left"]},{"label":["successful_replication"],"name":[14],"type":["chr"],"align":["left"]},{"label":["species_comparison"],"name":[15],"type":["chr"],"align":["left"]},{"label":["notes"],"name":[16],"type":["chr"],"align":["left"]}],"data":[{"1":"424","2":"385","3":"Wombolt, Caine","4":"2016","5":"Patterns on Serpentine Shapes Elicit Visual Attention in Marmosets (Callithrix jacchus)","6":"American Journal of Primatology","7":"common marmoset","8":"10","9":"3","10":"NA","11":"mixed","12":"Animal Educators","13":"no","14":"yes","15":"no","16":"no attempted replication, but yes successful replication?"}],"options":{"columns":{"min":{},"max":[10],"total":[16]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpZiBubyByZXBsaWNhdGlvbiBhdHRlbXB0LCB0aGVuIHN1Y2Nlc3NmdWxfcmVwbGljYXRpb24gc2hvdWxkIG5vdCBiZSBOQVxuZmlsdGVyKHN0dWRpZXMsIGF0dGVtcHRfcmVwbGljYXRpb24gPT0gXCJ5ZXNcIiwgaXMubmEoc3VjY2Vzc2Z1bF9yZXBsaWNhdGlvbikpXG5gYGAifQ== -->
+<pre class="r"><code># if no replication attempt, then successful_replication should not be NA
+filter(studies, attempt_replication == &quot;yes&quot;, is.na(successful_replication))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjoxNiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzMVV6VTdiUUJEZWtCaVVTRVZSSS9XOHZWRXBpVm9xSkc2cGdGWUZnWVFLVk56UXNKNGtTOWE3Wm44b3Z2WFlaK25UOVFsb3g0NDNUUzFVU3l2UGZ2UC96ZGhmanE3Zjk2NTdqTEUyYTIrMldEc2hrU1ZYbDU5Rys0eDFOdWpTWWgzV0xkK1BaRFFnb1U5bnV3USsvUGpPNnVkRlpjaGFVUitkK0JsWU54L3lyMUpMUFJ2eVUzeEFuUnEza0VOK0V0SVpOdXc3dTIvZjdUV3duOGQ2aWhhMVFINWI4SStQUWdVbmplWlM4MU42ank1Qktrd3BrNEQ3Z0k3dmxKSUE3Z2pXd2IwWmN1Q2ZJWVBVRnVENEFkd2FjdDQ1aDF3YVBvODRXUjFDSHNSY2FvcHdBVG5jQmNjaFI2V2dqS0JUZm5FZnBMV28rSm5SQ3l3cU01bEpLN2tUTWxpa1ZJM0tYNStZWURVb2JxYjgwR1E1V1BEeUFmbTVLOFRjS0RNckdnNnZoTWt5cXM3RlZGbVZha1Y0UC9MOS9IM3lhM1ZmajVwQUdwUnZnSU9ESUJhYTJ1TlhtbXF5VHZwbU5lMEMzUXBpclB1Ym52K1pMS0ZkaTQ3U2xUMkQ5NWpsbm9aak1WZFNVUGRHVHpqNURMazJRMDZFZUFscTB0aTByalhmeGhxeUtuUzVXUnZsbmkyei8yT1lDQVd1bWIrWGdvZngxSkovMHp6RzdGZW43b0NTMWVLVzh5RXRqby9pRllLZkcrdmlhaFlJTmtieTBpdU1kbmZMS2EraTVDZ2tScmVXcm9YTktXYncxeW0xSmpmQnh5cGdGalVkbWtTVUJ6V0ROMnY4eFZWeFFRaDBiaHJVTTlxWGRSRTNvbG83NlZhYVJCdGZrZkRVWUdmTDVHVUFVbTJVWDNIU29MVmxHMEEvNkpMUGRDVG1RUzlHZS9zbDkvV3FyUDBTcWhQbC9qSm5KNjVSRXJsQlBaTTZkcDBvdU1WSTV6Yk5wNXJiT0xkU1I3NTZoTHF4TjM1RmUwOFlGWkdxT2ZiMEIwZjFlRERkQkFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["studyID"],"name":[2],"type":["int"],"align":["right"]},{"label":["authors"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["title"],"name":[5],"type":["chr"],"align":["left"]},{"label":["journal"],"name":[6],"type":["chr"],"align":["left"]},{"label":["species"],"name":[7],"type":["chr"],"align":["left"]},{"label":["n"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["female"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["dropout"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[11],"type":["chr"],"align":["left"]},{"label":["site"],"name":[12],"type":["chr"],"align":["left"]},{"label":["attempt_replication"],"name":[13],"type":["chr"],"align":["left"]},{"label":["successful_replication"],"name":[14],"type":["chr"],"align":["left"]},{"label":["species_comparison"],"name":[15],"type":["chr"],"align":["left"]},{"label":["notes"],"name":[16],"type":["chr"],"align":["left"]}],"data":[{"1":"784","2":"275","3":"Marsh, Vining, Levendoski, Judge","4":"2015","5":"Inference by Exclusion in Lion-Tailed Macaques (Macaca silenus), a Hamadryas Baboon (Papio hamadryas), Capuchins (Sapajus apella), and Squirrel Monkeys (Saimiri sciureus)","6":"Journal of Comparative Psychology","7":"common squirrel monkey","8":"4","9":"4","10":"1","11":"adult","12":"Bucknell University","13":"yes","14":"NA","15":"yes","16":"result of attempted replication? yes, no, partial?"}],"options":{"columns":{"min":{},"max":[10],"total":[16]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="duplicate-study-entries" class="section level2">
+<h2>Duplicate study entries</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB0aGlzIGxpc3RzIHN0dWRpZXMgd2l0aCBtb3JlIHRoYW4gMSBlbnRyeSBmb3IgYSBnaXZlbiB0aXRsZSwgc3BlY2llcywgYW5kIHNpdGVcbiMgdGhpcyBjYW4gYmUgb2sgLS0gZWcgU2NodWJpZ2VyIGV0IGFsIDIwMTYgZXhwIDEgbWFybW9zZXRzIHJlcGxpY2F0aW9uIGF0dGVtcHQsIGV4cDIgbmFpdmUgbWFybW9zZXRzIG5vdCByZXBsaWNhdGlvbiBhdHRlbXB0IC0tIGJ1dCBjaGVja1xuIyBpZiBkYXRhIGZyb20gZGlmZmVyZW50IGV4cGVyaW1lbnRzLCB0b3RhbCBudW1iZXIgb2YgZGlmZmVyZW50IGluZGl2aWR1YWxzIHNob3VsZCBiZSBsaXN0ZWRcbiMgZWcgaWYgZXhwIDEgbiA9IDEwLCBleHAgMiByZXRlc3RzIDggb2YgdGhvc2UgMTAsIHRoZW4gb25seSBsaXN0ZWQgb25jZSB3aXRoIG4gPSAxMFxuc3R1ZGllcyAlPiUgXG4gICAgZ3JvdXBfYnkodGl0bGUsIHNwZWNpZXMsIHNpdGUpICU+JVxuICAgIGZpbHRlcihuKCkgPiAxKSAlPiUgXG4gICAgdW5ncm91cCAlPiUgXG4gICAgbXV0YXRlKGF1dGhvcnMgPSBzdHJfc3ViKGF1dGhvcnMsIDEsIDE1KSwgdGl0bGUgPSBzdHJfc3ViKHRpdGxlLCAxLCAzNSkpICU+JSBcbiAgICBzZWxlY3Qocm93LCBhdXRob3JzLCB0aXRsZSwgeWVhciwgc3BlY2llcykgJT4lIFxuICAgIGFycmFuZ2UodGl0bGUpXG5gYGAifQ== -->
+<pre class="r"><code># this lists studies with more than 1 entry for a given title, species, and site
+# this can be ok -- eg Schubiger et al 2016 exp 1 marmosets replication attempt, exp2 naive marmosets not replication attempt -- but check
+# if data from different experiments, total number of different individuals should be listed
+# eg if exp 1 n = 10, exp 2 retests 8 of those 10, then only listed once with n = 10
+studies %&gt;% 
+    group_by(title, species, site) %&gt;%
+    filter(n() &gt; 1) %&gt;% 
+    ungroup %&gt;% 
+    mutate(authors = str_sub(authors, 1, 15), title = str_sub(title, 1, 35)) %&gt;% 
+    select(row, authors, title, year, species) %&gt;% 
+    arrange(title)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NSwibnJvdyI6OH0sInJkZiI6Ikg0c0lBQUFBQUFBQUE4MVV6VzdiTUF4V0VqdE5EYlFOc0JjUXNNc09TYkIvZExjQ0s0b0MzV2svV0krVFhTWVdhb3VHSks5cmdRMjk5K1gyQ0h1TW5acFJ0aFhFQm9JdHd3NFRRSlA2K0VrVVJkRnZqOCtmUmVjUlkyekFCc01lRzRSa3N2REQrNVBwSVdOQm55WTlGckJkcDc4UTZZSHprdXlUakk3dVBqazJPN3BMYS8zMWU2Ti8xUHJidU5HODRYbjlpRFhERVVaTmdJTTNwYjZaOERNdGtyUlVFLzRiK0NQR01lZ0pQd1d0YzZIK0tmeU9Rc1Z5NFR4bjBwaE5jUHY4RDErbk1pK0V1Z0V3ZkFIR2xocTRSWjZXdExQaFV2RmMvZ1gxV003bm9FRWxVRGxzQ2h5RXpxNTVnZ3NscmZ3TS9MK2hudUlWdDhKYzhqblNkVm91YUdWaXpScXoySWJhdnQvZzZlTW5oeHZzNTF2YUwxdDJPMDZVcklxekJUS01VV0dNZitnL1NERFBrY29zZEk0RzdDYTQzWUpoa29uVnMvTmdkQ0dzbU0yMXlLRkQzOVY0TlZPRXV5VjdKUDFiK2l5WHk1L2RmVDFwWExWM0RRNW9kV1B1aU5LbXFIMGZoRmJhek9jVlhOTmo4RHhUUUNLcm5lNDdJWGF3c0JJVnVmcitIN0tlUkU5M2dIR3AzS0V1cHE3cEw2Y3ZYcmxNSzM4OTlocDd0R2FIZGN4ZzJjbGtDR29obFQ5d21Ja1lzbWF5VDBsV3ljOEtMWlV2UTBTb21WbTBJbHZWRXpPUFZNbXgrMTk4dzJNWU93VUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["row"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["authors"],"name":[2],"type":["chr"],"align":["left"]},{"label":["title"],"name":[3],"type":["chr"],"align":["left"]},{"label":["year"],"name":[4],"type":["chr"],"align":["left"]},{"label":["species"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"876","2":"Lurz, Krachun,","3":"Chimpanzees gesture to humans in mi","4":"2018","5":"chimpanzee"},{"1":"877","2":"Lurz, Krachun,","3":"Chimpanzees gesture to humans in mi","4":"2018","5":"chimpanzee"},{"1":"477","2":"Wobber, Herrman","3":"Differences in the early cognitive","4":"2014","5":"chimpanzee"},{"1":"478","2":"Wobber, Herrman","3":"Differences in the early cognitive","4":"2014","5":"bonobo"},{"1":"481","2":"Wobber, Herrman","3":"Differences in the early cognitive","4":"2014","5":"chimpanzee"},{"1":"482","2":"Wobber, Herrman","3":"Differences in the early cognitive","4":"2014","5":"bonobo"},{"1":"868","2":"Schubiger, Kiss","3":"How task format affects cognitive p","4":"2016","5":"common marmoset"},{"1":"869","2":"Schubiger, Kiss","3":"How task format affects cognitive p","4":"2016","5":"common marmoset"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFdvYmJlciBldCBhbCAyMDE0IG9rXG4jIFNjaHViaWdlciBldCBhbCAyMDE2IG9rXG5gYGAifQ== -->
+<pre class="r"><code>
+# Wobber et al 2014 ok
+# Schubiger et al 2016 ok</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzY2FuIGZvciBkdXBsaWNhdGUgZW50cmllcyB0aGF0IGRpZmZlciBpbiBjYXNlIChlZyBTZW50ZW5jZSB2cy4gVGl0bGUgY2FzZSkgb3Igd2l0aCB0eXBvc1xuIyBzaG93IG9ubHkgZmlyc3QgMjUgY2hhcmFjdGVycyAtLT4gY2hlY2sgb3V0IHBvdGVudGlhbCBkdXBsaWNhdGVzIGluIG5leHQgY2h1bmsgYmVsb3dcbnNvcnQodW5pcXVlKHN0dWRpZXMkdGl0bGUpKSAlPiUgc3RyX3N1YigxLCAyNSlcbmBgYCJ9 -->
+<pre class="r"><code># scan for duplicate entries that differ in case (eg Sentence vs. Title case) or with typos
+# show only first 25 characters --&gt; check out potential duplicates in next chunk below
+sort(unique(studies$title)) %&gt;% str_sub(1, 25)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBbMV0gXCIoSXIpcmF0aW9uYWwgY2hvaWNlcyBvZiBoXCIgXCJgVW53aWxsaW5nJyB2ZXJzdXMgYHVuYWJsXCIgXCJBIGNvbXBldGl0aXZlIGRyaXZlPyBTYW1lXCJcbiAgWzRdIFwiQSBMb25naXR1ZGluYWwgQXNzZXNzbWVudFwiIFwiQSBtZXRhY29nbml0aXZlIGlsbHVzaW9uIFwiIFwiQSBuZXVyb2FuYXRvbWljYWwgcHJlZGljdFwiXG4gIFs3XSBcIkEgcmV2ZXJzZWQtcmV3YXJkIGNvbnRpbmdcIiBcIkEgdGVzdCBvZiB0aGUgc3VibWVudGFsaXpcIiBcIkFic3RyYWN0IEtub3dsZWRnZSBpbiB0aGVcIlxuIFsxMF0gXCJBYnN0cmFjdGlvbiBwcm9tb3RlcyBjcmVhXCIgXCJBY3Rpb24gQ2F0ZWdvcml6YXRpb24gaW4gXCIgXCJBY3Rpb24tTWF0Y2hpbmcgQmlhc2VzIGluXCJcbiBbMTNdIFwiQWN1dGUgb3h5dG9jaW4gaW1wcm92ZXMgbVwiIFwiQWRhcHRhYmlsaXR5IHRvIGNoYW5nZXMgaVwiIFwiQWZmZWN0aXZlIGZvcmVjYXN0aW5nIGluIFwiXG4gWzE2XSBcIkFnZS1kZXBlbmRlbnQgY2hhbmdlIGluIGFcIiBcIkFnZS1SZWxhdGVkIE1vdG9yIER5c2Z1bmNcIiBcIkFsbCBHcmVhdCBBcGUgU3BlY2llcyAoR29cIlxuIFsxOV0gXCJBbiBpbnRlbnRpb25hbCB2b2NhbGl6YXRpXCIgXCJBcGUgZHVvcyBhbmQgdHJpb3M6IHNwb250XCIgXCJBcGVzIGFyZSBpbnR1aXRpdmUgc3RhdGlzXCJcbiBbMjJdIFwiQXBlcyBjb21tdW5pY2F0ZSBhYm91dCBhYlwiIFwiQXBlcyBQcm9kdWNlIFRvb2xzIGZvciBGdVwiIFwiQXJlIGFwZXMgZXNzZW50aWFsaXN0cz8gU1wiXG4gWzI1XSBcIkFyZSBnZW5lcmFsaXN0cyBtb3JlIGlubm9cIiBcIkFyZSBncmVhdCBhcGVzIGFibGUgdG8gcmVcIiBcIkFyZSBtb25rZXlzIGludHVpdGl2ZSBBcmlcIlxuIFsyOF0gXCJBcmVhbCBkaWZmZXJlbmNlcyBpbiBkZXB0XCIgXCJBcnRpZmljaWFsIEdyYW1tYXIgTGVhcm5pXCIgXCJBcnRpZmljaWFsIFZpc3VhbCBTdGltdWxpXCJcbiBbMzFdIFwiQXNzZXNzbWVudCBvZiBtZXRhY29nbml0aVwiIFwiQXN5bW1ldHJpZXMgaW4gdGhlIHByb2R1Y1wiIFwiQXVkaWVuY2UgYWZmZWN0cyBkZWNpc2lvblwiXG4gWzM0XSBcIkF1ZGlvdmlzdWFsIGludGVncmF0aW9uIGZcIiBcIkJhYm9vbnMgKFBhcGlvIHBhcGlvKSwgYnVcIiBcIkJhYm9vbnMnIFJlc3BvbnNlIFNwZWVkIElcIlxuIFszN10gXCJCYXJnYWluaW5nIGluIGNoaW1wYW56ZWVzXCIgXCJCZWhhdmlvcmFsIENvbnNlcnZhdGlzbSBpXCIgXCJCZWhhdmlvcmFsIGV2aWRlbmNlIGZvciB0XCJcbiBbNDBdIFwiQmVoYXZpb3JhbCBSZXNwb25zZXMgdG8gU1wiIFwiQmlhc2VzIGluIHByZWZlcmVuY2VzIGZvclwiIFwiQm9keSBpbnZlcnNpb24gZWZmZWN0IGluIFwiXG4gWzQzXSBcIkJvbm9ib3MgYW5kIGNoaW1wYW56ZWVzIGVcIiBcIkJvbm9ib3MgYW5kIG9yYW5ndXRhbnMsIGJcIiBcIkJvbm9ib3MgbW9kaWZ5IGNvbW11bmljYXRcIlxuIFs0Nl0gXCJCb25vYm9zIHByZWZlciBpbmRpdmlkdWFsXCIgXCJCb25vYm9zIHJlc3BvbmQgcHJvc29jaWFsXCIgXCJCb25vYm9zIHZvbHVudGFyaWx5IGhhbmQgXCJcbiBbNDldIFwiQnJvd24gQ2FwdWNoaW4gTW9ua2V5cyAoU1wiIFwiQ2FsY3VsYXRlZCByZWNpcHJvY2l0eT8gQVwiIFwiQ2FsbCBwbGF5YmFjayBhcnRpZmljaWFsbFwiXG4gWzUyXSBcIkNhbiBvcmFuZ3V0YW5zIChQb25nbyBhYmVcIiBcIkNhcHRpdmUgY2hpbXBhbnplZSBmb3JhZ2lcIiBcIkNhcHRpdmUgZ2liYm9ucyAoSHlsb2JhdGlcIlxuIFs1NV0gXCJDYXB1Y2hpbiBhbmQgcmhlc3VzIG1vbmtlXCIgXCJDYXB1Y2hpbiBtb25rZXlzIChDZWJ1cyBbXCIgXCJDYXB1Y2hpbiBNb25rZXlzIChDZWJ1cyBhXCJcbiBbNThdIFwiQ2FwdWNoaW4gbW9ua2V5cyAoU2FwYWp1c1wiIFwiQ2FwdWNoaW4gTW9ua2V5cyBBbHRlcm5hdFwiIFwiQ2FwdWNoaW4gbW9ua2V5cywgQ2VidXMgYVwiXG4gWzYxXSBcIkNhcHVjaGluIG1vbmtleXPigJkgdXNlIG9mIFwiIFwiQ2FwdWNoaW5zIChDZWJ1cyBhcGVsbGEpIFwiIFwiQ2FwdWNoaW5zIChDZWJ1cyBhcGVsbGEpIFwiXG4gWzY0XSBcIkNhcHVjaGlucyByZWNvZ25pemUgZmFtaWxcIiBcIkNhcHVjaGlucywgc3BhY2UsIHRpbWUgYW5cIiBcIkNhcHVjaGluc+KAmSAoQ2VidXMgYXBlbGxhKVwiXG4gWzY3XSBcIkNhc2hpbmcgT3V0OiBUaGUgRGVjaXNpb25cIiBcIkNhdGVnb3JpemF0aW9uIGRvZXMgbm90IHBcIiBcIkNhdXNhbCBjYXB0dXJlIGVmZmVjdHMgaW5cIlxuIFs3MF0gXCJDaGFuZ2UgaW4gdGhlIHJlbGF0aXZlIGNvXCIgXCJDaGVja2luZyBiZWhhdmlvciBpbiByaGVzXCIgXCJDaGlsZHJlbiwgYnV0IG5vdCBjaGltcGFuXCJcbiBbNzNdIFwiQ2hpbGRyZW4sIGNoaW1wYW56ZWVzLCBhblwiIFwiQ2hpbGRyZW7igJlzIGFuZCBBcGVz4oCZIFByZXBcIiBcIkNoaW1wYW56ZWUgQ29vcGVyYXRpb24gSXNcIlxuIFs3Nl0gXCJDaGltcGFuemVlIGV4dHJhY3RpdmUgZm9yXCIgXCJDaGltcGFuemVlIEludGVsbGlnZW5jZSBJXCIgXCJDaGltcGFuemVlcyAoUGFuIHRyb2dsb2R5XCJcbiBbNzldIFwiQ2hpbXBhbnplZXMgKFBhbiB0cm9nbG9keVwiIFwiQ2hpbXBhbnplZXMgKFBhbiB0cm9nbG9keVwiIFwiQ2hpbXBhbnplZXMgKFBhbiB0cm9nbG9keVwiXG4gWzgyXSBcIkNoaW1wYW56ZWVzIChQYW4gdHJvZ2xvZHlcIiBcIkNoaW1wYW56ZWVzIChQYW4gdHJvZ2xvZHlcIiBcIkNoaW1wYW56ZWVzIGFuZCBjaGlsZHJlbiBcIlxuIFs4NV0gXCJDaGltcGFuemVlcyBhbmQgSHVtYW5zIE1pXCIgXCJDaGltcGFuemVlcyBDYW4gUG9pbnQgdG8gXCIgXCJDaGltcGFuemVlcyBjYW4gdmlzdWFsbHkgXCJcbiBbODhdIFwiQ2hpbXBhbnplZXMgQ29uc2lkZXIgSHVtYVwiIFwiQ2hpbXBhbnplZXMgY29vcmRpbmF0ZSBpblwiIFwiQ2hpbXBhbnplZXMgQ3JlYXRlIGFuZCBNb1wiXG4gWzkxXSBcIkNoaW1wYW56ZWVzIGVtcGF0aGl6ZSB3aXRcIiBcIkNoaW1wYW56ZWVzIGZsZXhpYmx5IHVwZGFcIiBcIkNoaW1wYW56ZWVzIEZvcm0gTG9uZ+KAkFRlclwiXG4gWzk0XSBcIkNoaW1wYW56ZWVzIGdlc3R1cmUgdG8gaHVcIiBcIkNoaW1wYW56ZWVzIG1vbm9wb2xpemUgYW5cIiBcIkNoaW1wYW56ZWVzIG92ZXJjb21lIHRoZSBcIlxuIFs5N10gXCJDaGltcGFuemVlcyBQcmVmZXIgQWZyaWNhXCIgXCJDaGltcGFuemVlcyBwcmlvcml0aXNlIHNvXCIgXCJDaGltcGFuemVlcyBwcm9jZXNzIHN0cnVjXCJcblsxMDBdIFwiQ2hpbXBhbnplZXMgUmFyZWx5IFNldHRsZVwiIFwiQ2hpbXBhbnplZXMgc2hvdyBzb21lIGV2aVwiIFwiQ2hpbXBhbnplZXMgc3BvbnRhbmVvdXNseVwiXG5bMTAzXSBcIkNoaW1wYW56ZWVzIHN0cmF0ZWdpY2FsbHlcIiBcIkNoaW1wYW56ZWVzIHRydXN0IGNvbnNwZWNcIiBcIkNoaW1wYW56ZWVzIFRydXN0IFRoZWlyIEZcIlxuWzEwNl0gXCJDaGltcGFuemVlcywgYm9ub2JvcyBhbmQgXCIgXCJDaGltcGFuemVlcycgdW5kZXJzdGFuZGluXCIgXCJDb2duaXRpdmUgY2FwYWNpdGllcyBmb3IgXCJcblsxMDldIFwiQ29nbml0aXZlIGRpZmZlcmVuY2VzIGJldFwiIFwiQ29sb3VyIGFuZCBjb250cmFzdCBvZiBmZVwiIFwiQ29tbW9uIG1hcm1vc2V0cyBzaG93IHNvY1wiXG5bMTEyXSBcIkNvbW1vbiBWaXN1YWwgUHJlZmVyZW5jZSBcIiBcIkNvbW11bmljYXRpb24gYWJvdXQgYWJzZW5cIiBcIkNvbXBhcmluZyBjaGltcGFuemVlc+KAmSBwclwiXG5bMTE1XSBcIkNvbXBhcmluZyBwaHlzaWNhbCBhbmQgc29cIiBcIkNvbXBhcmluZyBzcGVjaWVzIGRlY2lzaW9cIiBcIkNvbXBhcmlzb24gb2YgZGlzY3JldGUgcmFcIlxuWzExOF0gXCJDb21wZXRlIHRvIFBsYXk6IFRyYWRlLU9mXCIgXCJDb21wZXRpdGlvbiBpcyBjcnVjaWFsIGZvXCIgXCJDb21wZXRpdGl2ZSBjb250cm9sIG9mIGNvXCJcblsxMjFdIFwiQ29tcHJlaGVuc2lvbiBvZiBpY29uaWMgZ1wiIFwiQ29uc2VydmF0aXNtIGFuZCDigJxjb3B5LWlmXCIgXCJDb25zZXJ2ZWQgZXZvbHV0aW9uYXJ5IGhpXCJcblsxMjRdIFwiQ29uc2lzdGVudCBpbnRlcuKAkGluZGl2aWR1XCIgXCJDb250ZXh0dWFsIENvbmdydWVuY3kgRWZmXCIgXCJDb250cmFzdGluZyBSZXNwb25zZXMgdG8gXCJcblsxMjddIFwiQ29udHJvbCBvZiBXb3JraW5nIE1lbW9yeVwiIFwiQ29vcGVyYXRpb24gaW4gd2lsZCBCYXJiYVwiIFwiQ29vcmRpbmF0aW9uIHN0cmF0ZWdpZXMgb1wiXG5bMTMwXSBcIkNvcmVwcmVzZW50YXRpb24gRHVyaW5nIEpcIiBcIkNyb3NzLXNwZWNpZXMgdmFyaWF0aW9uIGlcIiBcIkNydWNpYWwgaW5mb3JtYXRpb24gZm9yIGVcIlxuWzEzM10gXCJDdXJpb3VzIGNyZWF0dXJlczogYSBtdWx0XCIgXCJEZWFsaW5nIFdpdGggSW50ZXJmZXJlbmNlXCIgXCJEZWNpc2lvbuKAkG1ha2luZyB1bmRlciByaXNcIlxuWzEzNl0gXCJEZWZpbmluZyByZXdhcmQgdmFsdWUgYnkgXCIgXCJEZWxheSBvZiBHcmF0aWZpY2F0aW9uIGJ5XCIgXCJEZWxheSBvZiBncmF0aWZpY2F0aW9uIGlzXCJcblsxMzldIFwiRGVsYXllZCByZXNwb25zZSB0YXNrIHBlclwiIFwiRGV2ZWxvcG1lbnQgb2YgYSBjb2duaXRpdlwiIFwiRGV2ZWxvcG1lbnQgb2YgYSBjb2duaXRpdlwiXG5bMTQyXSBcIkRldmVsb3BtZW50IG9mIGEgUGFydG5lciBcIiBcIkRldmVsb3BtZW50IG9mIHNuYWtlLWRpcmVcIiBcIkRldmVsb3BtZW50IG9mIHNwYWNlIHBlcmNcIlxuWzE0NV0gXCJEaWZmZXJlbmNlcyBpbiBCZXR3ZWVuLVJlXCIgXCJEaWZmZXJlbmNlcyBpbiBub3ZlbCBmb29kXCIgXCJEaWZmZXJlbmNlcyBpbiB0aGUgZWFybHkgXCJcblsxNDhdIFwiRGlmZmVyZW50aWFsIHJlbGlhbmNlIG9mIFwiIFwiRGlmZmVyZW50aWFsIFJlc3BvbmRpbmcgYlwiIFwiRGlmZmVyaW5nIHZpZXdzOiBDYW4gY2hpbVwiXG5bMTUxXSBcIkRpc2NyaW1pbmF0aW9uIG9mIEVtb3Rpb25cIiBcIkRpc2VudGFuZ2xpbmcgZ3JlYXQgYXBlcydcIiBcIkRpc3NvY2lhdGlvbiBvZiBpdGVtIGFuZCBcIlxuWzE1NF0gXCJEaXNzb2NpYXRpb24gb2YgbWVtb3J5IHNpXCIgXCJEaXNzb2NpYXRpb24gb2YgdmlzdWFsIGxvXCIgXCJEaXN0cmFjdG9yIEVmZmVjdCBvZiBBdWRpXCJcblsxNTddIFwiRGl2aXNpb24gb2YgTGFib3IgaW4gSGFuZFwiIFwiRG8gQ2FwdWNoaW4gTW9ua2V5cyAoQ2VidVwiIFwiRG8gQ2FwdWNoaW4gTW9ua2V5cyAoU2FwYVwiXG5bMTYwXSBcIkRvIENhcHVjaGluIE1vbmtleXMgKFNhcGFcIiBcIkRvIENhcHVjaGlucyAoU2FwYWp1cyBhcGVcIiBcIkRvIGNoaW1wYW56ZWVzIGFudGljaXBhdGVcIlxuWzE2M10gXCJEbyBtb25rZXlzIGNvbXBhcmUgdGhlbXNlXCIgXCJEbyBub24taHVtYW4gcHJpbWF0ZXMgcmVhXCIgXCJEbyBub25odW1hbiBwcmltYXRlcyBhc2NyXCJcblsxNjZdIFwiRG8gUHJpbWF0ZXMgU2VlIHRoZSBTb2xpdFwiIFwiRG8gcmhlc3VzIG1hY2FxdWVzLCBNYWNhY1wiIFwiRG8gcmhlc3VzIG1vbmtleXMgKE1hY2FjYVwiXG5bMTY5XSBcIkRvIFRvbmtlYW4gbWFjYXF1ZXMgKE1hY2FcIiBcIkRvIFRvbmtlYW4gbWFjYXF1ZXMgKE1hY2FcIiBcIkRvIHR1ZnRlZCBjYXB1Y2hpbiBtb25rZXlcIlxuWzE3Ml0gXCJEbyBZb3UgU2VlIFdoYXQgSSBTZWU/IEEgXCIgXCJEb2VzIGVmZm9ydCBpbmZsdWVuY2UgaW5lXCIgXCJEb2VzIG9wcG9ydHVuaXN0aWMgdGVzdGluXCJcblsxNzVdIFwiRG9lcyBvd24gZXhwZXJpZW5jZSBhZmZlY1wiIFwiRG9lcyBQcmVzZW50YXRpb24gRm9ybWF0IFwiIFwiRG9lcyBTeW1wYXRoeSBNb3RpdmF0ZSBQclwiXG5bMTc4XSBcIkRvdWJsZSBpbnZpc2libGUgZGlzcGxhY2VcIiBcIkVhcmx5IFByZWRpY3RvcnMgb2YgSW1wYWlcIiBcIkVhcmx5IHNvY2lhbCBleHBlcmllbmNlIGFcIlxuWzE4MV0gXCJFYXN5IFJpZGVyOiBNb25rZXlzIExlYXJuXCIgXCJFRUcgYmV0YSBkZXN5bmNocm9uaXphdGlvXCIgXCJFZmZlY3Qgb2YgcmV3YXJkIHR5cGUgb24gXCJcblsxODRdIFwiRWZmZWN0cyBvZiBkaWZmZXJlbnQgdHJhaVwiIFwiRWZmZWN0cyBvZiBmcmVlbHkgYWNjZXNzaVwiIFwiRWZmZWN0cyBvZiBTcGF0aWFsIFRyYWluaVwiXG5bMTg3XSBcIkVmZmVjdHMgb2YgdGlsdGVkIG9yaWVudGFcIiBcIkVmZmVjdHMgb2YgdHJhaW5pbmcgY29uZGlcIiBcIkVmZmljYWN5IG9mIFNlbGVjdGl2ZSBQREVcIlxuWzE5MF0gXCJFZmZpY2llbnQgc2VhcmNoIGZvciBhIGZhXCIgXCJFbW90aW9uIFByb2Nlc3NpbmcgQWNyb3NzXCIgXCJFbW90aW9uLUNvZ25pdGlvbiBJbnRlcmFjXCJcblsxOTNdIFwiRW1vdGlvbmFsIGVuZ2FnZW1lbnRzIHByZVwiIFwiRW5jb2Rpbmcgb2YgU3RpbXVsdXMgUHJvYlwiIFwiRW5kdXJpbmcgdm9pY2UgcmVjb2duaXRpb1wiXG5bMTk2XSBcIkV2YWx1YXRpbmcgbW9vZCBjaGFuZ2VzIGlcIiBcIkV2YWx1YXRpb24gb2YgdGhpcmQtcGFydHlcIiBcIkV2aWRlbmNlIFRoYXQgTW9ua2V5cyAoTWFcIlxuWzE5OV0gXCJFdm9sdXRpb25hcnkgb3JpZ2lucyBvZiBtXCIgXCJFdm9sdXRpb25hcnkgcmVsZXZhbmNlIGFuXCIgXCJFeHBlcmllbmNlLWluZGVwZW5kZW50IHNlXCJcblsyMDJdIFwiRXhwZXJpZW5jZeKAkGRlcGVuZGVudCBjaGFuXCIgXCJFeHBlcmltZW50YWwgZXZpZGVuY2UgZm9yXCIgXCJFeHBsb3JhdGlvbiBhbmQgbGVhcm5pbmcgXCJcblsyMDVdIFwiRXhwbG9yYXRpb24gQmVoYXZpb3IgYW5kIFwiIFwiRXhwbG9yaW5nIGF0dGVudGlvbmFsIGJpYVwiIFwiRXhwbG9yaW5nIERlY295IEVmZmVjdHMgb1wiXG5bMjA4XSBcIkV4cGxvcmluZyBXaGV0aGVyIE5vbmh1bWFcIiBcIkZhY2UgZGV0ZWN0aW9uIGFuZCB0aGUgZGVcIiBcIkZhY2UgZGlzY3JpbWluYXRpb25zIGJ5IG9cIlxuWzIxMV0gXCJGYWNlIFBhcmVpZG9saWEgaW4gdGhlIFJoXCIgXCJGYWNpYWwgZXhwcmVzc2lvbiByZWNvZ25pXCIgXCJGYWN0b3JzIGluZmx1ZW5jaW5nIHRoZSBkXCJcblsyMTRdIFwiRmFlY2FsIGF2b2lkYW5jZSBkaWZmZXJzIFwiIFwiRmFtaWxpYXIgYW5kIHVuZmFtaWxpYXIgZlwiIFwiRmVhciByZWFjdGlvbnMgdG8gc25ha2VzIFwiXG5bMjE3XSBcIkZlbWFsZSByaGVzdXMgbWFjYXF1ZXMgZGlcIiBcIkZlbWFsZSB2ZXJ2ZXQgbW9ua2V5cyBmaW5cIiBcIkZpZWxkIGV4cGVyaW1lbnRzIHdpdGggd2lcIlxuWzIyMF0gXCJGaXJzdCBDb21wYXJhdGl2ZSBBcHByb2FjXCIgXCJGbGV4aWJsZSBnYXplLWZvbGxvd2luZyBpXCIgXCJGb2N1c2luZyBhbmQgU2hpZnRpbmcgQXR0XCJcblsyMjNdIFwiRm9vZCBjbGVhbmluZyBpbiBnb3JpbGxhc1wiIFwiRm9vZCBOZW9waG9iaWEgYW5kIFNvY2lhbFwiIFwiRm9vZC1PZmZlcmluZyBDYWxscyBpbiBXaVwiXG5bMjI2XSBcIkZvcmFnaW5nIHZlcnZldCBtb25rZXlzIG9cIiBcIkZyb20gY29sb3VyIHBob3RvZ3JhcGhzIHRcIiBcIkZyb20gZXhwbG9pdGF0aW9uIHRvIGNvb3BcIlxuWzIyOV0gXCJGdW5jdGlvbmFsaXR5IGluIFRvb2wgVXNlXCIgXCJHYW1ibGluZyBwcmltYXRlczogcmVhY3RpXCIgXCJHYXplIGZvbGxvd2luZyBpbiBiYWJvb25zXCJcblsyMzJdIFwiR2VuZXJhbGl6YXRpb24gb2YgQ2F0ZWdvclwiIFwiR2VuZXMsIHNvY2lhbCB0cmFuc21pc3Npb1wiIFwiR2VzdGFsdCBQcmluY2lwbGUgVXNlIGluIFwiXG5bMjM1XSBcIkdldHRpbmcgdG8gdGhlIEJvdHRvbSBvZiBcIiBcIkdpdmUgV2hhdCBZb3UgR2V0OiBDYXB1Y2hcIiBcIkdsb2JhbC9sb2NhbCBwcm9jZXNzaW5nIG9cIlxuWzIzOF0gXCJHbyB3aGVuIHlvdSBrbm93OiBDaGltcGFuXCIgXCJHb2FsIGF0dHJpYnV0aW9uIHRvIGluYW5pXCIgXCJHb3JpbGxhcyAoR29yaWxsYSBnb3JpbGxhXCJcblsyNDFdIFwiR3JlYXQgYXBlcyAoUGFuIHBhbmlzY3VzLFwiIFwiR3JlYXQgYXBlcyBhbmQgY2hpbGRyZW4gaVwiIFwiR3JlYXQgYXBlcyBhbnRpY2lwYXRlIHRoYVwiXG5bMjQ0XSBcIkdyZWF0IGFwZXMgYXJlIHNlbnNpdGl2ZSBcIiBcIkdyZWF0IGFwZXMgZGlzdGluZ3Vpc2ggdHJcIiBcIkdyZWF0IEFwZXMgR2VuZXJhdGUgR29hbC1cIlxuWzI0N10gXCJHcmVhdCBBcGVzIE1ha2UgQW50aWNpcGF0XCIgXCJHcmVhdCBhcGVzIHVzZSBzZWxmLSBleHBlXCIgXCJHcm9vbWluZywgc29jaWFsIHJhbmsgYW5kXCJcblsyNTBdIFwiR3JvdXAgYW5kIGtpbiByZWNvZ25pdGlvblwiIFwiSGFuZGxpbmcgbmV3Ym9ybiBtb25rZXlzIFwiIFwiSGFyZGx5IGhhYml0dWFsOiBjaGltcGFuelwiXG5bMjUzXSBcIkhpZ2ggYnV0IG5vdCBsb3cgdG9sZXJhbmNcIiBcIkhpZ2ggZW1vdGlvbmFsIHJlYWN0aXZpdHlcIiBcIkhpZ2gtZmlkZWxpdHkgY29weWluZyBpcyBcIlxuWzI1Nl0gXCJIb3cgQWdpbmcgQWZmZWN0cyBHcmFzcGluXCIgXCJIb3cgY2hpbXBhbnplZXMgKFBhbiB0cm9nXCIgXCJIb3cgdGFzayBmb3JtYXQgYWZmZWN0cyBjXCJcblsyNTldIFwiSHVtYW4gYW5kIG1vbmtleSByZXNwb25zZVwiIFwiSHVtYW4gY2hpbGRyZW4gYnV0IG5vdCBjaFwiIFwiSHVtYW4gY2hpbGRyZW4gcmVseSBtb3JlIFwiXG5bMjYyXSBcIkh1bWFuIG9zdGVuc2l2ZSBzaWduYWxzIGRcIiBcIkh1bWFuIHNwZWVjaCByZWR1Y2VzIHB5Z21cIiBcIkh1bWFuLWludHJvZHVjZWQgbG9uZy10ZXJcIlxuWzI2NV0gXCJIdW1hbnMgYW5kIG1vbmtleXMgZGlzdGluXCIgXCJIdW1hbnMgYnV0IE5vdCBDaGltcGFuemVlXCIgXCJJIFNjYW4sIFRoZXJlZm9yZSBJIERlY2xpXCJcblsyNjhdIFwiSW1pdGF0aW9uIHByb21vdGVzIGFmZmlsaVwiIFwiSW1wYWN0cyBvZiBlYXJseSBzb2NpYWwgZVwiIFwiSW1wbGljaXQgTWVtb3J5IGluIE1vbmtleVwiXG5bMjcxXSBcIkluZGl2aWR1YWwgYWNxdWlzaXRpb24gb2ZcIiBcIkluZGl2aWR1YWwgaWRlbnRpdHkgYW5kIGFcIiBcIkluZGl2aWR1YWwgcmVjb2duaXRpb24gdGhcIlxuWzI3NF0gXCJJbmZhbnQgdGl0aSBtb25rZXkgYmVoYXZpXCIgXCJJbmZlcmVuY2UgYnkgRXhjbHVzaW9uIGluXCIgXCJJbmZlcmVuY2UgaW4gYSBTb2NpYWwgQ29uXCJcblsyNzddIFwiSW5mZXJlbmNlcyBhYm91dCBmb29kIGxvY1wiIFwiSW5mbHVlbmNlIG9mIHBlcnNvbmFsaXR5LFwiIFwiSW5mbHVlbmNlcyBvZiBkZW1vZ3JhcGhpY1wiXG5bMjgwXSBcIkluZm9ybWF0aW9uIHNlZWtpbmcgYWJvdXRcIiBcIkluZm9ybWF0aW9uIHNlZWtpbmcgaW4gY2FcIiBcIkluaGFsZWQgb3h5dG9jaW4gaW5jcmVhc2VcIlxuWzI4M10gXCJJbmhpYml0b3J5IGNvbnRyb2wgaW4gZG91XCIgXCJJbm5vdmF0aW9uIGFuZCBiZWhhdmlvcmFsXCIgXCJJbm5vdmF0aXZlIHByb2JsZW0gc29sdmluXCJcblsyODZdIFwiSW5zaWdodGZ1bCBwcm9ibGVtIHNvbHZpblwiIFwiSW5zdHJ1bWVudGFsIFByb2JsZW0tU29sdlwiIFwiSW50ZW50aW9uYWwgY29tbXVuaWNhdGlvblwiXG5bMjg5XSBcIkludGVudGlvbmFsIGdlc3R1cmFsIGNvbW1cIiBcIkludGVyYWN0aW9uIG9mIG11c2ljIGFuZCBcIiBcIkludGVyYWN0aW9uYWwgc3luY2hyb255IGlcIlxuWzI5Ml0gXCJJbnRlcmJyYWluIGNvcnRpY2FsIHN5bmNoXCIgXCJJbnRlcmluZGl2aWR1YWwgZGlmZmVyZW5jXCIgXCJJbnRlcm1pdHRlbnQgU3RpbXVsYXRpb24gXCJcblsyOTVdIFwiSW50dWl0aXZlIG9wdGljczogd2hhdCBnclwiIFwiSW50dWl0aXZlIHByb2JhYmlsaXN0aWMgaVwiIFwiSW50dWl0aXZlIHN0YXRpc3RpY2FsIGluZlwiXG5bMjk4XSBcIkludmVzdGlnYXRpbmcgaW5kaXZpZHVhbCBcIiBcIkludmVzdGlnYXRpbmcgdGhlIERlcGxldGlcIiBcIklycmF0aW9uYWwgY2hvaWNlIGJlaGF2aW9cIlxuWzMwMV0gXCJJcyBtdXNpYyBlbnJpY2hpbmcgZm9yIGdyXCIgXCJKYXBhbmVzZSBNb25rZXlzIChNYWNhY2EgXCIgXCJKYXBhbmVzZSBNb25rZXlzIChNYWNhY2EgXCJcblszMDRdIFwiSnVtcGluZyBTdGFuZCBBcHBhcmF0dXMgUlwiIFwiS25vd2xlZGdlYWJsZSBMZW11cnMgQmVjb1wiIFwiTGFib3JhdG9yeSBTaW11bGF0aW9ucyBvZlwiXG5bMzA3XSBcIkxhY2sgb2YgY29uZm9ybWl0eSB0byBuZXdcIiBcIkxhY2sgb2YgZXZpZGVuY2UgdGhhdCBUb25cIiBcIkxhY2sgb2YgcHJvc29jaWFsaXR5IGluIGdcIlxuWzMxMF0gXCJMYXRlcmFsIGludHJhcGFyaWV0YWwgYXJlXCIgXCJMZWFybmluZyB0aGUgcnVsZXMgb2YgdGhlXCIgXCJMZW11cnMgYW5kIG1hY2FxdWVzIHNob3cgXCJcblszMTNdIFwiTGltaXRlZCBFdmlkZW5jZSBvZiBOdW1iZVwiIFwiTGltaXRzIG9mIFNwYXRpYWwgVmlzaW9uIFwiIFwiTGluZWFyIG51bWVyb3NpdHkgaWxsdXNpb1wiXG5bMzE2XSBcIkxpbmtpbmcgY29nbml0aW9uIHdpdGggZmlcIiBcIkxvbmctdGFpbGVkIG1hY2FxdWVzIChNYWNcIiBcIkxvbmctdGFpbGVkIG1hY2FxdWVzIChNYWNcIlxuWzMxOV0gXCJMb25nLXRhaWxlZCBtYWNhcXVlcyBleHRyXCIgXCJMb25nLVRlcm0gU3BhdGlhbCBNZW1vcnkgXCIgXCJMb29raW5nIEFoZWFkPyBDb21wdXRlcml6XCJcblszMjJdIFwiTG93bGFuZCBHb3JpbGxhcyAoR29yaWxsYVwiIFwiTWFjYXF1ZSBhbnRlcmlvciBjaW5ndWxhdFwiIFwiTWFjYXF1ZXMgYXR0ZW5kIHRvIHNjcmF0Y1wiXG5bMzI1XSBcIk1hY2FxdWVzIGNhbiBwcmVkaWN0IHNvY2lcIiBcIk1hY2FxdWVzIHByZWZlcmVudGlhbGx5IGFcIiBcIk1hbGUgcmVzb3VyY2UgZGVmZW5jZSBkdXJcIlxuWzMyOF0gXCJNYWxlIHJlc291cmNlIGRlZmVuc2UgbWF0XCIgXCJNYW5pcHVsYXRpbmcgc29jaWFsIGN1ZXMgXCIgXCJNYXJtb3NldCBtb25rZXlzIGV2YWx1YXRlXCJcblszMzFdIFwiTWVhbmluZyBhdHRyaWJ1dGlvbiBpbiB0aFwiIFwiTWVjaGFuaXNtcyBVbmRlcmx5aW5nIENvZ1wiIFwiTWVtb3J5LCB0cmFuc21pc3Npb24gYW5kIFwiXG5bMzM0XSBcIk1ldGFjb2duaXRpdmUtbGlrZSBpbmZvcm1cIiBcIk1pcnJvciBzZWxmLXJlY29nbml0aW9uIGFcIiBcIk1pcnJvci1JbmR1Y2VkIFNlbGYtRGlyZWNcIlxuWzMzN10gXCJNbmVtb25pYyBJbnRyb3NwZWN0aW9uIGluXCIgXCJNb2RlbC1PYnNlcnZlciBTaW1pbGFyaXR5XCIgXCJNb25rZXkgVmlzdWFsIFNob3J0LVRlcm0gXCJcblszNDBdIFwiTW9ua2V5cyAoU2FwYWp1cyBhcGVsbGEgYVwiIFwiTW9ua2V5cyBhcmUgY3VyaW91cyBhYm91dFwiIFwiTW9ua2V5cyBBcmUgTW9yZSBQYXRpZW50IFwiXG5bMzQzXSBcIk1vbmtleXMgQ2hvb3NlLCBidXQgZG8gbm9cIiBcIk1vbmtleXMgZGlzcGxheSBjbGFzc2ljIHNcIiBcIk1vbmtleXMgaGVhZC1nYXplIGZvbGxvd2lcIlxuWzM0Nl0gXCJNb25rZXlzIFNwb250YW5lb3VzbHkgRGlzXCIgXCJNb25rZXlzIFdhaXQgdG8gQmVnaW4gYSBDXCIgXCJNb3JwaG9sb2dpY2FsbHkgc3RydWN0dXJlXCJcblszNDldIFwiTW90aGVyIHJlY29nbml0aW9uIGFuZCBwclwiIFwiTW90aXZhdGlvbmFsIFNoaWZ0cyBpbiBBZ1wiIFwiTW92aW5nIGV2aWRlbmNlIGludG8gcHJhY1wiXG5bMzUyXSBcIk11bHRp4oCQU3RlcCBSb3V0ZXMgb2YgQ2FwdVwiIFwiTmF0dXJhbCByZWZlcmVuY2U6IEEgcGh5bFwiIFwiTmF2aWdhdGlvbiBzdHJhdGVnaWVzIGluIFwiXG5bMzU1XSBcIk5lb25hdGFsIGV4cG9zdXJlIHRvIHNldm9cIiBcIk5lb25hdGFsIGZhY2UtdG8tZmFjZSBpbnRcIiBcIk5lb25hdGFsIGltaXRhdGlvbiBhbmQgZWFcIlxuWzM1OF0gXCJOZW9uYXRhbCBpbWl0YXRpb24gcHJlZGljXCIgXCJOZW9uYXRhbCBpbWl0YXRpb24gcHJlZGljXCIgXCJOZXVyYWwgYWN0aXZpdHkgaW4gbWFjYXF1XCJcblszNjFdIFwiTmV1cm9uYWwgRW5jb2Rpbmcgb2YgU2VsZlwiIFwiTm8gQ29zdGx5IFByb3NvY2lhbGl0eSBBbVwiIFwiTm8gZXZpZGVuY2UgZm9yIGNvbnRhZ2lvdVwiXG5bMzY0XSBcIk5vbi1hZGphY2VudCB2aXN1YWwgZGVwZW5cIiBcIk5vbi1nb2FsLWRpcmVjdGVkIHJlY2FsbCBcIiBcIk5vbi1pbnZhc2l2ZSBFeWUgVHJhY2tpbmdcIlxuWzM2N10gXCJOb25odW1hbiBwcmltYXRlIHdlbGZhcmU6XCIgXCJOb252ZXJiYWwgV29ya2luZyBNZW1vcnkgXCIgXCJOb3ZpY2UgY2hpbXBhbnplZXMgY29vcGVyXCJcblszNzBdIFwiTnV0IENyYWNraW5nIFRvb2xzIFVzZWQgYlwiIFwiT2xpdmUgYmFib29ucywgUGFwaW8gYW51YlwiIFwiT25lIGZvciBZb3UsIE9uZSBmb3IgTWU6IFwiXG5bMzczXSBcIk9uZS15ZWFyIGNoYW5nZSBpbiBjb2duaXRcIiBcIk9wcG9zaW5nIHB1cGlsIHJlc3BvbnNlcyBcIiBcIk9wdGlvbmFsLXN3aXRjaCBjb2duaXRpdmVcIlxuWzM3Nl0gXCJPcmFuZ3V0YW5zIChQb25nbyBhYmVsaWkpXCIgXCJPcmFuZ3V0YW5zIChQb25nbyBhYmVsaWkpXCIgXCJPcmFuZ3V0YW5zIChQb25nbyBhYmVsaWkpXCJcblszNzldIFwiT3Jhbmd1dGFucyAoUG9uZ28gcHlnbWFldVwiIFwiT3Jhbmd1dGFucyAoUG9uZ28gc3BwLikgZFwiIFwiT3JpZW50YXRpb24gdG93YXJkIGh1bWFuc1wiXG5bMzgyXSBcIk93bCBNb25rZXlzIChBb3R1cyBuaWdyaWNcIiBcIk94eXRvY2luIGZhY2lsaXRhdGVzIGZpZGVcIiBcIk94eXRvY2luIHJlZHVjZXMgZm9vZCBzaGFcIlxuWzM4NV0gXCJQYXR0ZXJucyBvbiBTZXJwZW50aW5lIFNoXCIgXCJQYXktb2ZmLWJpYXNlZCBzb2NpYWwgbGVhXCIgXCJQZXJjZXB0aW9uIG9mIGNoYXNpbmcgaW4gXCJcblszODhdIFwiUGVyY2VwdGlvbiBvZiBmYWNpYWwgYXZlclwiIFwiUGVyY2VwdGlvbiBvZiBmYWNpYWwgZXhwclwiIFwiUGVyY2VwdGlvbiBvZiB0aGUgYXZlcmFnZVwiXG5bMzkxXSBcIlBlcmNlcHR1YWwgY2F0ZWdvcnkgbGVhcm5cIiBcIlBlcnNpc3RlbnQgRmVtYWxlcyBhbmQgQ29cIiBcIlBlcnNvbmFsaXR5IGluZmx1ZW5jZXMgcmVcIlxuWzM5NF0gXCJQbGF5YmFjayBSZXNwb25zZXMgb2YgU29jXCIgXCJQb3NpdGlvbmFsIGVuY29kaW5nIGluIGNvXCIgXCJQb3N0LWVuY29kaW5nIGNvbnRyb2wgb2YgXCJcblszOTddIFwiUHJlZmVyZW5jZSBmb3IgQXR0cmFjdGl2ZVwiIFwiUHJlZmVyZW5jZSBmb3Igbm92ZWwgZmFjZVwiIFwiUHJlZmVyZW50aWFsIGF0dGVudGlvbmFsIFwiXG5bNDAwXSBcIlByZWxpbWluYXJ5IEludmVzdGlnYXRpb25cIiBcIlByZWxpbWluYXJ5IFN0dWR5IHRvIEludmVcIiBcIlByZWxpbmd1aXN0aWMgaHVtYW4gaW5mYW5cIlxuWzQwM10gXCJQcmVwYXJhdG9yeSByZXNwb25zZXMgdG8gXCIgXCJQcmltYXRlIHNvY2lhbCBhdHRlbnRpb246XCIgXCJQcm9iYWJpbGlzdGljIEluZmVyZW50aWFsXCJcbls0MDZdIFwiUHJvZHVjdGlvbiBvZiBTdXByYS1yZWd1bFwiIFwiUHJvc3BlY3RpdmUgbWVtb3J5IGluIGNoaVwiIFwiUHVibGljIGluZm9ybWF0aW9uIFVzZSBpblwiXG5bNDA5XSBcIlF1YW50aXRhdGl2ZSBHZW5ldGljcyBvZiBcIiBcIlF1YW50aXR5IGVzdGltYXRpb24gYW5kIGNcIiBcIlF1YW50aXR5IG1hdGNoaW5nIGJ5IGFuIG9cIlxuWzQxMl0gXCJSYXBpZCBjb2duaXRpdmUgZmxleGliaWxpXCIgXCJSZWFjdGlvbnMgdG8gbm92ZWwgb2JqZWN0XCIgXCJSZWNlaXZpbmcgYWdncmVzc2lvbiB0cmlnXCJcbls0MTVdIFwiUmVsYXRpdmUgUXVhbnRpdHkgSnVkZ21lblwiIFwiUmVtZW1iZXJpbmcgUGFzdCBFeGNoYW5nZVwiIFwiUmVwZWF0ZWQgYWNxdWlzaXRpb24gYW5kIFwiXG5bNDE4XSBcIlJlc3BvbnNlIGZhY2lsaXRhdGlvbiBpbiBcIiBcIlJlc3BvbnNlcyB0byBFY29ub21pYyBHYW1cIiBcIlJlc3BvbnNlcyB0byBtb2RpZmllZCBNb25cIlxuWzQyMV0gXCJSZXNwb25zZXMgdG8gdGhlIEh1bWFuIEluXCIgXCJSZXRyb3NwZWN0aXZlIGFuZCBwcm9zcGVjXCIgXCJSZXZlcnNhbCBsZWFybmluZyBpbiBnb25hXCJcbls0MjRdIFwiUmV2ZXJzZSBhdWRpZW5jZSBlZmZlY3RzIFwiIFwiUmhlc3VzIG1hY2FxdWVzIGZvcm0gcHJlZlwiIFwiUmhlc3VzIE1vbmtleXMgKE1hY2FjYSBtdVwiXG5bNDI3XSBcIlJoZXN1cyBtb25rZXlzIChNYWNhY2EgbXVcIiBcIlJoZXN1cyBtb25rZXlzIChNYWNhY2EgbXVcIiBcIlJoZXN1cyBtb25rZXlzIG1ldGFjb2duaXRcIlxuWzQzMF0gXCJSaGVzdXMgbW9ua2V5cyBzaG93IGh1bWFuXCIgXCJSaW5nLXRhaWxlZCBsZW11cnMgKExlbXVyXCIgXCJSb2J1c3QgcmVwcmVzZW50YXRpb25zIG9mXCJcbls0MzNdIFwiUm9sZSBvZiB2b2NhbCB0cmFjdCBjaGFyYVwiIFwiU2NhbGVzIGRyaXZlIGRldGVjdGlvbiwgYVwiIFwiU2NhbGluZyByZXdhcmQgdmFsdWUgd2l0aFwiXG5bNDM2XSBcIlNlZWRpbmcgYW4gYXJiaXRyYXJ5IGNvbnZcIiBcIlNlZWluZyB0aGUgRXhwZXJpbWVudGVyIElcIiBcIlNlZWluZyB0d28gZmFjZXMgdG9nZXRoZXJcIlxuWzQzOV0gXCJTZWxlY3RpdmUgYW5kIGNvbnRhZ2lvdXMgXCIgXCJTZWxmLUNvbnRyb2wgaW4gQ2hpbXBhbnplXCIgXCJTZW5zaXRpdml0eSB0byBSZWxhdGlvbmFsXCJcbls0NDJdIFwiU2Vuc29yeSBpbmZvcm1hdGlvbiBhbmQgYVwiIFwiU2VxdWVudGlhbCBvcmdhbml6YXRpb24gYVwiIFwiU2VxdWVudGlhbCByZWNhbGwgb2YgbWVhblwiXG5bNDQ1XSBcIlNlcXVlbnRpYWwgdXNlIG9mIHJpZ2lkIGFcIiBcIlNlcmlhbCBDb2duaXRpb24gYW5kIFBlcnNcIiBcIlNleCBhbmQgcmFuayBhZmZlY3QgaG93IGlcIlxuWzQ0OF0gXCJTaGFyZSBZb3VyIFN3ZWV0czogQ2hpbXBhXCIgXCJTaG9ydC1UZXJtIE1lbW9yeSBFZmZlY3RzXCIgXCJTbGVlcCBpbmZsdWVuY2VzIGNvZ25pdGl2XCJcbls0NTFdIFwiU21va2UgYW5kIG1pcnJvcnM6IFRlc3RpblwiIFwiU25ha2VzIGVsaWNpdCBlYXJsaWVyLCBhblwiIFwiU29jaWFsIEF0dGVudGlvbiBpbiB0aGUgVFwiXG5bNDU0XSBcIlNvY2lhbCBjb21wYXJpc29uIG1lZGlhdGVcIiBcIlNvY2lhbCBkZXRlcm1pbmFudHMgb2YgZXlcIiBcIlNvY2lhbCBpbmhpYml0aW9uIGFuZCBiZWhcIlxuWzQ1N10gXCJTb2NpYWwgaW5oaWJpdG9yeSBjb250cm9sXCIgXCJTb2NpYWwgbW9kZWxzIGVuaGFuY2UgYXBlXCIgXCJTb2NpYWwgdG91Y2ggYWx0ZXJzIG5ld2JvXCJcbls0NjBdIFwiU29jaW8tc3BhdGlhbCBjb2duaXRpb24gaVwiIFwiU291bmQgc3ltYm9saWMgY29uZ3J1ZW5jeVwiIFwiU3BhdGlhbCByZXByZXNlbnRhdGlvbiBvZlwiXG5bNDYzXSBcIlNwYXRpYWwgcmVwcmVzZW50YXRpb24gb2ZcIiBcIlNwb250YW5lb3VzIGF0dGVudGlvbiBhbmRcIiBcIlNwb250YW5lb3VzIE1ldGFjb2duaXRpb25cIlxuWzQ2Nl0gXCJTcG9udGFuZW91cyByZW9jY3VycmVuY2UgXCIgXCJTcG9udGFuZW91cyBTb2NpYWwgVG9vbCBVXCIgXCJTcG9udGFuZW91cyBTcGF0aWFsIE1hcHBpXCJcbls0NjldIFwiU3BvbnRhbmVvdXMgVGVtcG8gYW5kIFJoeVwiIFwiU3RpbXVsdXMgUm92aW5nIGFuZCBGbGFua1wiIFwiU3RvbmUgQW52aWwgRGFtYWdlIGJ5IFdpbFwiXG5bNDcyXSBcIlRhc2sgRGVzaWduIEluZmx1ZW5jZXMgUHJcIiBcIlRhc2sgU3dpdGNoaW5nIGluIFJoZXN1cyBcIiBcIlRlc3RpbmcgZGlmZmVyZW50aWFsIHVzZSBcIlxuWzQ3NV0gXCJUZXN0aW5nIGZvciBBbnRpY2lwYXRpb24gXCIgXCJUZXN0aW5nIGZvciBMaW5rcyBCZXR3ZWVuXCIgXCJUZXN0aW5nIHRoZSBhcm91c2FsIGh5cG90XCJcbls0NzhdIFwiVGVzdGluZyB0aGUgQ29nbml0aW9uIG9mIFwiIFwiVGhlIGJvZHkgaW52ZXJzaW9uIGVmZmVjdFwiIFwiVGhlIENvZ25pdGl2ZSBVbmRlcnBpbm5pblwiXG5bNDgxXSBcIlRoZSBkZXZlbG9wbWVudCBhbmQgZmxleGlcIiBcIlRoZSBkZXZlbG9wbWVudCBvZiB2aXN1YWxcIiBcIlRoZSBlY29sb2d5IG9mIHNwYXRpYWwgbWVcIlxuWzQ4NF0gXCJUaGUgZWZmZWN0cyBvZiBiZWluZyB3YXRjXCIgXCJUaGUgZWZmZWN0cyBvZiBpbmRpdmlkdWFsXCIgXCJUaGUgZWZmZWN0cyBvZiBzb2NpYWwgY29uXCJcbls0ODddIFwiVGhlIGVmZmVjdHMgb2YgdHJhZGl0aW9uIFwiIFwiVGhlIGdvYWwgb2YgYXBlIHBvaW50aW5nXCIgIFwiVGhlIGdvZ2dsZXMgZXhwZXJpbWVudDogY1wiXG5bNDkwXSBcIlRoZSBoaWdoZXIgdGhlIGZhcnRoZXI6IGRcIiBcIlRoZSBpbmZsdWVuY2Ugb2YgQVZQUjFBIGdcIiBcIlRoZSBpbmZsdWVuY2Ugb2YgcmV3YXJkIHFcIlxuWzQ5M10gXCJUaGUgSW50ZXJwbGF5IG9mIFByaW9yIEV4XCIgXCJUaGUgb3JpZ2lucyBvZiBiZWxpZWYgcmVwXCIgXCJUaGUgT3JpZ2lucyBvZiBDb3VudGluZyBBXCJcbls0OTZdIFwiVGhlIFJlbGF0aW9uc2hpcCBiZXR3ZWVuIFwiIFwiVGhlIHJvbGUgb2YgYWNvdXN0aWMgc2lnblwiIFwiVGhlIHJvbGUgb2YgZmFjaWFsIHBhdHRlclwiXG5bNDk5XSBcIlRoZSByb2xlIG9mIHBhc3QgaW50ZXJhY3RcIiBcIlRoZSBUcmFuc2ZlciBvZiBDYXRlZ29yeSBcIiBcIlRoZSB1c2Ugb2YgcHJlZmVycmVkIHNvY2lcIlxuWzUwMl0gXCJUaGUgdmFyaWFiaWxpdHkgb2YgbXVsdGlzXCIgXCJUaHJvdWdoIFRoZWlyIEV5ZXM6IFRoZSBJXCIgXCJUb2xlcmFudCBCYXJiYXJ5IG1hY2FxdWVzXCJcbls1MDVdIFwiVG9vbC11c2UgdHJhaW5pbmcgdGVtcG9yYVwiIFwiVG91Y2gtc2NyZWVuLWd1aWRlZCB0YXNrIFwiIFwiVG91Y2hzY3JlZW4gYXNzYXlzIG9mIGxlYVwiXG5bNTA4XSBcIlRvdWNoc2NyZWVuLUJhc2VkIENvZ25pdGlcIiBcIlRyYWRpbmcgdXA6IGNoaW1wYW56ZWVzIChcIiBcIlRyYWluaW5nIGV4cGVyaWVuY2UgaW4gZ2VcIlxuWzUxMV0gXCJUcmFuc2NyYW5pYWwgRGlyZWN0IEN1cnJlXCIgXCJUcmFuc2l0aXZlIEluZmVyZW5jZSBpbiBIXCIgXCJUcmFuc3Bvc2l0aW9uIGFuZCBJdHMgR2VuXCJcbls1MTRdIFwiVHJpYWRpYyBzb2NpYWwgaW50ZXJhY3Rpb1wiIFwiVHJpZ2dlcmluZyBzb2NpYWwgaW50ZXJhY1wiIFwiVHVmdGVkIGNhcHVjaGlucyAoQ2VidXMgYVwiXG5bNTE3XSBcIlR3by1pdGVtIHNhbWUvZGlmZmVyZW50IGRcIiBcIlVzaW5nIGFuIEFtYmlndW91cyBDdWUgUGFcIiBcIlVzaW5nIENyb3NzIENvcnJlbGF0aW9ucyBcIlxuWzUyMF0gXCJVc2luZyBwaG90b2dyYXBocyB0byBzdHVkXCIgXCJVc2luZyB2aXJ0dWFsIHJlYWxpdHkgdG8gXCIgXCJWYXJpYXRpb24gaW4gZ2F6ZS1mb2xsb3dpXCJcbls1MjNdIFwiVmlkZW8gZGVtb25zdHJhdGlvbnMgc2VlZFwiIFwiVmlnaWxhbmNlIGZvciB0aHJlYXQgYWNjb1wiIFwiVmlzaWJsZSBTcGF0aWFsIENvbnRpZ3VpdFwiXG5bNTI2XSBcIlZpc3VhbCBhcnRpZmljaWFsIGdyYW1tYXJcIiBcIlZpc3VhbCBhdHRlbnRpb24gZHVyaW5nIG5cIiBcIlZpc3VhbCBkaXNjcmltaW5hdGlvbiBvZiBcIlxuWzUyOV0gXCJWaXN1YWwgcHJlZmVyZW5jZSBmb3IgZGlyXCIgXCJWaXN1YWwgUHJvY2Vzc2luZyBvZiBGYWNlXCIgXCJWaXN1YWwgc3RpbXVsYXRpb24taW5kdWNlXCJcbls1MzJdIFwiVmlzdWFsbHkgYXR0ZW5kaW5nIHRvIGEgdlwiIFwiVm9jYWwgRGl2ZXJnZW5jZSBhbmQgRGlzY1wiIFwiVm9jYWwgTGVhcm5pbmcgdmlhIFNvY2lhbFwiXG5bNTM1XSBcIldhaXRpbmcgYnkgbWlzdGFrZTogU3ltYm9cIiBcIldhaXRpbmcgZm9yIHdoYXQgY29tZXMgbGFcIiBcIldoYXQgQXJlIE15IENoYW5jZXM/IENsb3NcIlxuWzUzOF0gXCJXaGF0IGRpZCB5b3UgY2hvb3NlIGp1c3QgXCIgXCJXaGF0IGRvIG1vbmtleXMga25vdyBhYm91XCIgXCJXaGF0IGxpbWl0cyB0b29sIHVzZSBpbiBuXCJcbls1NDFdIFwiV2hhdCdzIGluIGEgRmFjZSAoTWFkZSBvZlwiIFwiV2hlbiBpcyBpdCB3b3J0aCB3YWl0aW5nIFwiIFwiV2hlbiBsZXNzIGlzIG1vcmU6IGxpa2UgaFwiXG5bNTQ0XSBcIldoZW4gbWF0aHMgdHJ1bXBzIGxvZ2ljOiBcIiBcIldoZXJl4oCZcyB0aGUgY29va2llPyBUaGUgYVwiIFwiV2hvJ3MgbXkgbGl0dGxlIG1vbmtleT8gRVwiXG5bNTQ3XSBcIldpbGQgY2FwdWNoaW4gbW9ua2V5cyBhZGpcIiBcIldpbGQgY2hhY21hIGJhYm9vbnMgKFBhcGlcIiBcIldpbGQgdmVydmV0IG1vbmtleXMgY29weSBcIlxuWzU1MF0gXCJXaWxkIFZlcnZldCBNb25rZXlzIFRyYWRlXCIgXCJXaXRoaW4tc2Vzc2lvbiByZXZlcnNhbCBsXCIgXCJZb3VuZ2VyIGFwZXMgYW5kIGh1bWFuIGNoXCJcbiJ9 -->
+<pre><code>  [1] &quot;(Ir)rational choices of h&quot; &quot;`Unwilling' versus `unabl&quot; &quot;A competitive drive? Same&quot;
+  [4] &quot;A Longitudinal Assessment&quot; &quot;A metacognitive illusion &quot; &quot;A neuroanatomical predict&quot;
+  [7] &quot;A reversed-reward conting&quot; &quot;A test of the submentaliz&quot; &quot;Abstract Knowledge in the&quot;
+ [10] &quot;Abstraction promotes crea&quot; &quot;Action Categorization in &quot; &quot;Action-Matching Biases in&quot;
+ [13] &quot;Acute oxytocin improves m&quot; &quot;Adaptability to changes i&quot; &quot;Affective forecasting in &quot;
+ [16] &quot;Age-dependent change in a&quot; &quot;Age-Related Motor Dysfunc&quot; &quot;All Great Ape Species (Go&quot;
+ [19] &quot;An intentional vocalizati&quot; &quot;Ape duos and trios: spont&quot; &quot;Apes are intuitive statis&quot;
+ [22] &quot;Apes communicate about ab&quot; &quot;Apes Produce Tools for Fu&quot; &quot;Are apes essentialists? S&quot;
+ [25] &quot;Are generalists more inno&quot; &quot;Are great apes able to re&quot; &quot;Are monkeys intuitive Ari&quot;
+ [28] &quot;Areal differences in dept&quot; &quot;Artificial Grammar Learni&quot; &quot;Artificial Visual Stimuli&quot;
+ [31] &quot;Assessment of metacogniti&quot; &quot;Asymmetries in the produc&quot; &quot;Audience affects decision&quot;
+ [34] &quot;Audiovisual integration f&quot; &quot;Baboons (Papio papio), bu&quot; &quot;Baboons' Response Speed I&quot;
+ [37] &quot;Bargaining in chimpanzees&quot; &quot;Behavioral Conservatism i&quot; &quot;Behavioral evidence for t&quot;
+ [40] &quot;Behavioral Responses to S&quot; &quot;Biases in preferences for&quot; &quot;Body inversion effect in &quot;
+ [43] &quot;Bonobos and chimpanzees e&quot; &quot;Bonobos and orangutans, b&quot; &quot;Bonobos modify communicat&quot;
+ [46] &quot;Bonobos prefer individual&quot; &quot;Bonobos respond prosocial&quot; &quot;Bonobos voluntarily hand &quot;
+ [49] &quot;Brown Capuchin Monkeys (S&quot; &quot;Calculated reciprocity? A&quot; &quot;Call playback artificiall&quot;
+ [52] &quot;Can orangutans (Pongo abe&quot; &quot;Captive chimpanzee foragi&quot; &quot;Captive gibbons (Hylobati&quot;
+ [55] &quot;Capuchin and rhesus monke&quot; &quot;Capuchin monkeys (Cebus [&quot; &quot;Capuchin Monkeys (Cebus a&quot;
+ [58] &quot;Capuchin monkeys (Sapajus&quot; &quot;Capuchin Monkeys Alternat&quot; &quot;Capuchin monkeys, Cebus a&quot;
+ [61] &quot;Capuchin monkeys’ use of &quot; &quot;Capuchins (Cebus apella) &quot; &quot;Capuchins (Cebus apella) &quot;
+ [64] &quot;Capuchins recognize famil&quot; &quot;Capuchins, space, time an&quot; &quot;Capuchins’ (Cebus apella)&quot;
+ [67] &quot;Cashing Out: The Decision&quot; &quot;Categorization does not p&quot; &quot;Causal capture effects in&quot;
+ [70] &quot;Change in the relative co&quot; &quot;Checking behavior in rhes&quot; &quot;Children, but not chimpan&quot;
+ [73] &quot;Children, chimpanzees, an&quot; &quot;Children’s and Apes’ Prep&quot; &quot;Chimpanzee Cooperation Is&quot;
+ [76] &quot;Chimpanzee extractive for&quot; &quot;Chimpanzee Intelligence I&quot; &quot;Chimpanzees (Pan troglody&quot;
+ [79] &quot;Chimpanzees (Pan troglody&quot; &quot;Chimpanzees (Pan troglody&quot; &quot;Chimpanzees (Pan troglody&quot;
+ [82] &quot;Chimpanzees (Pan troglody&quot; &quot;Chimpanzees (Pan troglody&quot; &quot;Chimpanzees and children &quot;
+ [85] &quot;Chimpanzees and Humans Mi&quot; &quot;Chimpanzees Can Point to &quot; &quot;Chimpanzees can visually &quot;
+ [88] &quot;Chimpanzees Consider Huma&quot; &quot;Chimpanzees coordinate in&quot; &quot;Chimpanzees Create and Mo&quot;
+ [91] &quot;Chimpanzees empathize wit&quot; &quot;Chimpanzees flexibly upda&quot; &quot;Chimpanzees Form Long‐Ter&quot;
+ [94] &quot;Chimpanzees gesture to hu&quot; &quot;Chimpanzees monopolize an&quot; &quot;Chimpanzees overcome the &quot;
+ [97] &quot;Chimpanzees Prefer Africa&quot; &quot;Chimpanzees prioritise so&quot; &quot;Chimpanzees process struc&quot;
+[100] &quot;Chimpanzees Rarely Settle&quot; &quot;Chimpanzees show some evi&quot; &quot;Chimpanzees spontaneously&quot;
+[103] &quot;Chimpanzees strategically&quot; &quot;Chimpanzees trust conspec&quot; &quot;Chimpanzees Trust Their F&quot;
+[106] &quot;Chimpanzees, bonobos and &quot; &quot;Chimpanzees' understandin&quot; &quot;Cognitive capacities for &quot;
+[109] &quot;Cognitive differences bet&quot; &quot;Colour and contrast of fe&quot; &quot;Common marmosets show soc&quot;
+[112] &quot;Common Visual Preference &quot; &quot;Communication about absen&quot; &quot;Comparing chimpanzees’ pr&quot;
+[115] &quot;Comparing physical and so&quot; &quot;Comparing species decisio&quot; &quot;Comparison of discrete ra&quot;
+[118] &quot;Compete to Play: Trade-Of&quot; &quot;Competition is crucial fo&quot; &quot;Competitive control of co&quot;
+[121] &quot;Comprehension of iconic g&quot; &quot;Conservatism and “copy-if&quot; &quot;Conserved evolutionary hi&quot;
+[124] &quot;Consistent inter‐individu&quot; &quot;Contextual Congruency Eff&quot; &quot;Contrasting Responses to &quot;
+[127] &quot;Control of Working Memory&quot; &quot;Cooperation in wild Barba&quot; &quot;Coordination strategies o&quot;
+[130] &quot;Corepresentation During J&quot; &quot;Cross-species variation i&quot; &quot;Crucial information for e&quot;
+[133] &quot;Curious creatures: a mult&quot; &quot;Dealing With Interference&quot; &quot;Decision‐making under ris&quot;
+[136] &quot;Defining reward value by &quot; &quot;Delay of Gratification by&quot; &quot;Delay of gratification is&quot;
+[139] &quot;Delayed response task per&quot; &quot;Development of a cognitiv&quot; &quot;Development of a cognitiv&quot;
+[142] &quot;Development of a Partner &quot; &quot;Development of snake-dire&quot; &quot;Development of space perc&quot;
+[145] &quot;Differences in Between-Re&quot; &quot;Differences in novel food&quot; &quot;Differences in the early &quot;
+[148] &quot;Differential reliance of &quot; &quot;Differential Responding b&quot; &quot;Differing views: Can chim&quot;
+[151] &quot;Discrimination of Emotion&quot; &quot;Disentangling great apes'&quot; &quot;Dissociation of item and &quot;
+[154] &quot;Dissociation of memory si&quot; &quot;Dissociation of visual lo&quot; &quot;Distractor Effect of Audi&quot;
+[157] &quot;Division of Labor in Hand&quot; &quot;Do Capuchin Monkeys (Cebu&quot; &quot;Do Capuchin Monkeys (Sapa&quot;
+[160] &quot;Do Capuchin Monkeys (Sapa&quot; &quot;Do Capuchins (Sapajus ape&quot; &quot;Do chimpanzees anticipate&quot;
+[163] &quot;Do monkeys compare themse&quot; &quot;Do non-human primates rea&quot; &quot;Do nonhuman primates ascr&quot;
+[166] &quot;Do Primates See the Solit&quot; &quot;Do rhesus macaques, Macac&quot; &quot;Do rhesus monkeys (Macaca&quot;
+[169] &quot;Do Tonkean macaques (Maca&quot; &quot;Do Tonkean macaques (Maca&quot; &quot;Do tufted capuchin monkey&quot;
+[172] &quot;Do You See What I See? A &quot; &quot;Does effort influence ine&quot; &quot;Does opportunistic testin&quot;
+[175] &quot;Does own experience affec&quot; &quot;Does Presentation Format &quot; &quot;Does Sympathy Motivate Pr&quot;
+[178] &quot;Double invisible displace&quot; &quot;Early Predictors of Impai&quot; &quot;Early social experience a&quot;
+[181] &quot;Easy Rider: Monkeys Learn&quot; &quot;EEG beta desynchronizatio&quot; &quot;Effect of reward type on &quot;
+[184] &quot;Effects of different trai&quot; &quot;Effects of freely accessi&quot; &quot;Effects of Spatial Traini&quot;
+[187] &quot;Effects of tilted orienta&quot; &quot;Effects of training condi&quot; &quot;Efficacy of Selective PDE&quot;
+[190] &quot;Efficient search for a fa&quot; &quot;Emotion Processing Across&quot; &quot;Emotion-Cognition Interac&quot;
+[193] &quot;Emotional engagements pre&quot; &quot;Encoding of Stimulus Prob&quot; &quot;Enduring voice recognitio&quot;
+[196] &quot;Evaluating mood changes i&quot; &quot;Evaluation of third-party&quot; &quot;Evidence That Monkeys (Ma&quot;
+[199] &quot;Evolutionary origins of m&quot; &quot;Evolutionary relevance an&quot; &quot;Experience-independent se&quot;
+[202] &quot;Experience‐dependent chan&quot; &quot;Experimental evidence for&quot; &quot;Exploration and learning &quot;
+[205] &quot;Exploration Behavior and &quot; &quot;Exploring attentional bia&quot; &quot;Exploring Decoy Effects o&quot;
+[208] &quot;Exploring Whether Nonhuma&quot; &quot;Face detection and the de&quot; &quot;Face discriminations by o&quot;
+[211] &quot;Face Pareidolia in the Rh&quot; &quot;Facial expression recogni&quot; &quot;Factors influencing the d&quot;
+[214] &quot;Faecal avoidance differs &quot; &quot;Familiar and unfamiliar f&quot; &quot;Fear reactions to snakes &quot;
+[217] &quot;Female rhesus macaques di&quot; &quot;Female vervet monkeys fin&quot; &quot;Field experiments with wi&quot;
+[220] &quot;First Comparative Approac&quot; &quot;Flexible gaze-following i&quot; &quot;Focusing and Shifting Att&quot;
+[223] &quot;Food cleaning in gorillas&quot; &quot;Food Neophobia and Social&quot; &quot;Food-Offering Calls in Wi&quot;
+[226] &quot;Foraging vervet monkeys o&quot; &quot;From colour photographs t&quot; &quot;From exploitation to coop&quot;
+[229] &quot;Functionality in Tool Use&quot; &quot;Gambling primates: reacti&quot; &quot;Gaze following in baboons&quot;
+[232] &quot;Generalization of Categor&quot; &quot;Genes, social transmissio&quot; &quot;Gestalt Principle Use in &quot;
+[235] &quot;Getting to the Bottom of &quot; &quot;Give What You Get: Capuch&quot; &quot;Global/local processing o&quot;
+[238] &quot;Go when you know: Chimpan&quot; &quot;Goal attribution to inani&quot; &quot;Gorillas (Gorilla gorilla&quot;
+[241] &quot;Great apes (Pan paniscus,&quot; &quot;Great apes and children i&quot; &quot;Great apes anticipate tha&quot;
+[244] &quot;Great apes are sensitive &quot; &quot;Great apes distinguish tr&quot; &quot;Great Apes Generate Goal-&quot;
+[247] &quot;Great Apes Make Anticipat&quot; &quot;Great apes use self- expe&quot; &quot;Grooming, social rank and&quot;
+[250] &quot;Group and kin recognition&quot; &quot;Handling newborn monkeys &quot; &quot;Hardly habitual: chimpanz&quot;
+[253] &quot;High but not low toleranc&quot; &quot;High emotional reactivity&quot; &quot;High-fidelity copying is &quot;
+[256] &quot;How Aging Affects Graspin&quot; &quot;How chimpanzees (Pan trog&quot; &quot;How task format affects c&quot;
+[259] &quot;Human and monkey response&quot; &quot;Human children but not ch&quot; &quot;Human children rely more &quot;
+[262] &quot;Human ostensive signals d&quot; &quot;Human speech reduces pygm&quot; &quot;Human-introduced long-ter&quot;
+[265] &quot;Humans and monkeys distin&quot; &quot;Humans but Not Chimpanzee&quot; &quot;I Scan, Therefore I Decli&quot;
+[268] &quot;Imitation promotes affili&quot; &quot;Impacts of early social e&quot; &quot;Implicit Memory in Monkey&quot;
+[271] &quot;Individual acquisition of&quot; &quot;Individual identity and a&quot; &quot;Individual recognition th&quot;
+[274] &quot;Infant titi monkey behavi&quot; &quot;Inference by Exclusion in&quot; &quot;Inference in a Social Con&quot;
+[277] &quot;Inferences about food loc&quot; &quot;Influence of personality,&quot; &quot;Influences of demographic&quot;
+[280] &quot;Information seeking about&quot; &quot;Information seeking in ca&quot; &quot;Inhaled oxytocin increase&quot;
+[283] &quot;Inhibitory control in dou&quot; &quot;Innovation and behavioral&quot; &quot;Innovative problem solvin&quot;
+[286] &quot;Insightful problem solvin&quot; &quot;Instrumental Problem-Solv&quot; &quot;Intentional communication&quot;
+[289] &quot;Intentional gestural comm&quot; &quot;Interaction of music and &quot; &quot;Interactional synchrony i&quot;
+[292] &quot;Interbrain cortical synch&quot; &quot;Interindividual differenc&quot; &quot;Intermittent Stimulation &quot;
+[295] &quot;Intuitive optics: what gr&quot; &quot;Intuitive probabilistic i&quot; &quot;Intuitive statistical inf&quot;
+[298] &quot;Investigating individual &quot; &quot;Investigating the Depleti&quot; &quot;Irrational choice behavio&quot;
+[301] &quot;Is music enriching for gr&quot; &quot;Japanese Monkeys (Macaca &quot; &quot;Japanese Monkeys (Macaca &quot;
+[304] &quot;Jumping Stand Apparatus R&quot; &quot;Knowledgeable Lemurs Beco&quot; &quot;Laboratory Simulations of&quot;
+[307] &quot;Lack of conformity to new&quot; &quot;Lack of evidence that Ton&quot; &quot;Lack of prosociality in g&quot;
+[310] &quot;Lateral intraparietal are&quot; &quot;Learning the rules of the&quot; &quot;Lemurs and macaques show &quot;
+[313] &quot;Limited Evidence of Numbe&quot; &quot;Limits of Spatial Vision &quot; &quot;Linear numerosity illusio&quot;
+[316] &quot;Linking cognition with fi&quot; &quot;Long-tailed macaques (Mac&quot; &quot;Long-tailed macaques (Mac&quot;
+[319] &quot;Long-tailed macaques extr&quot; &quot;Long-Term Spatial Memory &quot; &quot;Looking Ahead? Computeriz&quot;
+[322] &quot;Lowland Gorillas (Gorilla&quot; &quot;Macaque anterior cingulat&quot; &quot;Macaques attend to scratc&quot;
+[325] &quot;Macaques can predict soci&quot; &quot;Macaques preferentially a&quot; &quot;Male resource defence dur&quot;
+[328] &quot;Male resource defense mat&quot; &quot;Manipulating social cues &quot; &quot;Marmoset monkeys evaluate&quot;
+[331] &quot;Meaning attribution in th&quot; &quot;Mechanisms Underlying Cog&quot; &quot;Memory, transmission and &quot;
+[334] &quot;Metacognitive-like inform&quot; &quot;Mirror self-recognition a&quot; &quot;Mirror-Induced Self-Direc&quot;
+[337] &quot;Mnemonic Introspection in&quot; &quot;Model-Observer Similarity&quot; &quot;Monkey Visual Short-Term &quot;
+[340] &quot;Monkeys (Sapajus apella a&quot; &quot;Monkeys are curious about&quot; &quot;Monkeys Are More Patient &quot;
+[343] &quot;Monkeys Choose, but do no&quot; &quot;Monkeys display classic s&quot; &quot;Monkeys head-gaze followi&quot;
+[346] &quot;Monkeys Spontaneously Dis&quot; &quot;Monkeys Wait to Begin a C&quot; &quot;Morphologically structure&quot;
+[349] &quot;Mother recognition and pr&quot; &quot;Motivational Shifts in Ag&quot; &quot;Moving evidence into prac&quot;
+[352] &quot;Multi‐Step Routes of Capu&quot; &quot;Natural reference: A phyl&quot; &quot;Navigation strategies in &quot;
+[355] &quot;Neonatal exposure to sevo&quot; &quot;Neonatal face-to-face int&quot; &quot;Neonatal imitation and ea&quot;
+[358] &quot;Neonatal imitation predic&quot; &quot;Neonatal imitation predic&quot; &quot;Neural activity in macaqu&quot;
+[361] &quot;Neuronal Encoding of Self&quot; &quot;No Costly Prosociality Am&quot; &quot;No evidence for contagiou&quot;
+[364] &quot;Non-adjacent visual depen&quot; &quot;Non-goal-directed recall &quot; &quot;Non-invasive Eye Tracking&quot;
+[367] &quot;Nonhuman primate welfare:&quot; &quot;Nonverbal Working Memory &quot; &quot;Novice chimpanzees cooper&quot;
+[370] &quot;Nut Cracking Tools Used b&quot; &quot;Olive baboons, Papio anub&quot; &quot;One for You, One for Me: &quot;
+[373] &quot;One-year change in cognit&quot; &quot;Opposing pupil responses &quot; &quot;Optional-switch cognitive&quot;
+[376] &quot;Orangutans (Pongo abelii)&quot; &quot;Orangutans (Pongo abelii)&quot; &quot;Orangutans (Pongo abelii)&quot;
+[379] &quot;Orangutans (Pongo pygmaeu&quot; &quot;Orangutans (Pongo spp.) d&quot; &quot;Orientation toward humans&quot;
+[382] &quot;Owl Monkeys (Aotus nigric&quot; &quot;Oxytocin facilitates fide&quot; &quot;Oxytocin reduces food sha&quot;
+[385] &quot;Patterns on Serpentine Sh&quot; &quot;Pay-off-biased social lea&quot; &quot;Perception of chasing in &quot;
+[388] &quot;Perception of facial aver&quot; &quot;Perception of facial expr&quot; &quot;Perception of the average&quot;
+[391] &quot;Perceptual category learn&quot; &quot;Persistent Females and Co&quot; &quot;Personality influences re&quot;
+[394] &quot;Playback Responses of Soc&quot; &quot;Positional encoding in co&quot; &quot;Post-encoding control of &quot;
+[397] &quot;Preference for Attractive&quot; &quot;Preference for novel face&quot; &quot;Preferential attentional &quot;
+[400] &quot;Preliminary Investigation&quot; &quot;Preliminary Study to Inve&quot; &quot;Prelinguistic human infan&quot;
+[403] &quot;Preparatory responses to &quot; &quot;Primate social attention:&quot; &quot;Probabilistic Inferential&quot;
+[406] &quot;Production of Supra-regul&quot; &quot;Prospective memory in chi&quot; &quot;Public information Use in&quot;
+[409] &quot;Quantitative Genetics of &quot; &quot;Quantity estimation and c&quot; &quot;Quantity matching by an o&quot;
+[412] &quot;Rapid cognitive flexibili&quot; &quot;Reactions to novel object&quot; &quot;Receiving aggression trig&quot;
+[415] &quot;Relative Quantity Judgmen&quot; &quot;Remembering Past Exchange&quot; &quot;Repeated acquisition and &quot;
+[418] &quot;Response facilitation in &quot; &quot;Responses to Economic Gam&quot; &quot;Responses to modified Mon&quot;
+[421] &quot;Responses to the Human In&quot; &quot;Retrospective and prospec&quot; &quot;Reversal learning in gona&quot;
+[424] &quot;Reverse audience effects &quot; &quot;Rhesus macaques form pref&quot; &quot;Rhesus Monkeys (Macaca mu&quot;
+[427] &quot;Rhesus monkeys (Macaca mu&quot; &quot;Rhesus monkeys (Macaca mu&quot; &quot;Rhesus monkeys metacognit&quot;
+[430] &quot;Rhesus monkeys show human&quot; &quot;Ring-tailed lemurs (Lemur&quot; &quot;Robust representations of&quot;
+[433] &quot;Role of vocal tract chara&quot; &quot;Scales drive detection, a&quot; &quot;Scaling reward value with&quot;
+[436] &quot;Seeding an arbitrary conv&quot; &quot;Seeing the Experimenter I&quot; &quot;Seeing two faces together&quot;
+[439] &quot;Selective and contagious &quot; &quot;Self-Control in Chimpanze&quot; &quot;Sensitivity to Relational&quot;
+[442] &quot;Sensory information and a&quot; &quot;Sequential organization a&quot; &quot;Sequential recall of mean&quot;
+[445] &quot;Sequential use of rigid a&quot; &quot;Serial Cognition and Pers&quot; &quot;Sex and rank affect how i&quot;
+[448] &quot;Share Your Sweets: Chimpa&quot; &quot;Short-Term Memory Effects&quot; &quot;Sleep influences cognitiv&quot;
+[451] &quot;Smoke and mirrors: Testin&quot; &quot;Snakes elicit earlier, an&quot; &quot;Social Attention in the T&quot;
+[454] &quot;Social comparison mediate&quot; &quot;Social determinants of ey&quot; &quot;Social inhibition and beh&quot;
+[457] &quot;Social inhibitory control&quot; &quot;Social models enhance ape&quot; &quot;Social touch alters newbo&quot;
+[460] &quot;Socio-spatial cognition i&quot; &quot;Sound symbolic congruency&quot; &quot;Spatial representation of&quot;
+[463] &quot;Spatial representation of&quot; &quot;Spontaneous attention and&quot; &quot;Spontaneous Metacognition&quot;
+[466] &quot;Spontaneous reoccurrence &quot; &quot;Spontaneous Social Tool U&quot; &quot;Spontaneous Spatial Mappi&quot;
+[469] &quot;Spontaneous Tempo and Rhy&quot; &quot;Stimulus Roving and Flank&quot; &quot;Stone Anvil Damage by Wil&quot;
+[472] &quot;Task Design Influences Pr&quot; &quot;Task Switching in Rhesus &quot; &quot;Testing differential use &quot;
+[475] &quot;Testing for Anticipation &quot; &quot;Testing for Links Between&quot; &quot;Testing the arousal hypot&quot;
+[478] &quot;Testing the Cognition of &quot; &quot;The body inversion effect&quot; &quot;The Cognitive Underpinnin&quot;
+[481] &quot;The development and flexi&quot; &quot;The development of visual&quot; &quot;The ecology of spatial me&quot;
+[484] &quot;The effects of being watc&quot; &quot;The effects of individual&quot; &quot;The effects of social con&quot;
+[487] &quot;The effects of tradition &quot; &quot;The goal of ape pointing&quot;  &quot;The goggles experiment: c&quot;
+[490] &quot;The higher the farther: d&quot; &quot;The influence of AVPR1A g&quot; &quot;The influence of reward q&quot;
+[493] &quot;The Interplay of Prior Ex&quot; &quot;The origins of belief rep&quot; &quot;The Origins of Counting A&quot;
+[496] &quot;The Relationship between &quot; &quot;The role of acoustic sign&quot; &quot;The role of facial patter&quot;
+[499] &quot;The role of past interact&quot; &quot;The Transfer of Category &quot; &quot;The use of preferred soci&quot;
+[502] &quot;The variability of multis&quot; &quot;Through Their Eyes: The I&quot; &quot;Tolerant Barbary macaques&quot;
+[505] &quot;Tool-use training tempora&quot; &quot;Touch-screen-guided task &quot; &quot;Touchscreen assays of lea&quot;
+[508] &quot;Touchscreen-Based Cogniti&quot; &quot;Trading up: chimpanzees (&quot; &quot;Training experience in ge&quot;
+[511] &quot;Transcranial Direct Curre&quot; &quot;Transitive Inference in H&quot; &quot;Transposition and Its Gen&quot;
+[514] &quot;Triadic social interactio&quot; &quot;Triggering social interac&quot; &quot;Tufted capuchins (Cebus a&quot;
+[517] &quot;Two-item same/different d&quot; &quot;Using an Ambiguous Cue Pa&quot; &quot;Using Cross Correlations &quot;
+[520] &quot;Using photographs to stud&quot; &quot;Using virtual reality to &quot; &quot;Variation in gaze-followi&quot;
+[523] &quot;Video demonstrations seed&quot; &quot;Vigilance for threat acco&quot; &quot;Visible Spatial Contiguit&quot;
+[526] &quot;Visual artificial grammar&quot; &quot;Visual attention during n&quot; &quot;Visual discrimination of &quot;
+[529] &quot;Visual preference for dir&quot; &quot;Visual Processing of Face&quot; &quot;Visual stimulation-induce&quot;
+[532] &quot;Visually attending to a v&quot; &quot;Vocal Divergence and Disc&quot; &quot;Vocal Learning via Social&quot;
+[535] &quot;Waiting by mistake: Symbo&quot; &quot;Waiting for what comes la&quot; &quot;What Are My Chances? Clos&quot;
+[538] &quot;What did you choose just &quot; &quot;What do monkeys know abou&quot; &quot;What limits tool use in n&quot;
+[541] &quot;What's in a Face (Made of&quot; &quot;When is it worth waiting &quot; &quot;When less is more: like h&quot;
+[544] &quot;When maths trumps logic: &quot; &quot;Where’s the cookie? The a&quot; &quot;Who's my little monkey? E&quot;
+[547] &quot;Wild capuchin monkeys adj&quot; &quot;Wild chacma baboons (Papi&quot; &quot;Wild vervet monkeys copy &quot;
+[550] &quot;Wild Vervet Monkeys Trade&quot; &quot;Within-session reversal l&quot; &quot;Younger apes and human ch&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FuZGlkYXRlcyA8LSBjKDU1OjY1LCA3Nzo4MiwgMTM4OjEzOSwgMTU3OjE1OCwgMTY2OjE2NywgMjk5OjMwMCwgMzE0OjMxNSwgMzU1OjM1NiwgXG4gICAgICAgICAgICAgICAgMzc0OjM3NiwgNDI3OjQyOSwgNDYzOjQ2NClcblxuc3RyX3N1Yihzb3J0KHVuaXF1ZShzdHVkaWVzJHRpdGxlKSksIDEsIDYwKVtjYW5kaWRhdGVzXVxuYGBgIn0= -->
+<pre class="r"><code>candidates &lt;- c(55:65, 77:82, 138:139, 157:158, 166:167, 299:300, 314:315, 355:356, 
+                374:376, 427:429, 463:464)
+
+str_sub(sort(unique(studies$title)), 1, 60)[candidates]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkNhcHVjaGluIGFuZCByaGVzdXMgbW9ua2V5cyBidXQgbm90IGh1bWFucyBzaG93IGNvZ25pdGl2ZSBmbFwiXG4gWzJdIFwiQ2FwdWNoaW4gbW9ua2V5cyAoQ2VidXMgW1NhcGFqdXNdIGFwZWxsYSkgc2hvdyBwbGFubmluZyBpbiBhXCJcbiBbM10gXCJDYXB1Y2hpbiBNb25rZXlzIChDZWJ1cyBhcGVsbGEpIE1vZHVsYXRlIFRoZWlyIFVzZSBvZiBhbiBVbmNcIlxuIFs0XSBcIkNhcHVjaGluIG1vbmtleXMgKFNhcGFqdXNbQ2VidXNdYXBlbGxhKSBwbGF5IE5hc2ggZXF1aWxpYnJpYVwiXG4gWzVdIFwiQ2FwdWNoaW4gTW9ua2V5cyBBbHRlcm5hdGUgUGxheSBhbmQgUmV3YXJkIGluIGEgRHVhbCBDb21wdXRlXCJcbiBbNl0gXCJDYXB1Y2hpbiBtb25rZXlzLCBDZWJ1cyBhcGVsbGEsIHNob3cgbm8gZXZpZGVuY2UgZm9yIGluZXF1aXRcIlxuIFs3XSBcIkNhcHVjaGluIG1vbmtleXPigJkgdXNlIG9mIGh1bWFuIGFuZCBjb25zcGVjaWZpYyBjdWVzIHRvIHNvbHZlXCJcbiBbOF0gXCJDYXB1Y2hpbnMgKENlYnVzIGFwZWxsYSkgYXJlIExpbWl0ZWQgaW4gVGhlaXIgQWJpbGl0eSB0byBJbmZcIlxuIFs5XSBcIkNhcHVjaGlucyAoQ2VidXMgYXBlbGxhKSBmYWlsIHRvIHNob3cgYW4gYXN5bW1ldHJpYyBkb21pbmFuY1wiXG5bMTBdIFwiQ2FwdWNoaW5zIHJlY29nbml6ZSBmYW1pbGlhciBmYWNlc1wiICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxMV0gXCJDYXB1Y2hpbnMsIHNwYWNlLCB0aW1lIGFuZCBtZW1vcnk6IGFuIGV4cGVyaW1lbnRhbCB0ZXN0IG9mIHdcIlxuWzEyXSBcIkNoaW1wYW56ZWUgSW50ZWxsaWdlbmNlIElzIEhlcml0YWJsZVwiICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTNdIFwiQ2hpbXBhbnplZXMgKFBhbiB0cm9nbG9keXRlcykgYW5kIGh1bWFuIGNoaWxkcmVuIChIb21vIHNhcGllXCJcblsxNF0gXCJDaGltcGFuemVlcyAoUGFuIHRyb2dsb2R5dGVzKSBBcmUgTW9yZSBBdmVyc2UgdG8gU29jaWFsIFRoYW5cIlxuWzE1XSBcIkNoaW1wYW56ZWVzIChQYW4gdHJvZ2xvZHl0ZXMpIGNhbiB3YWl0LCB3aGVuIHRoZXkgY2hvb3NlIHRvOlwiXG5bMTZdIFwiQ2hpbXBhbnplZXMgKFBhbiB0cm9nbG9keXRlcykgY29vcmRpbmF0ZSBieSBjb21tdW5pY2F0aW5nIGluXCJcblsxN10gXCJDaGltcGFuemVlcyAoUGFuIHRyb2dsb2R5dGVzKSBkaXNwbGF5IGxpbWl0ZWQgYmVoYXZpb3VyYWwgZmxcIlxuWzE4XSBcIkRlbGF5IG9mIGdyYXRpZmljYXRpb24gaXMgYXNzb2NpYXRlZCB3aXRoIHdoaXRlIG1hdHRlciBjb25uZVwiXG5bMTldIFwiRGVsYXllZCByZXNwb25zZSB0YXNrIHBlcmZvcm1hbmNlIGFzIGEgZnVuY3Rpb24gb2YgYWdlIGluIGN5XCJcblsyMF0gXCJEaXZpc2lvbiBvZiBMYWJvciBpbiBIYW5kIFVzYWdlIElzIEFzc29jaWF0ZWQgd2l0aCBIaWdoZXIgSGFcIlxuWzIxXSBcIkRvIENhcHVjaGluIE1vbmtleXMgKENlYnVzIGFwZWxsYSkgRGlhZ25vc2UgQ2F1c2FsIFJlbGF0aW9uc1wiXG5bMjJdIFwiRG8gUHJpbWF0ZXMgU2VlIHRoZSBTb2xpdGFpcmUgSWxsdXNpb24gRGlmZmVyZW50bHk/IEEgQ29tcGFyXCJcblsyM10gXCJEbyByaGVzdXMgbWFjYXF1ZXMsIE1hY2FjYSBtdWxhdHRhLCB1bmRlcnN0YW5kIHdoYXQgb3RoZXJzIGtcIlxuWzI0XSBcIkludmVzdGlnYXRpbmcgdGhlIERlcGxldGlvbiBFZmZlY3Q6IFNlbGYtQ29udHJvbCBkb2VzIG5vdCBXYVwiXG5bMjVdIFwiSXJyYXRpb25hbCBjaG9pY2UgYmVoYXZpb3IgaW4gaHVtYW4gYW5kIG5vbmh1bWFuIHByaW1hdGVzXCIgICBcblsyNl0gXCJMaW1pdHMgb2YgU3BhdGlhbCBWaXNpb24gaW4gU3VtYXRyYW4gT3Jhbmd1dGFucyAoUG9uZ28gYWJlbGlcIlxuWzI3XSBcIkxpbmVhciBudW1lcm9zaXR5IGlsbHVzaW9ucyBpbiBjYXB1Y2hpbiBtb25rZXlzIChTYXBhanVzIGFwZVwiXG5bMjhdIFwiTmVvbmF0YWwgZXhwb3N1cmUgdG8gc2V2b2ZsdXJhbmUgbWF5IG5vdCBjYXVzZSBsZWFybmluZyBhbmQgXCJcblsyOV0gXCJOZW9uYXRhbCBmYWNlLXRvLWZhY2UgaW50ZXJhY3Rpb25zIHNoYXBlIGxhdGVyIHNvY2lhbCBiZWhhdmlcIlxuWzMwXSBcIk9wcG9zaW5nIHB1cGlsIHJlc3BvbnNlcyB0byBvZmZlcmVkIGFuZCBhbnRpY2lwYXRlZCByZXdhcmQgdlwiXG5bMzFdIFwiT3B0aW9uYWwtc3dpdGNoIGNvZ25pdGl2ZSBmbGV4aWJpbGl0eSBpbiBwcmltYXRlczogQ2hpbXBhbnplXCJcblszMl0gXCJPcmFuZ3V0YW5zIChQb25nbyBhYmVsaWkpIGFuZCBhIGdvcmlsbGEgKEdvcmlsbGEgZ29yaWxsYSBnb3JcIlxuWzMzXSBcIlJoZXN1cyBtb25rZXlzIChNYWNhY2EgbXVsYXR0YSkgbWFwIG51bWJlciBvbnRvIHNwYWNlXCIgICAgICAgXG5bMzRdIFwiUmhlc3VzIG1vbmtleXMgKE1hY2FjYSBtdWxhdHRhKSByZW1lbWJlciBhZ2VuY3kgaW5mb3JtYXRpb24gXCJcblszNV0gXCJSaGVzdXMgbW9ua2V5cyBtZXRhY29nbml0aXZlbHkgbW9uaXRvciBtZW1vcmllcyBvZiB0aGUgb3JkZXJcIlxuWzM2XSBcIlNwYXRpYWwgcmVwcmVzZW50YXRpb24gb2YgbWFnbml0dWRlIGluIGh1bWFucyAoSG9tbyBzYXBpZW5zKVwiXG5bMzddIFwiU3BvbnRhbmVvdXMgYXR0ZW50aW9uIGFuZCBwc3ljaG8tcGh5c2lvbG9naWNhbCByZXNwb25zZXMgdG8gXCJcbiJ9 -->
+<pre><code> [1] &quot;Capuchin and rhesus monkeys but not humans show cognitive fl&quot;
+ [2] &quot;Capuchin monkeys (Cebus [Sapajus] apella) show planning in a&quot;
+ [3] &quot;Capuchin Monkeys (Cebus apella) Modulate Their Use of an Unc&quot;
+ [4] &quot;Capuchin monkeys (Sapajus[Cebus]apella) play Nash equilibria&quot;
+ [5] &quot;Capuchin Monkeys Alternate Play and Reward in a Dual Compute&quot;
+ [6] &quot;Capuchin monkeys, Cebus apella, show no evidence for inequit&quot;
+ [7] &quot;Capuchin monkeys’ use of human and conspecific cues to solve&quot;
+ [8] &quot;Capuchins (Cebus apella) are Limited in Their Ability to Inf&quot;
+ [9] &quot;Capuchins (Cebus apella) fail to show an asymmetric dominanc&quot;
+[10] &quot;Capuchins recognize familiar faces&quot;                          
+[11] &quot;Capuchins, space, time and memory: an experimental test of w&quot;
+[12] &quot;Chimpanzee Intelligence Is Heritable&quot;                        
+[13] &quot;Chimpanzees (Pan troglodytes) and human children (Homo sapie&quot;
+[14] &quot;Chimpanzees (Pan troglodytes) Are More Averse to Social Than&quot;
+[15] &quot;Chimpanzees (Pan troglodytes) can wait, when they choose to:&quot;
+[16] &quot;Chimpanzees (Pan troglodytes) coordinate by communicating in&quot;
+[17] &quot;Chimpanzees (Pan troglodytes) display limited behavioural fl&quot;
+[18] &quot;Delay of gratification is associated with white matter conne&quot;
+[19] &quot;Delayed response task performance as a function of age in cy&quot;
+[20] &quot;Division of Labor in Hand Usage Is Associated with Higher Ha&quot;
+[21] &quot;Do Capuchin Monkeys (Cebus apella) Diagnose Causal Relations&quot;
+[22] &quot;Do Primates See the Solitaire Illusion Differently? A Compar&quot;
+[23] &quot;Do rhesus macaques, Macaca mulatta, understand what others k&quot;
+[24] &quot;Investigating the Depletion Effect: Self-Control does not Wa&quot;
+[25] &quot;Irrational choice behavior in human and nonhuman primates&quot;   
+[26] &quot;Limits of Spatial Vision in Sumatran Orangutans (Pongo abeli&quot;
+[27] &quot;Linear numerosity illusions in capuchin monkeys (Sapajus ape&quot;
+[28] &quot;Neonatal exposure to sevoflurane may not cause learning and &quot;
+[29] &quot;Neonatal face-to-face interactions shape later social behavi&quot;
+[30] &quot;Opposing pupil responses to offered and anticipated reward v&quot;
+[31] &quot;Optional-switch cognitive flexibility in primates: Chimpanze&quot;
+[32] &quot;Orangutans (Pongo abelii) and a gorilla (Gorilla gorilla gor&quot;
+[33] &quot;Rhesus monkeys (Macaca mulatta) map number onto space&quot;       
+[34] &quot;Rhesus monkeys (Macaca mulatta) remember agency information &quot;
+[35] &quot;Rhesus monkeys metacognitively monitor memories of the order&quot;
+[36] &quot;Spatial representation of magnitude in humans (Homo sapiens)&quot;
+[37] &quot;Spontaneous attention and psycho-physiological responses to &quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="data-wrangleclean" class="section level1">
-<h1>Data wrangle/clean</h1>
-<p>…</p>
-</div>
-<div id="export" class="section level1">
-<h1>Export</h1>
+<div id="journals" class="section level2">
+<h2>Journals</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KHN0dWRpZXMsIFwiLi4vZGF0YS9zdHVkaWVzX2dzaGVldC5jc3ZcIilcbndyaXRlX2NzdihzcGVjaWVzLCBcIi4uL2RhdGEvc3BlY2llc19nc2hlZXQuY3N2XCIpXG53cml0ZV9jc3Yoc2l0ZXMsIFwiLi4vZGF0YS9zaXRlc19nc2hlZXQuY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>write_csv(studies, &quot;../data/studies_gsheet.csv&quot;)
-write_csv(species, &quot;../data/species_gsheet.csv&quot;)
-write_csv(sites, &quot;../data/sites_gsheet.csv&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc29ydCh1bmlxdWUoc3R1ZGllcyRqb3VybmFsKSlcbmBgYCJ9 -->
+<pre class="r"><code>sort(unique(studies$journal))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIkFtZXJpY2FuIEpvdXJuYWwgb2YgUHJpbWF0b2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbMl0gXCJBbmltYWwgQmVoYXZpb3IgYW5kIENvZ25pdGlvblwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzNdIFwiQW5pbWFsIEJlaGF2aW91clwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs0XSBcIkFuaW1hbCBDb2duaXRpb25cIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbNV0gXCJCZWhhdmlvdXJcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzZdIFwiQmVoYXZpb3VyYWwgUHJvY2Vzc2VzXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs3XSBcIkJpb2xvZ3kgTGV0dGVyc1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbOF0gXCJCTUMgRXZvbHV0aW9uYXJ5IEJpb2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzldIFwiQ2hpbGQgRGV2ZWxvcG1lbnRcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEwXSBcIkNvZ25pdGlvblwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxMV0gXCJDb21tdW5pY2F0aXZlICYgSW50ZWdyYXRpdmUgQmlvbG9neVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTJdIFwiQ29ydGV4XCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEzXSBcIkN1cnJlbnQgQmlvbG9neVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxNF0gXCJEZXZlbG9wbWVudGFsIENvZ25pdGl2ZSBOZXVyb3NjaWVuY2VcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMTVdIFwiRGV2ZWxvcG1lbnRhbCBOZXVyb3NjaWVuY2VcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzE2XSBcIkRldmVsb3BtZW50YWwgUHN5Y2hvYmlvbG9neVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsxN10gXCJEZXZlbG9wbWVudGFsIFNjaWVuY2VcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMThdIFwiRXZvbHV0aW9uIGFuZCBIdW1hbiBCZWhhdmlvclwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzE5XSBcIkV2b2x1dGlvbmFyeSBQc3ljaG9sb2dpY2FsIFNjaWVuY2VcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyMF0gXCJGcm9udGllcnMgaW4gQmVoYXZpb3VyYWwgTmV1cm9zY2llbmNlXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjFdIFwiR2VuZXMsIEJyYWluICYgQmVoYXZpb3JcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzIyXSBcIkluZmFudCBCZWhhdmlvciBhbmQgRGV2ZWxvcG1lbnRcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyM10gXCJJbnRlcm5hdGlvbmFsIEpvdXJuYWwgb2YgQ29tcGFyYXRpdmUgUHN5Y2hvbG9neVwiICAgICAgICAgICAgICAgICAgXG5bMjRdIFwiSW50ZXJuYXRpb25hbCBKb3VybmFsIG9mIFByaW1hdG9sb2d5XCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzI1XSBcIkpvdXJuYWwgb2YgQ29nbml0aW9uIGFuZCBEZXZlbG9wbWVudFwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblsyNl0gXCJKb3VybmFsIG9mIENvbXBhcmF0aXZlIFBzeWNob2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjddIFwiSm91cm5hbCBvZiBFY29ub21pYyBCZWhhdmlvciAmIE9yZ2FuaXphdGlvblwiICAgICAgICAgICAgICAgICAgICAgIFxuWzI4XSBcIkpvdXJuYWwgb2YgRXhwZXJpbWVudGFsIENoaWxkIFBzeWNob2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICBcblsyOV0gXCJKb3VybmFsIG9mIEV4cGVyaW1lbnRhbCBQc3ljaG9sb2d5OiBBbmltYWwgTGVhcm5pbmcgYW5kIENvZ25pdGlvblwiXG5bMzBdIFwiTGVhcm5pbmcgJiBNZW1vcnlcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzMxXSBcIk5hdHVyZSBDb21tdW5pY2F0aW9uc1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblszMl0gXCJOZXVyb3BzeWNob2xvZ2lhXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMzNdIFwiUGVlckpcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzM0XSBcIlBoaWxvc29waGljYWwgVHJhbnNhY3Rpb25zIG9mIHRoZSBSb3lhbCBTb2NpZXR5IEJcIiAgICAgICAgICAgICAgICBcblszNV0gXCJQaHljaG9waGFybWFjb2xvZ3lcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMzZdIFwiUExPUyBCaW9sb2d5XCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzM3XSBcIlBMT1MgT05FXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcblszOF0gXCJQTkFTXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMzldIFwiUHJpbWF0ZXNcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzQwXSBcIlByb2NlZWRpbmdzIG9mIHRoZSBOYXRpb25hbCBBY2FkZW15IG9mIFNjaWVuY2VzXCIgICAgICAgICAgICAgICAgICBcbls0MV0gXCJQcm9jZWVkaW5ncyBvZiB0aGUgUm95YWwgU29jaWV0eSBCXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bNDJdIFwiUHN5Y2hvbG9naWNhbCBTY2llbmNlXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzQzXSBcIlBzeWNob25ldXJvZW5kb2NyaW5vbG9neVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbls0NF0gXCJSb3lhbCBTb2NpZXR5IE9wZW4gU2NpZW5jZVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bNDVdIFwiU2NpZW5jZVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzQ2XSBcIlNjaWVudGlmaWMgUmVwb3J0c1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbls0N10gXCJTb2NpYWwgQ29nbml0aXZlIGFuZCBBZmZlY3RpdmUgTmV1cm9zY2llbmNlXCIgICAgICAgICAgICAgICAgICAgICAgXG5bNDhdIFwiVGhlIEpvdXJuYWwgb2YgTmV1cm9zY2llbmNlXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzQ5XSBcIlZpZXRuYW1lc2UgSm91cm5hbCBvZiBQcmltYXRvbG9neVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
+<pre><code> [1] &quot;American Journal of Primatology&quot;                                  
+ [2] &quot;Animal Behavior and Cognition&quot;                                    
+ [3] &quot;Animal Behaviour&quot;                                                 
+ [4] &quot;Animal Cognition&quot;                                                 
+ [5] &quot;Behaviour&quot;                                                        
+ [6] &quot;Behavioural Processes&quot;                                            
+ [7] &quot;Biology Letters&quot;                                                  
+ [8] &quot;BMC Evolutionary Biology&quot;                                         
+ [9] &quot;Child Development&quot;                                                
+[10] &quot;Cognition&quot;                                                        
+[11] &quot;Communicative &amp; Integrative Biology&quot;                              
+[12] &quot;Cortex&quot;                                                           
+[13] &quot;Current Biology&quot;                                                  
+[14] &quot;Developmental Cognitive Neuroscience&quot;                             
+[15] &quot;Developmental Neuroscience&quot;                                       
+[16] &quot;Developmental Psychobiology&quot;                                      
+[17] &quot;Developmental Science&quot;                                            
+[18] &quot;Evolution and Human Behavior&quot;                                     
+[19] &quot;Evolutionary Psychological Science&quot;                               
+[20] &quot;Frontiers in Behavioural Neuroscience&quot;                            
+[21] &quot;Genes, Brain &amp; Behavior&quot;                                          
+[22] &quot;Infant Behavior and Development&quot;                                  
+[23] &quot;International Journal of Comparative Psychology&quot;                  
+[24] &quot;International Journal of Primatology&quot;                             
+[25] &quot;Journal of Cognition and Development&quot;                             
+[26] &quot;Journal of Comparative Psychology&quot;                                
+[27] &quot;Journal of Economic Behavior &amp; Organization&quot;                      
+[28] &quot;Journal of Experimental Child Psychology&quot;                         
+[29] &quot;Journal of Experimental Psychology: Animal Learning and Cognition&quot;
+[30] &quot;Learning &amp; Memory&quot;                                                
+[31] &quot;Nature Communications&quot;                                            
+[32] &quot;Neuropsychologia&quot;                                                 
+[33] &quot;PeerJ&quot;                                                            
+[34] &quot;Philosophical Transactions of the Royal Society B&quot;                
+[35] &quot;Phychopharmacology&quot;                                               
+[36] &quot;PLOS Biology&quot;                                                     
+[37] &quot;PLOS ONE&quot;                                                         
+[38] &quot;PNAS&quot;                                                             
+[39] &quot;Primates&quot;                                                         
+[40] &quot;Proceedings of the National Academy of Sciences&quot;                  
+[41] &quot;Proceedings of the Royal Society B&quot;                               
+[42] &quot;Psychological Science&quot;                                            
+[43] &quot;Psychoneuroendocrinology&quot;                                         
+[44] &quot;Royal Society Open Science&quot;                                       
+[45] &quot;Science&quot;                                                          
+[46] &quot;Scientific Reports&quot;                                               
+[47] &quot;Social Cognitive and Affective Neuroscience&quot;                      
+[48] &quot;The Journal of Neuroscience&quot;                                      
+[49] &quot;Vietnamese Journal of Primatology&quot;                                </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="species" class="section level2">
+<h2>Species</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoic29ydCh1bmlxdWUoc3R1ZGllcyRzcGVjaWVzKSkifQ== -->
+<pre class="r"><code>sort(unique(studies$species))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjb21tb24gbmFtZXMgbGlzdGVkIG9uIFwiU3R1ZGllc1wiIHRhYiB0aGF0IGRvbid0IGFwcGVhciBvbiBcIlNwZWNpZXNcIiB0YWJcbnNldGRpZmYoc3R1ZGllcyRzcGVjaWVzLCBzcGVjaWVzJHNwZWNpZXNfZmlsZSkgJT4lIHNvcnRcbmBgYCJ9 -->
+<pre class="r"><code># common names listed on &quot;Studies&quot; tab that don't appear on &quot;Species&quot; tab
+setdiff(studies$species, species$species_file) %&gt;% sort</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibWFuZHJpbGxcIlxuIn0= -->
+<pre><code>[1] &quot;mandrill&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="sites" class="section level2">
+<h2>Sites</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoic29ydCh1bmlxdWUoc3R1ZGllcyRzaXRlKSkifQ== -->
+<pre class="r"><code>sort(unique(studies$site))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjb21tb24gbmFtZXMgbGlzdGVkIG9uIFwiU3R1ZGllc1wiIHRhYiB0aGF0IGRvbid0IGFwcGVhciBvbiBcIlNpdGVzXCIgdGFiXG5zZXRkaWZmKHN0dWRpZXMkc2l0ZSwgc2l0ZXMkc2l0ZSkgJT4lIHNvcnRcbmBgYCJ9 -->
+<pre class="r"><code># common names listed on &quot;Studies&quot; tab that don't appear on &quot;Sites&quot; tab
+setdiff(studies$site, sites$site) %&gt;% sort</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiUHJpbWF0ZSBDZW50cmUgb2YgdGhlIEluc3RpdHV0ZSBvZiBDb2duaXRpdmUgU2NpZW5jZXMgYW5kIFRlY2hub2xvZ2llc1wiXG4ifQ== -->
+<pre><code>[1] &quot;Primate Centre of the Institute of Cognitive Sciences and Technologies&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KHN0dWRpZXMsIFwiLi4vZGF0YS9zdHVkaWVzX2dzaGVldC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>write_csv(studies, &quot;../data/studies_gsheet.csv&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <hr />
+</div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
@@ -1911,7 +2569,7 @@ write_csv(sites, &quot;../data/sites_gsheet.csv&quot;)</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgIn0= -->
 <pre class="r"><code>sessionInfo()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUiB2ZXJzaW9uIDMuNi4xICgyMDE5LTA3LTA1KVxuUGxhdGZvcm06IHg4Nl82NC1hcHBsZS1kYXJ3aW4xNS42LjAgKDY0LWJpdClcblJ1bm5pbmcgdW5kZXI6IG1hY09TIE1vamF2ZSAxMC4xNC41XG5cbk1hdHJpeCBwcm9kdWN0czogZGVmYXVsdFxuQkxBUzogICAvU3lzdGVtL0xpYnJhcnkvRnJhbWV3b3Jrcy9BY2NlbGVyYXRlLmZyYW1ld29yay9WZXJzaW9ucy9BL0ZyYW1ld29ya3MvdmVjTGliLmZyYW1ld29yay9WZXJzaW9ucy9BL2xpYkJMQVMuZHlsaWJcbkxBUEFDSzogL0xpYnJhcnkvRnJhbWV3b3Jrcy9SLmZyYW1ld29yay9WZXJzaW9ucy8zLjYvUmVzb3VyY2VzL2xpYi9saWJSbGFwYWNrLmR5bGliXG5cbmxvY2FsZTpcblsxXSBlbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9DL2VuX1VTLlVURi04L2VuX1VTLlVURi04XG5cbmF0dGFjaGVkIGJhc2UgcGFja2FnZXM6XG5bMV0gc3RhdHMgICAgIGdyYXBoaWNzICBnckRldmljZXMgdXRpbHMgICAgIGRhdGFzZXRzICBtZXRob2RzICAgYmFzZSAgICAgXG5cbm90aGVyIGF0dGFjaGVkIHBhY2thZ2VzOlxuIFsxXSBnb29nbGVzaGVldHNfMC4zLjAgZm9yY2F0c18wLjQuMCAgICAgIHN0cmluZ3JfMS40LjAgICAgICBkcGx5cl8wLjguMyAgICAgICAgcHVycnJfMC4zLjIgICAgICAgXG4gWzZdIHJlYWRyXzEuMy4xICAgICAgICB0aWR5cl8xLjAuMCAgICAgICAgdGliYmxlXzIuMS4zICAgICAgIGdncGxvdDJfMy4yLjEgICAgICB0aWR5dmVyc2VfMS4yLjEgICBcblxubG9hZGVkIHZpYSBhIG5hbWVzcGFjZSAoYW5kIG5vdCBhdHRhY2hlZCk6XG4gWzFdIFJjcHBfMS4wLjIgICAgICAgY2VsbHJhbmdlcl8xLjEuMCBwaWxsYXJfMS40LjIgICAgIGNvbXBpbGVyXzMuNi4xICAgdG9vbHNfMy42LjEgICAgIFxuIFs2XSB6ZWFsbG90XzAuMS4wICAgIGx1YnJpZGF0ZV8xLjcuNCAganNvbmxpdGVfMS42ICAgICBsaWZlY3ljbGVfMC4xLjAgIG5sbWVfMy4xLTE0MSAgICBcblsxMV0gZ3RhYmxlXzAuMy4wICAgICBsYXR0aWNlXzAuMjAtMzggIHBrZ2NvbmZpZ18yLjAuMyAgcmxhbmdfMC40LjAgICAgICBjbGlfMS4xLjAgICAgICAgXG5bMTZdIHJzdHVkaW9hcGlfMC4xMCAgY3VybF80LjIgICAgICAgICBoYXZlbl8yLjEuMSAgICAgIHhmdW5fMC4xMCAgICAgICAgd2l0aHJfMi4xLjIgICAgIFxuWzIxXSB4bWwyXzEuMi4yICAgICAgIGh0dHJfMS40LjEgICAgICAga25pdHJfMS4yNSAgICAgICBhc2twYXNzXzEuMSAgICAgIGdlbmVyaWNzXzAuMC4yICBcblsyNl0gdmN0cnNfMC4yLjAgICAgICBobXNfMC41LjEgICAgICAgIGdyaWRfMy42LjEgICAgICAgdGlkeXNlbGVjdF8wLjIuNSBnbHVlXzEuMy4xICAgICAgXG5bMzFdIFI2XzIuNC4wICAgICAgICAgZmFuc2lfMC40LjAgICAgICByZWFkeGxfMS4zLjEgICAgIG1vZGVscl8wLjEuNSAgICAgbWFncml0dHJfMS41ICAgIFxuWzM2XSBiYWNrcG9ydHNfMS4xLjUgIHNjYWxlc18xLjAuMCAgICAgcnZlc3RfMC4zLjQgICAgICBhc3NlcnR0aGF0XzAuMi4xIGNvbG9yc3BhY2VfMS40LTFcbls0MV0gdXRmOF8xLjEuNCAgICAgICBzdHJpbmdpXzEuNC4zICAgIG9wZW5zc2xfMS40LjEgICAgbGF6eWV2YWxfMC4yLjIgICBtdW5zZWxsXzAuNS4wICAgXG5bNDZdIGJyb29tXzAuNS4yICAgICAgY3JheW9uXzEuMy40ICAgIFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiUiB2ZXJzaW9uIDMuNi4xICgyMDE5LTA3LTA1KVxuUGxhdGZvcm06IHg4Nl82NC1hcHBsZS1kYXJ3aW4xNS42LjAgKDY0LWJpdClcblJ1bm5pbmcgdW5kZXI6IG1hY09TIE1vamF2ZSAxMC4xNC41XG5cbk1hdHJpeCBwcm9kdWN0czogZGVmYXVsdFxuQkxBUzogICAvU3lzdGVtL0xpYnJhcnkvRnJhbWV3b3Jrcy9BY2NlbGVyYXRlLmZyYW1ld29yay9WZXJzaW9ucy9BL0ZyYW1ld29ya3MvdmVjTGliLmZyYW1ld29yay9WZXJzaW9ucy9BL2xpYkJMQVMuZHlsaWJcbkxBUEFDSzogL0xpYnJhcnkvRnJhbWV3b3Jrcy9SLmZyYW1ld29yay9WZXJzaW9ucy8zLjYvUmVzb3VyY2VzL2xpYi9saWJSbGFwYWNrLmR5bGliXG5cbmxvY2FsZTpcblsxXSBlbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9lbl9VUy5VVEYtOC9DL2VuX1VTLlVURi04L2VuX1VTLlVURi04XG5cbmF0dGFjaGVkIGJhc2UgcGFja2FnZXM6XG5bMV0gc3RhdHMgICAgIGdyYXBoaWNzICBnckRldmljZXMgdXRpbHMgICAgIGRhdGFzZXRzICBtZXRob2RzICAgYmFzZSAgICAgXG5cbm90aGVyIGF0dGFjaGVkIHBhY2thZ2VzOlxuIFsxXSBnb29nbGVzaGVldHNfMC4zLjAgbWFwc18zLjMuMCAgICAgICAgIGNvd3Bsb3RfMS4wLjAgICAgICBmb3JjYXRzXzAuNC4wICAgICAgc3RyaW5ncl8xLjQuMCAgICAgXG4gWzZdIGRwbHlyXzAuOC4zICAgICAgICBwdXJycl8wLjMuMiAgICAgICAgcmVhZHJfMS4zLjEgICAgICAgIHRpZHlyXzEuMC4wICAgICAgICB0aWJibGVfMi4xLjMgICAgICBcblsxMV0gZ2dwbG90Ml8zLjIuMSAgICAgIHRpZHl2ZXJzZV8xLjIuMSAgIFxuXG5sb2FkZWQgdmlhIGEgbmFtZXNwYWNlIChhbmQgbm90IGF0dGFjaGVkKTpcbiBbMV0gdGlkeXNlbGVjdF8wLjIuNSAgeGZ1bl8wLjEwICAgICAgICAgaGF2ZW5fMi4xLjEgICAgICAgbGF0dGljZV8wLjIwLTM4ICAgY29sb3JzcGFjZV8xLjQtMSBcbiBbNl0gdmN0cnNfMC4yLjAgICAgICAgZ2VuZXJpY3NfMC4wLjIgICAgdmlyaWRpc0xpdGVfMC4zLjAgdXRmOF8xLjEuNCAgICAgICAgcmxhbmdfMC40LjAgICAgICBcblsxMV0gcGlsbGFyXzEuNC4yICAgICAgZ2x1ZV8xLjMuMSAgICAgICAgd2l0aHJfMi4xLjIgICAgICAgbW9kZWxyXzAuMS41ICAgICAgcmVhZHhsXzEuMy4xICAgICBcblsxNl0gbGlmZWN5Y2xlXzAuMS4wICAgbXVuc2VsbF8wLjUuMCAgICAgZ3RhYmxlXzAuMy4wICAgICAgY2VsbHJhbmdlcl8xLjEuMCAgcnZlc3RfMC4zLjQgICAgICBcblsyMV0gbGFiZWxpbmdfMC4zICAgICAga25pdHJfMS4yNSAgICAgICAgY3VybF80LjIgICAgICAgICAgZmFuc2lfMC40LjAgICAgICAgYnJvb21fMC41LjIgICAgICBcblsyNl0gUmNwcF8xLjAuMiAgICAgICAgb3BlbnNzbF8xLjQuMSAgICAgc2NhbGVzXzEuMC4wICAgICAgYmFja3BvcnRzXzEuMS41ICAganNvbmxpdGVfMS42ICAgICBcblszMV0gZ3JpZEV4dHJhXzIuMyAgICAgYXNrcGFzc18xLjEgICAgICAgaG1zXzAuNS4xICAgICAgICAgZGlnZXN0XzAuNi4yMSAgICAgc3RyaW5naV8xLjQuMyAgICBcblszNl0gZ3JpZF8zLjYuMSAgICAgICAgY2xpXzEuMS4wICAgICAgICAgdG9vbHNfMy42LjEgICAgICAgbWFncml0dHJfMS41ICAgICAgbGF6eWV2YWxfMC4yLjIgICBcbls0MV0gY3JheW9uXzEuMy40ICAgICAgcGtnY29uZmlnXzIuMC4zICAgemVhbGxvdF8wLjEuMCAgICAgeG1sMl8xLjIuMiAgICAgICAgbHVicmlkYXRlXzEuNy40ICBcbls0Nl0gYXNzZXJ0dGhhdF8wLjIuMSAgaHR0cl8xLjQuMSAgICAgICAgcnN0dWRpb2FwaV8wLjEwICAgdmlyaWRpc18wLjUuMSAgICAgUjZfMi40LjAgICAgICAgICBcbls1MV0gbmxtZV8zLjEtMTQxICAgICAgY29tcGlsZXJfMy42LjEgICBcbiJ9 -->
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS Mojave 10.14.5
@@ -1927,27 +2585,29 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] googlesheets_0.3.0 forcats_0.4.0      stringr_1.4.0      dplyr_0.8.3        purrr_0.3.2       
- [6] readr_1.3.1        tidyr_1.0.0        tibble_2.1.3       ggplot2_3.2.1      tidyverse_1.2.1   
+ [1] googlesheets_0.3.0 maps_3.3.0         cowplot_1.0.0      forcats_0.4.0      stringr_1.4.0     
+ [6] dplyr_0.8.3        purrr_0.3.2        readr_1.3.1        tidyr_1.0.0        tibble_2.1.3      
+[11] ggplot2_3.2.1      tidyverse_1.2.1   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.2       cellranger_1.1.0 pillar_1.4.2     compiler_3.6.1   tools_3.6.1     
- [6] zeallot_0.1.0    lubridate_1.7.4  jsonlite_1.6     lifecycle_0.1.0  nlme_3.1-141    
-[11] gtable_0.3.0     lattice_0.20-38  pkgconfig_2.0.3  rlang_0.4.0      cli_1.1.0       
-[16] rstudioapi_0.10  curl_4.2         haven_2.1.1      xfun_0.10        withr_2.1.2     
-[21] xml2_1.2.2       httr_1.4.1       knitr_1.25       askpass_1.1      generics_0.0.2  
-[26] vctrs_0.2.0      hms_0.5.1        grid_3.6.1       tidyselect_0.2.5 glue_1.3.1      
-[31] R6_2.4.0         fansi_0.4.0      readxl_1.3.1     modelr_0.1.5     magrittr_1.5    
-[36] backports_1.1.5  scales_1.0.0     rvest_0.3.4      assertthat_0.2.1 colorspace_1.4-1
-[41] utf8_1.1.4       stringi_1.4.3    openssl_1.4.1    lazyeval_0.2.2   munsell_0.5.0   
-[46] broom_0.5.2      crayon_1.3.4    </code></pre>
+ [1] tidyselect_0.2.5  xfun_0.10         haven_2.1.1       lattice_0.20-38   colorspace_1.4-1 
+ [6] vctrs_0.2.0       generics_0.0.2    viridisLite_0.3.0 utf8_1.1.4        rlang_0.4.0      
+[11] pillar_1.4.2      glue_1.3.1        withr_2.1.2       modelr_0.1.5      readxl_1.3.1     
+[16] lifecycle_0.1.0   munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0  rvest_0.3.4      
+[21] labeling_0.3      knitr_1.25        curl_4.2          fansi_0.4.0       broom_0.5.2      
+[26] Rcpp_1.0.2        openssl_1.4.1     scales_1.0.0      backports_1.1.5   jsonlite_1.6     
+[31] gridExtra_2.3     askpass_1.1       hms_0.5.1         digest_0.6.21     stringi_1.4.3    
+[36] grid_3.6.1        cli_1.1.0         tools_3.6.1       magrittr_1.5      lazyeval_0.2.2   
+[41] crayon_1.3.4      pkgconfig_2.0.3   zeallot_0.1.0     xml2_1.2.2        lubridate_1.7.4  
+[46] assertthat_0.2.1  httr_1.4.1        rstudioapi_0.10   viridis_0.5.1     R6_2.4.0         
+[51] nlme_3.1-141      compiler_3.6.1   </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJlcCBHU2hlZXQgZGF0YSIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICBjc3M6IHN0eWxlLmNzcwogICAgdGhlbWU6IHBhcGVyCi0tLQoKYGBge3Igc2V0dXAsIG1lc3NhZ2U9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdvb2dsZXNoZWV0cykKYGBgCgojIExvYWQgR1NoZWV0cwoKYGBge3J9CiMgYWxsb3cgYWNjZXNzIChpbiBicm93c2VyKQpnc19hdXRoKCkKYGBgCgpgYGB7cn0KIyBncmFiIGdzaGVldCBieSBuYW1lIG9yIGtleQpsaXQgPC0gZ3NfdGl0bGUoIkxpdCByZXZpZXcgZm9yIEphcGFuZXNlIFBzeWNob2xvZ2ljYWwgUmV2aWV3IikKIyBsaXQgPC0gZ3Nfa2V5KCIxVHloTU9DeWpIVFVLeXNUamtxZUpZUVNxRG84MklrXzlMZGhtb3B4V1QyTSIpCmBgYAoKYGBge3J9CiMgbGlzdCB3b3Jrc2hlZXRzCmdzX3dzX2xzKGxpdCkKYGBgCgpgYGB7ciwgbWVzc2FnZT1GQUxTRX0KIyBkb3dubG9hZC9hc3NpZ24gZGlmZmVyZW50IHNoZWV0cyB0byBkaWZmZXJlbnQgZGF0YWZyYW1lcwpzdHVkaWVzIDwtIGdzX3JlYWQobGl0LCBza2lwID0gMTUsIHByb2dyZXNzID0gRikKc3BlY2llcyA8LSBnc19yZWFkKGxpdCwgd3MgPSAiU3BlY2llcyIsIGNvbW1lbnQgPSAiIyIsIHByb2dyZXNzID0gRikKc2l0ZXMgPC0gZ3NfcmVhZChsaXQsIHdzID0gIlNpdGVzIiwgY29tbWVudCA9ICIjIiwgcHJvZ3Jlc3MgPSBGKQpgYGAKCmBgYHtyfQpnbGltcHNlKHN0dWRpZXMpCmBgYAoKYGBge3J9CmdsaW1wc2Uoc3BlY2llcykKYGBgCgpgYGB7cn0KZ2xpbXBzZShzaXRlcykKYGBgCgojIERhdGEgd3JhbmdsZS9jbGVhbgoKLi4uCgojIEV4cG9ydAoKYGBge3J9CndyaXRlX2NzdihzdHVkaWVzLCAiLi4vZGF0YS9zdHVkaWVzX2dzaGVldC5jc3YiKQp3cml0ZV9jc3Yoc3BlY2llcywgIi4uL2RhdGEvc3BlY2llc19nc2hlZXQuY3N2IikKd3JpdGVfY3N2KHNpdGVzLCAiLi4vZGF0YS9zaXRlc19nc2hlZXQuY3N2IikKYGBgCgoqKioKCiMgU2Vzc2lvbiBJbmZvCgpgYGB7cn0Kc2Vzc2lvbkluZm8oKQpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJlcCBHU2hlZXQgZGF0YSIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICBjc3M6IHN0eWxlLmNzcwogICAgdGhlbWU6IHBhcGVyCi0tLQoKYGBge3Igc2V0dXAsIG1lc3NhZ2U9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdvb2dsZXNoZWV0cykKYGBgCgojIExvYWQgR1NoZWV0cwoKd2hlbiB5b3UgZmlyc3QgcnVuIHRoaXMsIGFsbG93IGFjY2VzcyBpbiBicm93c2VyIChjYW4gYWxzbyB1c2UgYGdzX2F1dGgoKWAgY29tbWFuZCBzZXBhcmF0ZWx5KQoKYGBge3J9CiMgZ3JhYiBnc2hlZXQgYnkgbmFtZSBvciBrZXkKbGl0IDwtIGdzX3RpdGxlKCJMaXQgcmV2aWV3IGZvciBKYXBhbmVzZSBQc3ljaG9sb2dpY2FsIFJldmlldyIpCiMgbGl0IDwtIGdzX2tleSgiMVR5aE1PQ3lqSFRVS3lzVGprcWVKWVFTcURvODJJa185TGRobW9weFdUMk0iKQpgYGAKCmBgYHtyfQojIGxpc3Qgd29ya3NoZWV0cwpnc193c19scyhsaXQpCmBgYAoKYGBge3IsIG1lc3NhZ2U9RkFMU0V9CiMgdGltZSBzdGFtcCBmb3IgcmVmZXJlbmNlClN5cy50aW1lKCkKCiMgZG93bmxvYWQvYXNzaWduIGRpZmZlcmVudCBzaGVldHMgdG8gZGlmZmVyZW50IGRhdGFmcmFtZXMKc3BlY2llcyA8LSBnc19yZWFkKGxpdCwgd3MgPSAiU3BlY2llcyIsIGNvbW1lbnQgPSAiIyIsIHByb2dyZXNzID0gRikKc2l0ZXMgPC0gZ3NfcmVhZChsaXQsIHdzID0gIlNpdGVzIiwgY29tbWVudCA9ICIjIiwgcHJvZ3Jlc3MgPSBGKQpzdHVkaWVzIDwtIGdzX3JlYWQobGl0LCBza2lwID0gMTUsIHByb2dyZXNzID0gRikKYGBgCgojIERhdGEgY2xlYW46IFNwZWNpZXMKCmBgYHtyfQojIGNoZWNrIGRhdGEgdHlwZXMKZ2xpbXBzZShzcGVjaWVzKQpgYGAKCmBgYHtyfQojIG51bWJlciBvZiBOQXMgZm9yIGVhY2ggdmFyaWFibGUKc3VtbWFyaXNlX2FsbChzcGVjaWVzLCBmdW5jdGlvbih4KSBzdW0oaXMubmEoeCkpKQpgYGAKCmBgYHtyfQojIGFueSBjb21tb24gbmFtZXMgZHVwbGljYXRlZD8KZmlsdGVyKHNwZWNpZXMsICFpcy5uYShzcGVjaWVzX2ZpbGUpLCBkdXBsaWNhdGVkKHNwZWNpZXNfZmlsZSkpCmBgYAoKYGBge3J9CnNwZWNpZXMgPC0gc2VsZWN0KHNwZWNpZXMsIC1ub3RlcykKYGBgCgpgYGB7cn0Kd3JpdGVfY3N2KHNwZWNpZXMsICIuLi9kYXRhL3NwZWNpZXNfZ3NoZWV0LmNzdiIpCmBgYAoKIyBEYXRhIGNsZWFuOiBTaXRlcwoKYGBge3J9CiMgY2hlY2sgZGF0YSB0eXBlcwpnbGltcHNlKHNpdGVzKQpgYGAKCmBgYHtyfQojIG51bWJlciBvZiBOQXMgZm9yIGVhY2ggdmFyaWFibGUKc3VtbWFyaXNlX2FsbChzaXRlcywgZnVuY3Rpb24oeCkgc3VtKGlzLm5hKHgpKSkKYGBgCgpgYGB7cn0KIyBhbnkgZHVwbGljYXRlZCBzaXRlcz8KZmlsdGVyKHNpdGVzLCBkdXBsaWNhdGVkKHNpdGUpKQpgYGAKCmBgYHtyfQpmaWx0ZXIoc2l0ZXMsIGlzLm5hKGxhdCkgfCBpcy5uYShsb25nKSkKYGBgCgpgYGB7cn0KIyBsYXQgc2hvdWxkIGJlIHdpdGhpbiArLy0gOTAsIGxvbmcgd2l0aGluICsvLSAxODAKcmFuZ2Uoc2l0ZXMkbGF0KQpyYW5nZShzaXRlcyRsb25nKQpgYGAKCmBgYHtyfQpzaXRlcyA8LSBzZWxlY3Qoc2l0ZXMsIC1ub3RlcykKYGBgCgpgYGB7cn0Kd3JpdGVfY3N2KHNpdGVzLCAiLi4vZGF0YS9zaXRlc19nc2hlZXQuY3N2IikKYGBgCgojIERhdGEgY2xlYW46IFN0dWRpZXMKCiMjIEdlbmVyYWwKCmBgYHtyfQojIGNoZWNrIGRhdGEgdHlwZXMsIGVnIG4sIGZlbWFsZSwgZHJvcG91dCBzaG91bGQgYmUgbnVtZXJpYwpnbGltcHNlKHN0dWRpZXMpCmBgYAoKYGBge3J9CiMgYWRkIG9yaWdpbmFsIGdzaGVldCByb3cgbnVtYmVycyBmb3IgcmVmZXJlbmNlCnN0dWRpZXMgPC0gbXV0YXRlKHN0dWRpZXMsIHJvdyA9IHJvd19udW1iZXIoKSArIDE2KSAlPiUgc2VsZWN0KHJvdywgZXZlcnl0aGluZygpKQpgYGAKCmBgYHtyfQojIFRPRE8gY2hlY2sgd2hldGhlciB0aGVzZSBzaG91bGQgYmUgZXhjbHVkZWQKIyBpZiBub3QsIHJlbW92ZSB0aGUgY29tbWVudCBpbiB0aGUgInRvX2V4Y2x1ZGUiIGNvbHVtbgojIGlmIHllcywgZGVsZXRlIHRoYXQgbGluZQpzdHVkaWVzICU+JSAKICAgIGZpbHRlcihzdHJfZGV0ZWN0KHRvX2V4Y2x1ZGUsICJleGNsdWRlIikpICU+JSAKICAgIG11dGF0ZShhdXRob3JzID0gc3RyX3N1YihhdXRob3JzLCAxLCAxNSksIHRpdGxlID0gc3RyX3N1Yih0aXRsZSwgMSwgMzUpKSAlPiUgCiAgICBzZWxlY3Qocm93LCBhdXRob3JzLCB0aXRsZSwgeWVhcikKCnN0dWRpZXMgPC0gc3R1ZGllcyAlPiUgZmlsdGVyKGlzLm5hKHRvX2V4Y2x1ZGUpKSAlPiUgc2VsZWN0KC10b19leGNsdWRlKQpgYGAKCmBgYHtyfQojIGFkZCBhIHN0dWR5SUQgdmFyaWFibGUgKHRvIGVhc2lseSBncm91cCBieSBzdHVkeSkKc3R1ZGllcyRzdHVkeUlEIDwtIHN0dWRpZXMgJT4lIGdyb3VwX2luZGljZXModGl0bGUpCnN0dWRpZXMgPC0gc2VsZWN0KHN0dWRpZXMsIHJvdywgc3R1ZHlJRCwgZXZlcnl0aGluZygpKQpgYGAKCmBgYHtyfQojIG51bWJlciBvZiBOQXMgZm9yIGVhY2ggdmFyaWFibGUKc3VtbWFyaXNlX2FsbChzdHVkaWVzLCBmdW5jdGlvbih4KSBzdW0oaXMubmEoeCkpKQpgYGAKCmBgYHtyfQpzb3J0KHVuaXF1ZShzdHVkaWVzJHllYXIpKQpgYGAKCmBgYHtyfQpzb3J0KHVuaXF1ZShzdHVkaWVzJGFnZSkpCmBgYAoKYGBge3J9CnNvcnQodW5pcXVlKHN0dWRpZXMkc3BlY2llc19jb21wYXJpc29uKSkKYGBgCgpgYGB7cn0KIyBtb3JlIGZlbWFsZXMgdGhhbiB0b3RhbCBzYW1wbGU/CmZpbHRlcihzdHVkaWVzLCBmZW1hbGUgPiBuKQpgYGAKCmBgYHtyfQojIHllcyBvciBubwpzb3J0KHVuaXF1ZShzdHVkaWVzJGF0dGVtcHRfcmVwbGljYXRpb24pKQpgYGAKCmBgYHtyfQojIHllcywgbm8sIChwYXJ0aWFsPykKc29ydCh1bmlxdWUoc3R1ZGllcyRzdWNjZXNzZnVsX3JlcGxpY2F0aW9uKSkKYGBgCgpgYGB7cn0KIyBpZiBubyByZXBsaWNhdGlvbiBhdHRlbXB0LCB0aGVuIHN1Y2Nlc3NmdWxfcmVwbGljYXRpb24gc2hvdWxkIGJlIE5BCmZpbHRlcihzdHVkaWVzLCBhdHRlbXB0X3JlcGxpY2F0aW9uID09ICJubyIsICFpcy5uYShzdWNjZXNzZnVsX3JlcGxpY2F0aW9uKSkKYGBgCgpgYGB7cn0KIyBpZiBubyByZXBsaWNhdGlvbiBhdHRlbXB0LCB0aGVuIHN1Y2Nlc3NmdWxfcmVwbGljYXRpb24gc2hvdWxkIG5vdCBiZSBOQQpmaWx0ZXIoc3R1ZGllcywgYXR0ZW1wdF9yZXBsaWNhdGlvbiA9PSAieWVzIiwgaXMubmEoc3VjY2Vzc2Z1bF9yZXBsaWNhdGlvbikpCmBgYAoKIyMgRHVwbGljYXRlIHN0dWR5IGVudHJpZXMKCmBgYHtyfQojIHRoaXMgbGlzdHMgc3R1ZGllcyB3aXRoIG1vcmUgdGhhbiAxIGVudHJ5IGZvciBhIGdpdmVuIHRpdGxlLCBzcGVjaWVzLCBhbmQgc2l0ZQojIHRoaXMgY2FuIGJlIG9rIC0tIGVnIFNjaHViaWdlciBldCBhbCAyMDE2IGV4cCAxIG1hcm1vc2V0cyByZXBsaWNhdGlvbiBhdHRlbXB0LCBleHAyIG5haXZlIG1hcm1vc2V0cyBub3QgcmVwbGljYXRpb24gYXR0ZW1wdCAtLSBidXQgY2hlY2sKIyBpZiBkYXRhIGZyb20gZGlmZmVyZW50IGV4cGVyaW1lbnRzLCB0b3RhbCBudW1iZXIgb2YgZGlmZmVyZW50IGluZGl2aWR1YWxzIHNob3VsZCBiZSBsaXN0ZWQKIyBlZyBpZiBleHAgMSBuID0gMTAsIGV4cCAyIHJldGVzdHMgOCBvZiB0aG9zZSAxMCwgdGhlbiBvbmx5IGxpc3RlZCBvbmNlIHdpdGggbiA9IDEwCnN0dWRpZXMgJT4lIAogICAgZ3JvdXBfYnkodGl0bGUsIHNwZWNpZXMsIHNpdGUpICU+JQogICAgZmlsdGVyKG4oKSA+IDEpICU+JSAKICAgIHVuZ3JvdXAgJT4lIAogICAgbXV0YXRlKGF1dGhvcnMgPSBzdHJfc3ViKGF1dGhvcnMsIDEsIDE1KSwgdGl0bGUgPSBzdHJfc3ViKHRpdGxlLCAxLCAzNSkpICU+JSAKICAgIHNlbGVjdChyb3csIGF1dGhvcnMsIHRpdGxlLCB5ZWFyLCBzcGVjaWVzKSAlPiUgCiAgICBhcnJhbmdlKHRpdGxlKQoKIyBXb2JiZXIgZXQgYWwgMjAxNCBvawojIFNjaHViaWdlciBldCBhbCAyMDE2IG9rCmBgYAoKYGBge3J9CiMgc2NhbiBmb3IgZHVwbGljYXRlIGVudHJpZXMgdGhhdCBkaWZmZXIgaW4gY2FzZSAoZWcgU2VudGVuY2UgdnMuIFRpdGxlIGNhc2UpIG9yIHdpdGggdHlwb3MKIyBzaG93IG9ubHkgZmlyc3QgMjUgY2hhcmFjdGVycyAtLT4gY2hlY2sgb3V0IHBvdGVudGlhbCBkdXBsaWNhdGVzIGluIG5leHQgY2h1bmsgYmVsb3cKc29ydCh1bmlxdWUoc3R1ZGllcyR0aXRsZSkpICU+JSBzdHJfc3ViKDEsIDI1KQpgYGAKCmBgYHtyfQpjYW5kaWRhdGVzIDwtIGMoNTU6NjUsIDc3OjgyLCAxMzg6MTM5LCAxNTc6MTU4LCAxNjY6MTY3LCAyOTk6MzAwLCAzMTQ6MzE1LCAzNTU6MzU2LCAKICAgICAgICAgICAgICAgIDM3NDozNzYsIDQyNzo0MjksIDQ2Mzo0NjQpCgpzdHJfc3ViKHNvcnQodW5pcXVlKHN0dWRpZXMkdGl0bGUpKSwgMSwgNjApW2NhbmRpZGF0ZXNdCmBgYAoKIyMgSm91cm5hbHMKCmBgYHtyfQpzb3J0KHVuaXF1ZShzdHVkaWVzJGpvdXJuYWwpKQpgYGAKCiMjIFNwZWNpZXMKCmBgYHtyLCBldmFsPUZBTFNFfQpzb3J0KHVuaXF1ZShzdHVkaWVzJHNwZWNpZXMpKQpgYGAKCmBgYHtyfQojIGNvbW1vbiBuYW1lcyBsaXN0ZWQgb24gIlN0dWRpZXMiIHRhYiB0aGF0IGRvbid0IGFwcGVhciBvbiAiU3BlY2llcyIgdGFiCnNldGRpZmYoc3R1ZGllcyRzcGVjaWVzLCBzcGVjaWVzJHNwZWNpZXNfZmlsZSkgJT4lIHNvcnQKYGBgCgojIyBTaXRlcwoKYGBge3IsIGV2YWw9RkFMU0V9CnNvcnQodW5pcXVlKHN0dWRpZXMkc2l0ZSkpCmBgYAoKYGBge3J9CiMgY29tbW9uIG5hbWVzIGxpc3RlZCBvbiAiU3R1ZGllcyIgdGFiIHRoYXQgZG9uJ3QgYXBwZWFyIG9uICJTaXRlcyIgdGFiCnNldGRpZmYoc3R1ZGllcyRzaXRlLCBzaXRlcyRzaXRlKSAlPiUgc29ydApgYGAKCmBgYHtyfQp3cml0ZV9jc3Yoc3R1ZGllcywgIi4uL2RhdGEvc3R1ZGllc19nc2hlZXQuY3N2IikKYGBgCgoqKioKCiMgU2Vzc2lvbiBJbmZvCgpgYGB7cn0Kc2Vzc2lvbkluZm8oKQpgYGAKCg==</div>
 
 
 
