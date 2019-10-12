@@ -22,7 +22,8 @@ sites <- read_csv("../data/sites_gsheet.csv")
 ```{r}
 df <- studies %>% 
   group_by(site) %>% 
-  summarise(Nstudies = n_distinct(studyID)) %>% 
+  summarise(Nstudies = n_distinct(studyID),
+            Nspecies = n_distinct(species)) %>% 
   left_join(sites)
 ```
 
@@ -111,6 +112,75 @@ plot_grid(mx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
 
 ```{r}
 ggsave("../graphs/map_insets.pdf", width = 8, height = 5.5, scale = 2)
+```
+
+# Color = No species
+
+```{r, fig.width=8, fig.height=4}
+ms <- ggplot(df, aes(x = long, y = lat)) +
+  geom_polygon(data = world, aes(group = group), fill = "grey90") +
+  geom_point(aes(size = Nstudies, fill = Nspecies), shape = 21, alpha = .8) +
+  theme_map() +
+  # # to make fill into discrete; overlap with size legend
+  # scale_size_area("Number of\nStudies", max_size = 15) +
+  # scale_fill_viridis_c("Number of\nStudies", guide = "legend") +
+  # to have them side by side
+  scale_fill_gradientn("", breaks = c(1, 11), colours = c("#598cde","#d4e324", "black")) +
+  scale_size_area("", max_size = 15, breaks = c(1, 20, 40, 60)) +
+  theme(legend.box = "horizontal") +
+  guides(fill = guide_colorbar(reverse = T, barheight = 9.5, order = 1), 
+         size = guide_legend(keyheight = 2.6, title.theme = element_text(size = 4)))
+
+legend <- get_legend(ms)
+# plot_grid(legend)
+
+msx <- ms +
+  annotate("rect", ymin = c(24, 31, 24), ymax = c(46, 62, 50), xmin = c(124, -12, -130), 
+           xmax = c(146, 32, -64), size = .5, col = "grey", fill = NA) + 
+  coord_fixed(1.3, ylim = c(-55, 83.59961)) +
+  theme(legend.position = "none")
+```
+
+## Zoom in on sections
+
+```{r}
+# japan
+ms1 <- ms + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nspecies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(25, 45), xlim = c(125, 145)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+
+# europe
+ms2 <- ms + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nspecies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(32, 60), xlim = c(-10, 30)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+
+# contiguous us
+usa = map("state", plot = FALSE, fill = TRUE) %>% fortify() # "usa"
+
+ms3 <- ms + 
+  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_polygon(data = usa, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
+  geom_point(aes(size = Nstudies, fill = Nspecies), shape = 21, alpha = .8) +
+  coord_fixed(1.3, ylim = c(25, 49), xlim = c(-127, -67)) +
+  theme(legend.position = "none") +
+  panel_border(color = "grey", size = .5)
+```
+
+```{r, fig.width=8, fig.height=5.5, cache=TRUE}
+legs <- plot_grid(NA, legend, ncol = 2, rel_heights = c(.1, .9), labels = c("Species", "Studies"), label_x = -.1)
+bottom_row <- plot_grid(ms3, ms2, NA, ms1, NA, legs, nrow = 1, rel_widths = c(2, 1.18, .06, .85, .08, .7))
+plot_grid(msx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
+  theme(plot.margin = unit(c(.5, .5, 1.5, .5), "cm"))
+```
+
+```{r}
+ggsave("../graphs/map_insets_col_species.pdf", width = 8, height = 5.5, scale = 2)
 ```
 
 
