@@ -54,7 +54,10 @@ filter(species, !is.na(species_file), duplicated(species_file))
 ```
 
 ```{r}
-species <- select(species, -notes)
+species <- species %>% 
+  add_row(species_tree = "Pan_troglodytes", species_file = "chimpanzee") %>% 
+  add_row(species_tree = "Pongo_spp", species_file = "orangutan") %>% 
+  select(-notes)
 ```
 
 ```{r}
@@ -108,18 +111,6 @@ glimpse(studies)
 ```{r}
 # add original gsheet row numbers for reference
 studies <- mutate(studies, row = row_number() + 16) %>% select(row, everything())
-```
-
-```{r}
-# TODO check whether these should be excluded
-# if not, remove the comment in the "to_exclude" column
-# if yes, delete that line
-studies %>% 
-    filter(str_detect(to_exclude, "exclude")) %>% 
-    mutate(authors = str_sub(authors, 1, 15), title = str_sub(title, 1, 35)) %>% 
-    select(row, authors, title, year)
-
-studies <- studies %>% filter(is.na(to_exclude)) %>% select(-to_exclude)
 ```
 
 ```{r}
@@ -192,7 +183,7 @@ studies %>%
 ```{r}
 # scan for duplicate entries that differ in case (eg Sentence vs. Title case) or with typos
 # show only first 25 characters --> check out potential duplicates in next chunk below
-sort(unique(studies$title)) %>% str_sub(1, 25)
+sort(unique(tolower(studies$title))) %>% str_sub(1, 25)
 ```
 
 ```{r}
@@ -209,6 +200,18 @@ sort(unique(studies$journal))
 ```
 
 ## Species
+
+```{r}
+studies <- studies %>% 
+  mutate(species = recode(species, "coppery titi monkey" = "red-bellied titi monkey",
+                          "red-fronted lemur" = "red lemur",
+                          "Eastern hoolock" = "Hoolock gibbon",
+                          "bearded capuchin" = "tufted capuchin",
+                          "black tufted capuchin" = "tufted capuchin",
+                          "black-fronted titi monkey" = "masked titi monkey",
+                          "Sumatran orangutan" = "orangutan",
+                          "Bornean orangutan" = "orangutan"))
+```
 
 ```{r, eval=FALSE}
 sort(unique(studies$species))
@@ -228,6 +231,12 @@ sort(unique(studies$site))
 ```{r}
 # common names listed on "Studies" tab that don't appear on "Sites" tab
 setdiff(studies$site, sites$site) %>% sort
+```
+
+## Export
+
+```{r}
+studies <- select(studies, -notes)
 ```
 
 ```{r}

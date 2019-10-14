@@ -10,9 +10,7 @@ output:
 library(tidyverse)
 library(cowplot)
 library(maps)
-library(ggforce)
 library(viridis)
-# library(ggthemes)
 ```
 
 ```{r, message=FALSE}
@@ -32,15 +30,15 @@ df <- studies %>%
 ```{r}
 df %>% 
   arrange(desc(Nspecies), desc(Nstudies)) %>% 
-  mutate(site2 = str_sub(site, 1, 60)) %>% 
-  select(site2, Nstudies, Nspecies)
+  mutate(site2 = str_sub(site, 1, 40)) %>% 
+  select(site2, country, Nstudies, Nspecies)
 ```
 
 ```{r}
 world <- map("world", plot = FALSE, fill = TRUE) %>% fortify()
 ```
 
-```{r, fig.width=20, fig.height=10, cache=TRUE}
+```{r, fig.width=20, fig.height=10, cache=TRUE, eval=FALSE}
 # sanity check that coordinates are in the right country
 # within a country, all Xs should be the same color
 ggplot(df, aes(x = long, y = lat)) +
@@ -50,84 +48,9 @@ ggplot(df, aes(x = long, y = lat)) +
   scale_color_viridis_d() +
   theme_map() +
   guides(col = "none")
-```
 
-```{r}
 ggsave("../graphs/map.pdf", width = 20, height = 10, scale = 2)
 ```
-
-# Col & Size = #studies
-
-```{r, fig.width=8, fig.height=4}
-m <- ggplot(df, aes(x = long, y = lat)) +
-  geom_polygon(data = world, aes(group = group), fill = "grey90") +
-  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
-  theme_map() +
-  # # to make fill into discrete; overlap with size legend
-  # scale_size_area("Number of\nStudies", max_size = 15) +
-  # scale_fill_viridis_c("Number of\nStudies", guide = "legend") +
-  # to have them side by side
-  scale_fill_viridis_c("", breaks = c(1, 20, 40, 60)) +
-  scale_size_area("", max_size = 15, breaks = c(1, 20, 40, 60)) +
-  theme(legend.box = "horizontal") +
-  guides(fill = guide_colorbar(reverse = T, barheight = 10, order = 0), 
-         size = guide_legend(keyheight = 2.6, title.theme = element_text(size = 4)))
-
-legend <- get_legend(m)
-# plot_grid(legend)
-
-mx <- m +
-  annotate("rect", ymin = c(24, 31, 24), ymax = c(46, 62, 50), xmin = c(124, -12, -130), 
-           xmax = c(146, 32, -64), size = .5, col = "grey", fill = NA) + 
-  coord_fixed(1.3, ylim = c(-55, 83.59961)) +
-  theme(legend.position = "none")
-```
-
-```{r}
-# japan
-m1 <- m + 
-  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
-  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
-  coord_fixed(1.3, ylim = c(25, 45), xlim = c(125, 145)) +
-  theme(legend.position = "none") +
-  panel_border(color = "grey", size = .5)
-
-# europe
-m2 <- m + 
-  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
-  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
-  coord_fixed(1.3, ylim = c(32, 60), xlim = c(-10, 30)) +
-  theme(legend.position = "none") +
-  panel_border(color = "grey", size = .5)
-
-# contiguous us
-usa = map("state", plot = FALSE, fill = TRUE) %>% fortify() # "usa"
-
-m3 <- m + 
-  geom_polygon(data = world, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
-  geom_polygon(data = usa, aes(group = group), col = "black", fill = "grey90", lwd = .2) +
-  geom_point(aes(size = Nstudies, fill = Nstudies), shape = 21, alpha = .8) +
-  coord_fixed(1.3, ylim = c(25, 49), xlim = c(-127, -67)) +
-  theme(legend.position = "none") +
-  panel_border(color = "grey", size = .5)
-```
-
-```{r, fig.width=8, fig.height=5.5, cache=TRUE}
-# make bottom row (3 map insets + legend)
-bottom_row <- plot_grid(m3, m2, NA, m1, NA, legend, nrow = 1, label_x = -.35, label_y = .95,
-                        labels = c(rep("", 5), "Number of Studies"), 
-                        rel_widths = c(2, 1.18, .06, .85, .08, .7))
-
-# make whole plot as 1 column, big map on top, bottom row underneath
-plot_grid(mx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
-  theme(plot.margin = unit(c(.5, .5, 1.5, .5), "cm"))
-```
-
-```{r}
-ggsave("../graphs/map_insets.pdf", width = 8, height = 5.5, scale = 2)
-```
-
-# Col = #species, Size = #studies
 
 ```{r, fig.width=8, fig.height=4}
 ms <- ggplot(df, aes(x = long, y = lat)) +
@@ -192,7 +115,7 @@ plot_grid(msx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
 ```
 
 ```{r}
-ggsave("../graphs/map_insets_col_species.pdf", width = 8, height = 5.5, scale = 2)
+ggsave("../graphs/map_insets.pdf", width = 8, height = 5.5, scale = 2)
 ```
 
 

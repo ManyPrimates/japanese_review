@@ -12,6 +12,7 @@ Load packages
 library(tidyverse)
 library(gridExtra)
 library(cowplot)
+library(viridis)
 library(ggridges)
 library(ggstance)
 library(treeio)
@@ -22,231 +23,241 @@ library(tidytree)
 Load and combine data
 
 ```{r, message=FALSE}
-species <- read_csv("../data/species_data.csv") %>% select(-species)
-data <- read_csv("../data/data.csv") %>% 
-  left_join(species, by = c("species" = "species_formatted")) %>% 
-  rename(label = species_latin)
-data2 <- data %>% group_by(species, label) %>% summarise(n = sum(n))
+studies <- read_csv("../data/studies_gsheet.csv")
+species <- read_csv("../data/species_gsheet.csv")
 fulltree <- read.nexus("../data/consensusTree_10kTrees_298Primates_V3.nex")
 refs <- read_csv("../data/ref_nodes.csv")
 ```
 
 ```{r}
+data <- studies %>% 
+  left_join(species, by = c("species" = "species_file")) %>% 
+  rename(label = species_tree, num = n) %>% 
+  select(label, studyID, species, site, num)
+```
+
+```{r}
+data2 <- data %>% group_by(label, species) %>% summarise(totalN = sum(num, na.rm = T))
+```
+
+```{r}
 # turn tree into tidy dataframe
-tree2 <- as_tibble(fulltree)
+tree2 <- fulltree %>% 
+  drop.tip(c("Pan_troglodytes_schweinfurthii", "Pan_troglodytes_troglodytes",
+             "Pan_troglodytes_vellerosus", "Pongo_pygmaeus")) %>%
+  as_tibble
+
+inner_nodes <- c(295:304, 314:315, 320:326, 328:332, 334, 336:353, 356:358, 362:364, 366, 382:390, 395, 399:402, 404:410, 412:418, 420:423, 430:433, 435:439, 445:449, 453:455, 457:458, 459:461, 464:471, 473:478, 480:484, 488:499, 512, 531:532, 536:538, 541:545, 552:554, 561:563, 566, 568)
 
 tree3 <- tree2 %>% 
+  mutate(label = fct_recode(label, "Pan_troglodytes" = "Pan_troglodytes_verus",
+                                   "Pongo_spp" = "Pongo_abelii")) %>% 
   left_join(data2) %>% 
   mutate(
-    hasN = ifelse(is.na(n), 0, .5),
-    hasN2 = ifelse(is.na(n), .1, .5)) %>% 
+    hasN = ifelse(is.na(totalN), .1, .5), # used to size branches + color the tip labels
+    hasN2 = ifelse(is.na(totalN) & !(node %in% inner_nodes), 0, .5), # used to color branches
+    label = str_replace_all(label, "_", " ")) %>% 
   left_join(refs) %>% 
-  # # also merge w datasheet listing node, n for inner nodes
-  # left_join(Ns, by = "node") %>% 
-  # mutate(n = coalesce(n.x, n.y)) %>% 
-  # select(-n.x, -n.y) %>% 
-  groupClade(c(493, 496, 429, 302, 408)) %>% 
+  groupClade(refs$node[-1]) %>% 
   mutate(group = fct_recode(group, "2" = "1"))
 
 # turn back into tree
 tree4 <- as.treedata(tree3)
 ```
 
-# Figure out nodes
-
-This makes a rectangular and a circular tree with the node numbers displayed for reference (saved in the `graphs` folder).
+# Circular tree of the 10ktree primates
 
 ```{r}
-tree3.2 <- as.treedata(tree3)
-```
-
-```{r, fig.width=8, fig.height=20, eval=FALSE}
-# display node numbers for reference
-ggtree(tree3.2) +
-  # tip labels
-  geom_tippoint(aes(size = n), col = "seagreen", alpha = .5) +
-  geom_tiplab(offset = 1, size = 3) +
-  # node labels
-  geom_text(aes(label = node, x = branch), size = 2, col = "blue", vjust = -.5) +
-  expand_limits(x = 90) +
-  # display timescale at the bottom
-  theme_tree2()
-```
-
-```{r, eval=FALSE}
-ggsave("../graphs/full_tree_nodes.pdf", width = 8, height = 20, scale = 2)
-```
-
-```{r, fig.width=8, fig.height=8, eval=FALSE}
-ggtree(tree3.2, layout = "circular") +
-  geom_tippoint(aes(size = n), col = "seagreen", alpha = .5) +
-  geom_tiplab2(offset = 2, size = 3) +
-  geom_text2(aes(label = node), size = 1.5, col = "blue") +
-  xlim(NA, 100)
-```
-
-```{r, eval=FALSE}
-ggsave("../graphs/full_tree_nodes_circular.pdf", width = 8, height = 8, scale = 2)
-```
-
-# Circular tree of 298 primates
-
-```{r}
-cols <- viridis::viridis(4, end = .9)
+cols <- viridis(4, end = .9)
 ```
 
 ```{r}
-# base plot
 p <- ggtree(tree4, aes(size = hasN, alpha = hasN2), layout = "circular") +
+  # highlight clades with background colors
+  geom_hilight(node = 485, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 488, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 421, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 299, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 404, fill = cols[4], alpha = .3) +
+  # plot tree again to be on top of the highlights
+  geom_tree() +
   # root
   geom_rootpoint(size = 1) +
   # tips
-  geom_tippoint(aes(size = n), alpha = .5) +
-  geom_tiplab2(aes(alpha = hasN), offset = 2, size = 3) +
+  geom_tippoint(aes(size = totalN), alpha = .7) +
+  geom_tiplab2(aes(alpha = hasN), offset = 3, size = 3) +
   # tweak scales
-  scale_alpha_continuous(range = c(.3, 1)) +
-  scale_size_continuous(range = c(.5, 8)) +
+  scale_alpha_continuous(range = c(.2, 1)) +
+  scale_size_continuous(range = c(.5, 15)) +
   # widen plotting area
   xlim(NA, 100)
 ```
 
-```{r}
-# highlight clades with background colors
-p2 <- p + 
-  geom_hilight(node = 493, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 496, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 429, fill = cols[2], alpha = .3) +
-  geom_hilight(node = 303, fill = cols[3], alpha = .3) +
-  geom_hilight(node = 408, fill = cols[4], alpha = .3) +
+```{r, fig.width=8, fig.height=8, cache=TRUE}
+p
+```
+
+```{r, cache=TRUE}
+ggsave("../graphs/phylo_full.pdf", p, width = 8, height = 8, scale = 2)
+```
+
+```{r, fig.width=8, fig.height=8, cache=TRUE, eval=FALSE}
+# to figure out node numbers
+n1 <- p + geom_text(aes(label = node, x = branch), size = 2, col = "blue", vjust = -.5)
+ggsave("../graphs/full_tree_nodes_circular.pdf", n1, width = 8, height = 8, scale = 2)
+```
+
+```{r, fig.width=8, fig.height=20, cache=TRUE, eval=FALSE}
+n2 <- ggtree(tree4, aes(size = hasN, alpha = hasN2)) +
+  # highlight clades with background colors
+  geom_hilight(node = 485, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 488, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 421, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 299, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 404, fill = cols[4], alpha = .3) +
   # plot tree again to be on top of the highlights
   geom_tree() +
-  geom_rootpoint(size = 1)
+  # root
+  geom_rootedge(rootedge = 2) +
+  geom_rootpoint(size = 1) +
+  # node labels
+  geom_text(aes(label = node, x = branch), size = 2, col = "blue", vjust = -.5) +
+  # tips
+  geom_tippoint(aes(size = totalN), alpha = .7) +
+  geom_tiplab(aes(alpha = hasN), offset = 1.8, size = 3) +
+  # tweak scales
+  scale_alpha_continuous(range = c(.2, 1)) +
+  scale_size_continuous(range = c(.5, 15)) +
+  # widen plotting area
+  expand_limits(x = 90) +
+  theme_tree2()
+
+ggsave("../graphs/full_tree_nodes.pdf", n2, width = 8, height = 20, scale = 2)
 ```
 
-```{r}
-# highlight clades with branch colors
-p3 <- p + 
-  aes(col = group) +
-  scale_color_manual(values = c("gray30", cols))
-```
-
-```{r, cache=T}
-plots <- mget(c("p", "p2", "p3"))
-```
-
-```{r, fig.width=18, fig.height=6, cache=T}
-grid.arrange(p, p2, p3, nrow = 1)
-```
-
-```{r, cache=T}
-# png with 3x1
-ggsave("../graphs/phylo_full.png", arrangeGrob(grobs = plots, nrow = 1), 
-       width = 24, height = 8, scale = 2, dpi = 72)
-
-# pdf with 1 per page
-ggsave("../graphs/phylo_full.pdf", marrangeGrob(grobs = plots, nrow = 1, ncol = 1), 
-       width = 8, height = 8, scale = 2, dpi = 72)
-```
 
 # Sample size in detail
 
 ```{r}
-# subset tree to just those species who have sample sizes reported, i.e. those who were tested
-to_drop <- tree3 %>% filter(is.na(n)) %>% pull(label)
-tree5 <- drop.tip(tree4, to_drop)
+data %>% arrange(desc(num)) %>% mutate(site = str_sub(site, 1, 35)) %>% select(-species)
 ```
 
 ```{r}
-data3 <- data %>% 
-  select(label, everything()) %>% 
-  rename(num = n)
+# subset tree to just those species who have sample sizes reported, i.e. those who were tested
+to_drop <- tree3 %>% filter(is.na(totalN)) %>% pull(label)
+tree5 <- drop.tip(tree4, to_drop)
+d3 <- mutate(data, label = str_replace_all(label, "_", " "))
+```
 
-# species with more than X sites can get a density?
-d3a <- data3 %>% group_by(species) %>% filter(n_distinct(site) >= 4)
-d3b <- data3 %>% # setdiff(data3, d3a) ## <- do setdiff instead to NOT show points for densities
+```{r}
+# filter super large samples out for visualization? note in caption
+# species with more than X sites can get a density
+d3a <- d3 %>% group_by(species) %>% filter(n_distinct(site) >= 4, num <= 200)
+d3b <- d3 %>% # setdiff(d3, d3a) %>% ## <- to NOT show points for densities
   group_by(species) %>% 
   # create variable num2 is NA if there's only one data point for a species
   # --> those species will only get the vertical crossbar
   mutate(flag = n_distinct(site) == 1) %>% 
   ungroup %>% 
-  mutate(num2 = ifelse(flag, NA, num))
+  mutate(num2 = ifelse(flag, NA, num)) %>% 
+  filter(num <= 200)
 
 # for vertical crossbar = median
-d4a <- data3 %>% 
+d4a <- d3 %>% 
   group_by(label, species) %>% 
-  summarise(Mdn = median(num)) # totalN = sum(num), sitesN = n_distinct(site)
+  summarise(Mdn = median(num, na.rm = T)) # totalN = sum(num), sitesN = n_distinct(site)
 
 # for cross = median (sample size by species and site)
-d4b <- data3 %>% 
+d4b <- d3 %>% 
   group_by(label, species, site) %>% 
-  summarise(Mdn_site = median(num))%>% 
+  summarise(Mdn_site = median(num, na.rm = T))%>% 
   group_by(label, species) %>% 
   summarise(Mdn_site2 = median(Mdn_site))
 
-# make NA when equal to d4$Mdn
+# make NA when closer than 1 to Mdn
 d4 <- full_join(d4a, d4b) %>% 
-  mutate(Mdn_site2 = ifelse(Mdn == Mdn_site2, NA, Mdn_site2))
+  mutate(Mdn_site2 = ifelse(abs(Mdn - Mdn_site2) < 1, NA, Mdn_site2))
 
 # for vertical line in ridge plot (grand median)
 # + hacky way to make horizontal grid lines for right panel only
-v <- tibble(reference = c(NA, median(data3$num)), .panel = c("Tree", "xSample size"))
+v <- tibble(reference = c(NA, median(d3$num, na.rm = T)), .panel = c("Tree", "xSample size"))
 h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("xSample size", Ntip(tree5))))
 
 # for axis labels
-ax <- tibble(lab = c("Distance", "Sample size"), x = c(67.5, max(data3$num)/2), y = -.3, 
-             .panel = c("Tree", "xSample size"))
+ax <- tibble(lab = c("Distance (Millions of years)", "Sample size"), 
+             x = c(60, 100), y = -4, .panel = c("Tree", "xSample size"))
 ```
 
-```{r, fig.width=4, fig.height=3, cache=T}
-# right-side viz depends on the number of sites per species:
-# 1 site = vertical crossbar only
-# 2+ sites = points + crossbar at median
-# X+ sites = densities (currently, X = 4 just to illustrate)
-
+```{r, cache=TRUE}
 # LEFT FACET
 q <- ggtree(tree5, aes(col = group)) +
   # root
   geom_rootedge(rootedge = 5) +
   # tip labels
-  geom_tippoint(aes(size = n), alpha = .5) +
+  geom_tippoint(aes(size = totalN), alpha = .5) +
   geom_tiplab(offset = 4, size = 3) +
   # tweak scales
   scale_color_manual(values = c("grey30", cols)) +
-  scale_fill_manual(values = cols[4]) + # when all categories are taken: cols
+  scale_fill_manual(values = cols) + # when all categories are taken: cols
   # display timescale at the bottom
   theme_tree2() +
-  xlim_tree(135) +
+  xlim_tree(112) +
+  xlim_expand(c(0, 175), "xSample size") +
   # add axis labels
   geom_text(data = ax, aes(label = lab), col = "black") +
-  scale_y_continuous(limits = c(1, Ntip(tree5)), oob = function(x, ...) x) +
+  scale_x_continuous(expand = expand_scale(mult = c(0, .01))) +
+  scale_y_continuous(limits = c(2, Ntip(tree5)), oob = function(x, ...) x) +
   coord_cartesian(clip = "off") +
   # add reference lines (these will show up on right panel of facet_plot only)
   geom_hline(data = h, aes(yintercept = reference), lwd = .2, col = "grey", alpha = .5) +
   geom_vline(data = v, aes(xintercept = reference), lwd = 1.5, col = "grey", alpha = .3) +
   # remove facet strips, expand bottom margin (to make space for x axis labels)
   theme(strip.text = element_blank(), strip.background = element_blank(),
-        plot.margin = unit(c(.5, .5, 1.2, .5), "cm"))
+        plot.margin = unit(c(1, 1, 2, 1.5), "cm"), panel.spacing = unit(1, "cm"))
+```
+
+```{r, fig.width=6, fig.height=8, cache=TRUE}
+# right-side viz depends on the number of sites per species:
+# 1 site = vertical crossbar only
+# 2+ sites = points + crossbar at median
+# X+ sites = densities (currently, X = 4 just to illustrate)
 
 # dirty hack: x in front of "Sample size" is to have that panel sort to the right (alphabetically) until I figure out why it doesn't just go by order. This cropped up as an issue when I added the dummy point for the x-axis expansion...
 
 # ADD RIGHT FACET
 q %>% 
   # densities for species with enough sites
-  facet_plot("xSample size", d3a, geom_density_ridges, aes(x = num, group = label, fill = group), 
-             alpha = .5, lwd = .3, position = position_nudge(y = .1)) %>% 
-  # vertical crossbar for Mdn, for Mdn of site medians
-  facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label, 
-             col = group), alpha = .5, width = .3) %>%
-  facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2, 
-             stroke = 1.5, alpha = .8) %>%
+  facet_plot("xSample size", d3a, geom_density_ridges, 
+             aes(x = num, group = label, fill = group, height = ..density..),
+             alpha = .5, lwd = .3, scale = .3) %>%
+  # vertical crossbar for Mdn, X for Mdn of site medians
+  facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label,
+             col = group), alpha = .5, width = .6, fatten = 1.5) %>%
+  facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2.5,
+             stroke = 1.05) %>%
   # vertical mark for individual sites
-  facet_plot("xSample size", d3b, geom_jitter, aes(x = num2, group = label), shape = "|", size = 3,
-             width = .1, height = 0)
+  facet_plot("xSample size", d3b, geom_jitter, aes(x = num2, group = label), shape = "|", size = 2.5,
+             width = .1, height = 0, alpha = .8)
 ```
 
 ```{r}
-ggsave("../graphs/phylo_ridge_site.png", width = 4, height = 3, scale = 2)
+ggsave("../graphs/phylo_ridge_site.pdf", width = 6, height = 8, scale = 2)
 ```
+
+```{r, fig.width=6, fig.height=8, cache=TRUE}
+# ADD RIGHT FACET
+q %>% 
+  facet_plot("xSample size", filter(d3, num < 200), geom_boxploth, aes(x = num, group = label, 
+             fill = group), alpha = .5, lwd = .3, varwidth = T) %>% 
+  # vertical crossbar for Mdn
+  facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label,
+             col = group), alpha = .5, width = .6, fatten = 1.5)
+```
+
+```{r}
+ggsave("../graphs/phylo_ridge_box.pdf", width = 6, height = 8, scale = 2)
+```
+
 
 # Session info
 
