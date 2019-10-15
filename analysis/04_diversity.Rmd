@@ -56,19 +56,19 @@ div_tree3 <- drop.tip(div_tree2, to_drop)
 ```
 
 ```{r}
-ggtree(div_tree3, aes(color = div_score))+#, layout = "circular")+
+ggtree(div_tree3, aes(color = div_score), layout = "circular")+
   geom_tree()+
-  #geom_tiplab2(offset = 3, size = 3)+
-  geom_tiplab(offset = 3, size = 3)+
-  scale_color_gradient2(high = "#009E73", mid = "grey", low = "#E69F00", midpoint = .5, name = "#Studies / #Sites", limits = c(0,1))+
+  geom_tiplab2(offset = 3, size = 3)+
+  #geom_tiplab(offset = 3, size = 3)+
+  scale_color_gradient2(high = "#009E73", mid = "grey", low = "#E69F00", midpoint = .5, name = "#Sites / #Studies", limits = c(0,1))+
   guides(colour = guide_colourbar(title.position="top", title.hjust = 0.5))+
   xlim(NA, 100)+
-  #theme(legend.position = c(.9,.1),legend.direction = "horizontal")
-  theme(legend.position = c(.2,.8),legend.direction = "horizontal")
+  theme(legend.position = c(.9,.1),legend.direction = "horizontal")
+  #theme(legend.position = c(.2,.8),legend.direction = "horizontal")
 ```
 
 ```{r, cache=TRUE}
-ggsave("../graphs/diversity_tree.pdf", width = 8, height = 8, scale = 1)
+ggsave("../graphs/diversity_circle.pdf", width = 8, height = 8, scale = 1)
 ```
 
 ```{r}
