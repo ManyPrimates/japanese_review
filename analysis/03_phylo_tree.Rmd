@@ -222,7 +222,7 @@ q <- ggtree(tree5, aes(col = group)) +
   geom_rootedge(rootedge = 5) +
   # tip labels
   geom_tippoint(aes(size = Nstudies), shape = 21, fill = "white") +
-  geom_tippoint(aes(size = Nsites - .5), alpha = .8) +
+  geom_tippoint(aes(size = Nsites), stroke = 0, alpha = .8) +
   geom_tiplab(aes(label = str_c(label, " (", Nsites, "/", Nstudies, ")")), offset = 4, size = 3) +
   # tweak scales
   scale_color_manual(values = c("grey30", cols)) +
@@ -291,7 +291,7 @@ ggtree(tree6, aes(col = group)) +
   geom_rootedge(rootedge = 5) +
   # tip labels
   geom_tippoint(aes(size = Nstudies), shape = 21, fill = "white") +
-  geom_tippoint(aes(size = Nsites - .5), alpha = .8) +
+  geom_tippoint(aes(size = Nsites), stroke = 0, alpha = .8) +
   geom_tiplab(offset = 4, size = 3) +
   geom_text(aes(label = Nsites), x = 113, hjust = 1, size = 3) +
   geom_text(aes(label = Nstudies), x = 120, hjust = 1, size = 3) +
