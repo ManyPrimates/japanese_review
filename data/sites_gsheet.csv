@@ -4,7 +4,6 @@ Lincoln Park Zoo,"Chicago, IL",USA,41.9210919,-87.6339909
 Kumamoto Sanctuary,Kumamoto,Japan,32.6408466,130.4824801
 German Primate Center,Göttingen,Germany,51.5609703,9.9528945
 Sweetwaters Chimpanzee Sanctuary,Nanyuki,Kenya,-0.004259,36.963671
-Heidelberg Zoo,Heidelberg,Germany,49.415154,8.663884
 Edinburgh Zoo,Edinburgh,UK,55.942326,-3.267318
 Kristiansand Zoo,Kristiansand,Norway,58.1856575,8.144123
 Monkey Haven,Isle of Wight,UK,50.705786,-1.262753
@@ -67,7 +66,6 @@ Beijing Normal University,Beijing,China,39.962159,116.366712
 University of Rochester,"Rochester, NY",USA,43.130537,-77.626025
 Duke University,"Durham, NC",USA,36.001912,-78.935427
 Awaji Monkey Center,NA,Japan,34.245127,134.883316
-Buffer zone between Pongara National Park and Wonga-Wongue Presidential Park,NA,Gabon,-0.116023,9.568093
 Katsuyama,NA,Japan,36.073804,136.526408
 Center for Comparative Medicine and Research,"Lebanon, NH",USA,43.67548,-72.272537
 Ngamba Island Chimpanzee Sanctuary,Entebbe,Uganda,-0.1005,32.652824
@@ -147,6 +145,7 @@ Chamundi Hill range,Mysore,India,12.28237,76.680966
 Rockefeller University,"New York City, NY",USA,40.763178,-73.955787
 Affenwald Straußberg,Sondershausen,Germany,51.395055,10.745647
 Faunia Zoo,Madrid,Spain,40.392124,-3.612404
+Fundació Mona,Girona,Spain,41.901886,2.817249
 University of Ferrara,Ferrara,Italy,44.83327,11.626334
 Zoo Lodz,Lodz,Poland,51.76384,19.412702
 Zoo Wroclaw,Wroclaw,Poland,51.10446,17.075331
@@ -181,3 +180,4 @@ Suaq Balimbing,Sumatra,Indonesia,3.65,97.416667
 Tuanan,Central Kalimantan,Indonesia,-2.15,114.433333
 "Serra do Japi, Ribeirão Cachoeira, Nazaré Paulista",São Paulo,Brazil,-23.234278,-46.935778
 Pongara National Park/Wonga-Wongue Presidential Park,NA,Gabon,-0.107173,9.34716
+Laboratory of Neuropsychology,"Bethesda, MD",USA,38.999727,-77.107234
