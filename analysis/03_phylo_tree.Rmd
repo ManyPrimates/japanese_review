@@ -95,14 +95,16 @@ p <- ggtree(tree4, aes(alpha = hasN2), layout = "circular") + # size = hasN,
   scale_size_area(max_size = 15) +
   # widen plotting area
   xlim(NA, 100)
+
+p <- rotate(p, 298)
 ```
 
 ```{r}
 pcol <- ggplot(tibble(cols = cols, x = 1:4), aes(x, y = 1, col = cols)) +
   geom_point(size = 6, alpha = .3) +
-  scale_color_identity("Clade", guide = "legend", breaks = cols[c(1, 3, 4, 2)], 
-                       labels = c("Tarsiformes & Strepsirrhini", "Catarrhini", 
-                                  "Homonoidea", "Platyrrhini")) +
+  scale_color_identity("Clade", guide = "legend", breaks = cols[4:1], 
+                       labels = c("Homonoidea", "Catarrhini", "Platyrrhini", 
+                                  "Tarsiformes & Strepsirrhini")) +
   theme_cowplot()
 
 l1 <- get_legend(pcol)
@@ -166,44 +168,36 @@ ggsave("../graphs/full_tree_nodes.pdf", n2, width = 8, height = 20, scale = 2)
 # Sample size in detail
 
 ```{r}
-data %>% arrange(desc(num)) %>% mutate(site = str_sub(site, 1, 35)) %>% select(-species)
-```
-
-```{r}
 # subset tree to just those species who have sample sizes reported, i.e. those who were tested
 to_drop <- tree3 %>% filter(is.na(Nstudies)) %>% pull(label)
 tree5 <- drop.tip(tree4, to_drop)
-d3 <- mutate(data, label = str_replace_all(label, "_", " "))
+d3 <- data %>% 
+  mutate(label = str_replace_all(label, "_", " ")) %>% 
+  group_by(label, species, studyID) %>% 
+  summarise(num = sum(num))
+```
+
+```{r}
+d3 %>% arrange(desc(num))
 ```
 
 ```{r}
 # filter super large samples out for visualization? note in caption
 # species with more than X sites can get a density
-d3a <- d3 %>% group_by(species) %>% filter(n_distinct(site) >= 4, num <= 200)
+d3a <- d3 %>% group_by(species) %>% filter(n_distinct(studyID) >= 4, num <= 200)
 d3b <- d3 %>% # setdiff(d3, d3a) %>% ## <- to NOT show points for densities
   group_by(species) %>% 
   # create variable num2 is NA if there's only one data point for a species
   # --> those species will only get the vertical crossbar
-  mutate(flag = n_distinct(site) == 1) %>% 
+  mutate(flag = n_distinct(studyID) == 1) %>% 
   ungroup %>% 
   mutate(num2 = ifelse(flag, NA, num)) %>% 
   filter(num <= 200)
 
 # for vertical crossbar = median
-d4a <- d3 %>% 
+d4 <- d3 %>% 
   group_by(label, species) %>% 
   summarise(Mdn = median(num, na.rm = T)) # totalN = sum(num), sitesN = n_distinct(site)
-
-# for cross = median (sample size by species and site)
-d4b <- d3 %>% 
-  group_by(label, species, site) %>% 
-  summarise(Mdn_site = median(num, na.rm = T))%>% 
-  group_by(label, species) %>% 
-  summarise(Mdn_site2 = median(Mdn_site))
-
-# make NA when closer than 1 to Mdn
-d4 <- full_join(d4a, d4b) %>% 
-  mutate(Mdn_site2 = ifelse(Mdn == Mdn_site2, NA, Mdn_site2))
 
 # for vertical line in ridge plot (grand median)
 # + hacky way to make horizontal grid lines for right panel only
@@ -213,6 +207,10 @@ h <- tibble(reference = c(NA, 1:Ntip(tree5)), .panel = c("Tree", rep("xSample si
 # for axis labels
 ax <- tibble(lab = c("Distance (Millions of years)", "Sample size"), 
              x = c(60, 100), y = -4, .panel = c("Tree", "xSample size"))
+
+# Nsites/studies labels
+Nlab <- tibble(lab = c("# Sites", "# Studies"), x = c(125, 136), y = Ntip(tree5) + 1, 
+             .panel = "Tree")
 ```
 
 ```{r, cache=TRUE}
@@ -223,17 +221,21 @@ q <- ggtree(tree5, aes(col = group)) +
   # tip labels
   geom_tippoint(aes(size = Nstudies), shape = 21, fill = "white") +
   geom_tippoint(aes(size = Nsites), stroke = 0, alpha = .8) +
-  geom_tiplab(aes(label = str_c(label, " (", Nsites, "/", Nstudies, ")")), offset = 4, size = 3) +
+  # geom_tiplab(aes(label = str_c(label, " (", Nsites, "/", Nstudies, ")")), offset = 4, size = 3) +
+  geom_tiplab(offset = 4, size = 3) +
+  geom_text(aes(label = Nsites), x = 128, hjust = 1, size = 3) +
+  geom_text(aes(label = Nstudies), x = 135, hjust = 1, size = 3) +
   # tweak scales
   scale_color_manual(values = c("grey30", cols)) +
   scale_fill_manual(values = cols) +
   scale_size_area(max_size = 8) +
   # display timescale at the bottom
   theme_tree2() +
-  xlim_tree(112) +
+  xlim_tree(135) +
   xlim_expand(c(0, 175), "xSample size") +
-  # add axis labels
+  # add axis + Nstudies/sites labels
   geom_text(data = ax, aes(label = lab), col = "black") +
+  geom_text(data = Nlab, aes(label = lab), col = "black", size = 2.5) +
   scale_x_continuous(expand = expand_scale(mult = c(0, .01))) +
   scale_y_continuous(limits = c(2, Ntip(tree5)), oob = function(x, ...) x) +
   coord_cartesian(clip = "off") +
@@ -243,6 +245,8 @@ q <- ggtree(tree5, aes(col = group)) +
   # remove facet strips, expand bottom margin (to make space for x axis labels)
   theme(strip.text = element_blank(), strip.background = element_blank(),
         plot.margin = unit(c(1, 1, 2, 1.5), "cm"), panel.spacing = unit(1, "cm"))
+
+q <- rotate(q, 72)
 ```
 
 ```{r, fig.width=6, fig.height=8, cache=TRUE}
@@ -259,33 +263,53 @@ qx <- q %>%
   facet_plot("xSample size", d3a, geom_density_ridges, 
              aes(x = num, group = label, fill = group, height = ..density..),
              alpha = .5, lwd = .3, scale = .3) %>%
-  # vertical crossbar for Mdn, X for Mdn of site medians
+  # vertical crossbar for Mdn
   facet_plot("xSample size", d4, geom_crossbarh, aes(x = Mdn, xmin = Mdn, xmax = Mdn, group = label,
              col = group), alpha = .5, width = .6, fatten = 1.5) %>%
-  # facet_plot("xSample size", d4, geom_point, aes(x = Mdn_site2, group = label), shape = 4, size = 2.5,
-             # stroke = 1.05) %>%
   # vertical mark for individual sites
   facet_plot("xSample size", d3b, geom_jitter, aes(x = num2, group = label), shape = "|", size = 2.5,
              width = .5, height = 0, alpha = .5)
-
-qx
 ```
 
-TODO add legends
+```{r}
+# add legends
+psize <-
+  ggplot(data2, aes(x = 1, y = 1)) +
+  geom_point(aes(size = Nstudies), col = NA) +
+  geom_point(aes(size = Nsites), stroke = 0, alpha = .8) +
+  scale_size_area("Number of Sites", max_size = 8, breaks = c(1, 5, 10, 25, 50)) +
+  theme_cowplot()
+
+psize2 <-
+  ggplot(data2, aes(x = 1, y = 1)) +
+  geom_point(aes(size = Nstudies), shape = 21, fill = "white") +
+  scale_size_area("\nNumber of Studies", max_size = 8, breaks = c(1, 5, 10, 25, 50, 100)) +
+  theme_cowplot()
+
+l2 <- get_legend(psize)
+l3 <- get_legend(psize2)
+```
+
+```{r, fig.width=8, fig.height=8, cache=TRUE}
+qx2 <- plot_grid(qx, plot_grid(NA, l1, l2, l3, NA, ncol = 1, rel_heights = c(.3, .1, .1, .1, .3)), NA,
+          nrow = 1, rel_widths = c(1, .2, .1))
+
+qx2
+```
 
 ```{r}
-ggsave("../graphs/phylo_ridge_site.pdf", width = 6, height = 8, scale = 2)
+ggsave("../graphs/phylo_ridge_site.pdf", width = 8, height = 8, scale = 2)
 ```
 
 # Diversity score
 
-```{r}
+```{r, eval=FALSE}
 # subset tree to just those species who have sample sizes reported, i.e. those who were tested
 to_drop <- tree3 %>% filter(is.na(Nstudies) | Nstudies < 2) %>% pull(label)
 tree6 <- drop.tip(tree4, to_drop)
 ```
 
-```{r, fig.width=4, fig.height=5, cache=TRUE}
+```{r, fig.width=4, fig.height=5, cache=TRUE, eval=FALSE}
 ggtree(tree6, aes(col = group)) +
   # root
   geom_rootedge(rootedge = 5) +
@@ -305,10 +329,8 @@ ggtree(tree6, aes(col = group)) +
   xlab("Distance (Millions of years)")
 ```
 
-TODO add legends
-
 ```{r}
-ggsave("../graphs/phylo_div_score.pdf", width = 4, height = 4.5, scale = 2)
+# ggsave("../graphs/phylo_div_score.pdf", width = 4, height = 4.5, scale = 2)
 ```
 
 # Session info

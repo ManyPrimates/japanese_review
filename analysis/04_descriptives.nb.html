@@ -1856,10 +1856,10 @@ ggplot(aes(year, Nstudies)) +
     filter(species %in% c(&quot;rhesus macaque&quot;, &quot;chimpanzee&quot;)) %&gt;% 
     mutate(diversity = round(Nsites/Nstudies, 2))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NCwibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ2VTZFUUJBZWZ2Wk9TRTVOdERXeHRCQWFZMkozamRIdUNxUEpGVFlyckxJUkZtUVhUOC9HTjdqU3Q3QzJOajZCYitCRDJJTER6K0lGa21IbisvWmpaajdtNG5SKzVNNWRBTERBR2hsZ0VVeUJYRjJlZVNjQXRvbkFBQnVjK254QzBRNG1Oc1kyaHRsZHVFSEVrNHlLSldNZHM1bEhUQlp5UDZFQmZTZ1lNcE5HRC9DQjhiYUc5ekFPNnk5cVBQMWEvcHkvNzc1TXYxZlhCNytmcThFQVJOQ0V5YTY1M1pGam1iR0FJOTNDalpsVVJmaVBSelBKVlkrY2tEK3lISm5uWWVrZ3BsS1gxcVFiVWtYOTJ4eTdEdVJPbmk1OFBVMWo1UlZmVlZXVmVKUUQ4VGpORkU4RlNzMzY3NUZCRnlNZkVGdUZxRXVIWGhBVjR0NDdyaWRwcnR0bjB1WG1XbTYzTGMycUswVzBleWJ1dU5CYklURzlZWEcvb25UUk9QQ3puQXVsTFNNcmZaVXFHdmZMVFdQTk5ONmcvQU5rckQ4ek5BSUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NCwibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ2VTZFUUJBZWZ2Wk9TRTVOdERXeHRCQWFZMkozamRIdUNxUEpGVFlyckxJUkZtUVhUOC9HTjdqV3A3QzJOajZCYitCRDJJTER6K0lGa21IbisvWmpaajdtNG5SKzVNNWRBTERBR2hsZ0VVeUJYRjJlZVNjQXRvbkFBQnVjK254QzBRNG1Oc1kyaHRsZHVFSEVrNHlLSldNZHM1bEhUQlp5UDZFQmZTZ1lNcE5HRC9DQjhiYUc5ekFPNnk5cVBQMWEvcHkvNzc1TXYxZlhCNytmcThFQVJOQ0V5YTY1M1pGam1iR0FJOTNDalpsVVJmaVBSelBKVlkrY2tEK3lISm5uWWVrZ3BsS1gxcVFiVWtYOTJ4eTdEdVJPbmk1OFBVMWo1UlZmVlZXVmVKUUQ4VGpORkU4RlNzMzY3NUZCRnlNZkVGdUZxRXVIWGhBVjR0NDdyaWRwcnR0bjB1WG1XbTYzTGMycUswVzBleWJ1dU5CYklURzlZWEcvb25UUk9QQ3puQXVsTFNNcmZaVXFHdmZMVFdQTk5ONmcvQU92UE1DdU5BSUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Nstudies"],"name":[2],"type":["int"],"align":["right"]},{"label":["Nsites"],"name":[3],"type":["int"],"align":["right"]},{"label":["diversity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"chimpanzee","2":"184","3":"29","4":"0.16"},{"1":"rhesus macaque","2":"151","3":"44","4":"0.29"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+{"columns":[{"label":["species"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Nstudies"],"name":[2],"type":["int"],"align":["right"]},{"label":["Nsites"],"name":[3],"type":["int"],"align":["right"]},{"label":["diversity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"chimpanzee","2":"184","3":"29","4":"0.16"},{"1":"rhesus macaque","2":"152","3":"44","4":"0.29"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -1918,10 +1918,10 @@ ggplot(aes(year, Nstudies)) +
     summarise(Nstudies = n_distinct(studyID)) %&gt;% 
     summarise(N1study = sum(Nstudies == 1), n(), percent = round(N1study/n(), 2))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVF3V29DTVJSOHV6R0tDN1VGL1FGdjdXRVh4RXQ3NmtYc3JRZFI4SnJ1cHJxNEprczJTMjFQL2FKK1VxRS9vbjJKQ1N3SkpKazNHZVpsM21xeG5TZmJCQUFJa0g0RWhDSUV1bGt2MDBlQVhveEZCRDBZbXZ1RW9yRlZBdHpZQjRCcEJ5OXhqd3grL3AxOC9iMzhUQUlES3RpUk53anVyTW1WSEx6T0d0MFduNjRrNHY3QnY5UmM1VnpvMENXdldPTmRQSmtVVExQc1hXR0RRRDVVOGlQempjMVA0Mjg4THJqd09nZmlnYXgxS1FWS1l4T1VCbDBpRlJDM3JURFdSWnJ2VzNGSW44eFAzRENnTTVpb2c4bTFaWHh4VnRSWjlibllsWUw3a0JWNzQ1VXJSaGpCSnNocVZlSThYR1JrbTB4THpid3V5V1hsR1pzTnp2LzRFUW5CM3dFQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFNVzdDTUJUOWlUR0lTS1ZJdlFFVEhSS3BZcUVUQzJMc1VGR0pnY1ZOM0RacWFrZU9JK2pHRGJoVEw5SlRzQUxmeHBZaVc3TDkvdlBUKzM3L2RibVpKWnNFQUFpUWZnU0VJZ1Q2dGw2bGM0QmVqRVVFUFJpYWU0K2lCNnNFdUxNUEFKTU9YdUVlR2J6NDMwNVBmOGR0WUVBRisrRU5nckUxdVpHRGw2ZEd0OFd2SzRtWVB2cVhtcXVjQ3gyNjVCVnJ2SXNuazRKcGxuMG9iQkRJaDBydU10L1kvRFErNEhIQmhkYzVFQTlrclVzcFVCcWJvRFRvRXFtQXVHK0ZzUzdTL0tzVjMrbXorWWtiQm5RR0UzVXd1YldNTDg2S09xcytGNStsNEQ1a3hkNTU1WW9SUnJBSnNscVZPQThYR2RrbTAxSXpyMHR5V1huR1pvUHpGVWFRRm0vZkFRQUEifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["N1study"],"name":[1],"type":["int"],"align":["right"]},{"label":["n()"],"name":[2],"type":["int"],"align":["right"]},{"label":["percent"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"33","2":"70","3":"0.47"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+{"columns":[{"label":["N1study"],"name":[1],"type":["int"],"align":["right"]},{"label":["n()"],"name":[2],"type":["int"],"align":["right"]},{"label":["percent"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"34","2":"70","3":"0.49"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
