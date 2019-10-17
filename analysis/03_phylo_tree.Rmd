@@ -237,7 +237,7 @@ q <- ggtree(tree5, aes(col = group)) +
   geom_text(data = ax, aes(label = lab), col = "black") +
   geom_text(data = Nlab, aes(label = lab), col = "black", size = 2.5) +
   scale_x_continuous(expand = expand_scale(mult = c(0, .01))) +
-  scale_y_continuous(limits = c(2, Ntip(tree5)), oob = function(x, ...) x) +
+  scale_y_continuous(limits = c(2, Ntip(tree5)-1), oob = function(x, ...) x) +
   coord_cartesian(clip = "off") +
   # add reference lines (these will show up on right panel of facet_plot only)
   geom_hline(data = h, aes(yintercept = reference), lwd = .2, col = "grey", alpha = .5) +
