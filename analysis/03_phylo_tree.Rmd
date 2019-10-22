@@ -32,14 +32,14 @@ refs <- read_csv("../data/ref_nodes.csv")
 ```{r}
 data <- studies %>% 
   left_join(species, by = c("species" = "species_file")) %>% 
-  filter(species != "Macaca sp.") %>% 
-  rename(label = species_tree, num = n) %>% 
-  select(label, studyID, species, site, num)
+  rename(label = species_tree, label2 = updated_nomenclature, num = n) %>% 
+  mutate(label2 = ifelse(is.na(label2), label, label2)) %>% 
+  select(label, label2, studyID, species, site, num)
 ```
 
 ```{r}
 data2 <- data %>%
-  group_by(label, species) %>% 
+  group_by(label, label2, species) %>% 
   summarise(Nsites = n_distinct(site), Nstudies = n_distinct(studyID)) %>% 
   mutate(div_score = Nsites/Nstudies)
 ```
@@ -48,19 +48,27 @@ data2 <- data %>%
 # turn tree into tidy dataframe
 tree2 <- fulltree %>% 
   drop.tip(c("Pan_troglodytes_schweinfurthii", "Pan_troglodytes_troglodytes",
-             "Pan_troglodytes_vellerosus", "Pongo_pygmaeus")) %>%
+             "Pan_troglodytes_vellerosus", "Pongo_pygmaeus", "Cercopithecus_cephus_cephus",
+             "Cercopithecus_erythrogaster_erythrogaster", "Eulemur_fulvus_mayottensis",
+             "Hapalemur_griseus_griseus", "Microcebus_lokobensis", "Lepilemur_mitsinjoensis")) %>%
   as_tibble
 
-inner_nodes <- c(295:304, 314:315, 320:326, 328:332, 334, 336:353, 356:358, 362:364, 366, 382:390, 395, 399:402, 404:410, 412:418, 420:423, 430:433, 435:439, 445:449, 453:455, 457:458, 459:461, 464:471, 473:478, 480:484, 488:499, 512, 531:532, 536:538, 541:545, 552:554, 561:563, 566, 568)
+inner_nodes <- c(289:298, 307:308, 313:319, 321:325, 327, 329:346, 349:351, 355:357, 359, 375:383, 388, 392:395, 397:403, 405:416, 423:426, 428:432, 438:442, 446:448, 450:454, 457:464, 466:471, 473:477, 481:492, 504, 522:523, 527:529, 532:536, 542:544, 550:552, 555, 557)
 
 tree3 <- tree2 %>% 
-  mutate(label = fct_recode(label, "Pan_troglodytes" = "Pan_troglodytes_verus",
-                                   "Pongo_spp" = "Pongo_abelii")) %>% 
+  mutate(label = fct_recode(label, 
+                            "Pongo_spp" = "Pongo_abelii",
+                            "Pan_troglodytes" = "Pan_troglodytes_verus")) %>% 
   left_join(data2) %>% 
+  left_join(species, by = c("label" = "species_tree")) %>% 
+  select(-label, -label2, -species_file) %>%
+  rename(label = updated_nomenclature) %>%
   mutate(
     hasN = ifelse(is.na(Nstudies), .1, .5), # used to size branches + color the tip labels
     hasN2 = ifelse(is.na(Nstudies) & !(node %in% inner_nodes), 0, .5), # used to color branches
-    label = str_replace_all(label, "_", " ")) %>% 
+    label = str_replace_all(label, "_", " "),
+    label = ifelse(is.na(label) & species == "orangutan", "Pongo spp", 
+                   ifelse(is.na(label) & species == "chimpanzee", "Pan troglodytes", label))) %>% 
   left_join(refs) %>% 
   groupClade(refs$node[-1]) %>% 
   mutate(group = fct_recode(group, "2" = "1"))
@@ -78,11 +86,11 @@ cols <- viridis(4, end = .9)
 ```{r}
 p <- ggtree(tree4, aes(alpha = hasN2), layout = "circular") + # size = hasN, 
   # highlight clades with background colors
-  geom_hilight(node = 485, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 488, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 421, fill = cols[2], alpha = .3) +
-  geom_hilight(node = 299, fill = cols[3], alpha = .3) +
-  geom_hilight(node = 404, fill = cols[4], alpha = .3) +
+  geom_hilight(node = 478, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 481, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 414, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 293, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 397, fill = cols[4], alpha = .3) +
   # plot tree again to be on top of the highlights
   geom_tree() +
   # root
@@ -96,15 +104,15 @@ p <- ggtree(tree4, aes(alpha = hasN2), layout = "circular") + # size = hasN,
   # widen plotting area
   xlim(NA, 100)
 
-p <- rotate(p, 298)
+p <- rotate(p, 292)
 ```
 
 ```{r}
 pcol <- ggplot(tibble(cols = cols, x = 1:4), aes(x, y = 1, col = cols)) +
   geom_point(size = 6, alpha = .3) +
   scale_color_identity("Clade", guide = "legend", breaks = cols[4:1], 
-                       labels = c("Homonoidea", "Catarrhini", "Platyrrhini", 
-                                  "Tarsiformes & Strepsirrhini")) +
+                       labels = c("Hominoidea", "Cercopithecoidea", "Platyrrhini", 
+                                  "Tarsiiformes & Strepsirrhini")) +
   theme_cowplot()
 
 l1 <- get_legend(pcol)
@@ -119,7 +127,7 @@ psize <- ggplot(data2, aes(size = Nstudies, x = 1, y = 1)) +
 l2 <- get_legend(psize)
 ```
 
-```{r, fig.width=10, fig.height=7, cache=TRUE}
+```{r, fig.width=7, fig.height=5.5, cache=TRUE}
 px <- plot_grid(p, plot_grid(NA, l1, l2, NA, ncol = 1, rel_heights = c(.3, .15, .15, .3)), NA,
           nrow = 1, rel_widths = c(1, .2, .1))
 
@@ -127,7 +135,10 @@ px
 ```
 
 ```{r, cache=TRUE}
-ggsave("../graphs/phylo_full.pdf", px, width = 10, height = 7, scale = 2)
+ggsave("../graphs/phylo_full.pdf", px, width = 7, height = 5.5, scale = 2)
+ggsave("../graphs/phylo_full.png", width = 7, height = 5.5, scale = 2)
+ggsave("../graphs/phylo_full.tiff", width = 7, height = 5.5, scale = 2, type = "cairo", 
+       compression = "lzw")
 ```
 
 ```{r, fig.width=8, fig.height=8, cache=TRUE, eval=FALSE}
@@ -139,11 +150,11 @@ ggsave("../graphs/full_tree_nodes_circular.pdf", n1, width = 8, height = 8, scal
 ```{r, fig.width=8, fig.height=20, cache=TRUE, eval=FALSE}
 n2 <- ggtree(tree4, aes(size = hasN, alpha = hasN2)) +
   # highlight clades with background colors
-  geom_hilight(node = 485, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 488, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 421, fill = cols[2], alpha = .3) +
-  geom_hilight(node = 299, fill = cols[3], alpha = .3) +
-  geom_hilight(node = 404, fill = cols[4], alpha = .3) +
+  geom_hilight(node = 478, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 481, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 414, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 293, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 397, fill = cols[4], alpha = .3) +
   # plot tree again to be on top of the highlights
   geom_tree() +
   # root
@@ -172,7 +183,7 @@ ggsave("../graphs/full_tree_nodes.pdf", n2, width = 8, height = 20, scale = 2)
 to_drop <- tree3 %>% filter(is.na(Nstudies)) %>% pull(label)
 tree5 <- drop.tip(tree4, to_drop)
 d3 <- data %>% 
-  mutate(label = str_replace_all(label, "_", " ")) %>% 
+  mutate(label = str_replace_all(label2, "_", " ")) %>% 
   group_by(label, species, studyID) %>% 
   summarise(num = sum(num))
 ```
@@ -223,15 +234,15 @@ q <- ggtree(tree5, aes(col = group)) +
   geom_tippoint(aes(size = Nsites), stroke = 0, alpha = .8) +
   # geom_tiplab(aes(label = str_c(label, " (", Nsites, "/", Nstudies, ")")), offset = 4, size = 3) +
   geom_tiplab(offset = 4, size = 3) +
-  geom_text(aes(label = Nsites), x = 128, hjust = 1, size = 3) +
-  geom_text(aes(label = Nstudies), x = 135, hjust = 1, size = 3) +
+  geom_text(aes(label = Nsites), x = 135, hjust = 1, size = 3) +
+  geom_text(aes(label = Nstudies), x = 142, hjust = 1, size = 3) +
   # tweak scales
   scale_color_manual(values = c("grey30", cols)) +
   scale_fill_manual(values = cols) +
   scale_size_area(max_size = 8) +
   # display timescale at the bottom
   theme_tree2() +
-  xlim_tree(135) +
+  xlim_tree(142) +
   xlim_expand(c(0, 175), "xSample size") +
   # add axis + Nstudies/sites labels
   geom_text(data = ax, aes(label = lab), col = "black") +
@@ -299,6 +310,9 @@ qx2
 
 ```{r}
 ggsave("../graphs/phylo_ridge_site.pdf", width = 8, height = 8, scale = 2)
+ggsave("../graphs/phylo_ridge_site.png", width = 8, height = 8, scale = 2)
+ggsave("../graphs/phylo_ridge_site.tiff", width = 8, height = 8, scale = 2, type = "cairo", 
+       compression = "lzw")
 ```
 
 # Diversity score

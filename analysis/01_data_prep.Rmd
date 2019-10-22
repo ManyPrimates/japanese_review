@@ -204,6 +204,7 @@ sort(unique(studies$journal))
 
 ```{r}
 studies <- studies %>% 
+  filter(species != "Macaca sp.") %>% 
   mutate(species = recode(species, "coppery titi monkey" = "red-bellied titi monkey",
                           "red-fronted lemur" = "red lemur",
                           "Eastern hoolock" = "Western Hoolock gibbon",

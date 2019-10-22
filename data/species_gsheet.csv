@@ -12,15 +12,15 @@ Cercopithecus_erythrogaster,Cercopithecus_erythrogaster,NA
 Cercopithecus_erythrogaster_erythrogaster,Cercopithecus_erythrogaster,NA
 Cercopithecus_erythrotis,Cercopithecus_erythrotis,NA
 Cercopithecus_hamlyni,Cercopithecus_hamlyni,NA
-Cercopithecus_lhoesti,Cercopithecus_lhoesti,L'Hoest's monkey
+Cercopithecus_lhoesti,Allochrocebus_lhoesti,L'Hoest's monkey
 Cercopithecus_mitis,Cercopithecus_mitis,NA
 Cercopithecus_mona,Cercopithecus_mona,NA
 Cercopithecus_neglectus,Cercopithecus_neglectus,De Brazza's monkey
 Cercopithecus_nictitans,Cercopithecus_nictitans,NA
 Cercopithecus_petaurista,Cercopithecus_petaurista,NA
 Cercopithecus_pogonias,Cercopithecus_pogonias,NA
-Cercopithecus_preussi,Cercopithecus_preussi,NA
-Cercopithecus_solatus,Cercopithecus_solatus,NA
+Cercopithecus_preussi,Allochrocebus_preussi,NA
+Cercopithecus_solatus,Allochrocebus_solatus,NA
 Cercopithecus_wolfi,Cercopithecus_wolfi,NA
 Chlorocebus_aethiops,Chlorocebus_aethiops,NA
 Chlorocebus_pygerythrus,Chlorocebus_pygerythrus_pygerythrus,vervet monkey
@@ -173,7 +173,7 @@ Nycticebus_pygmaeus,Nycticebus_pygmaeus,pygmy slow loris
 Perodicticus_potto,Perodicticus_potto,NA
 Bunopithecus_hoolock,Hoolock_hoolock,Western Hoolock gibbon
 Gorilla_beringei,Gorilla_beringei,NA
-Gorilla_gorilla_gorilla,Gorilla_gorilla,Western lowland gorilla
+Gorilla_gorilla_gorilla,Gorilla_gorilla,Western gorilla
 Gorilla_gorilla_graueri,Gorilla_beringei,NA
 Hylobates_agilis,Hylobates_agilis,NA
 Hylobates_klossii,Hylobates_klossii,NA
@@ -289,8 +289,8 @@ Galago_granti,Galago_granti,NA
 Galago_matschiei,Galago_matschiei,NA
 Galago_moholi,Galago_moholi,NA
 Galago_senegalensis,Galago_senegalensis,NA
-Galagoides_demidoff,Galagoides_demidoff,NA
-Galagoides_zanzibaricus,Galagoides_zanzibaricus,NA
+Galagoides_demidoff,Galago_demidoff,NA
+Galagoides_zanzibaricus,Galago_zanzibaricus,NA
 Otolemur_crassicaudatus,Otolemur_crassicaudatus,NA
 Otolemur_garnettii,Otolemur_garnettii,NA
 Tarsius_bancanus,Cephalopachus_bancanus,NA

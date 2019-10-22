@@ -116,6 +116,9 @@ plot_grid(msx, bottom_row, ncol = 1, rel_heights = c(2.4, 1)) +
 
 ```{r}
 ggsave("../graphs/map_insets.pdf", width = 8, height = 5.5, scale = 2)
+ggsave("../graphs/map_insets.png", width = 8, height = 5.5, scale = 2)
+ggsave("../graphs/map_insets.tiff", width = 8, height = 5.5, scale = 2, type = "cairo", 
+       compression = "lzw")
 ```
 
 
