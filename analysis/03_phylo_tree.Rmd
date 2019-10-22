@@ -33,7 +33,13 @@ refs <- read_csv("../data/ref_nodes.csv")
 data <- studies %>% 
   left_join(species, by = c("species" = "species_file")) %>% 
   rename(label = species_tree, label2 = updated_nomenclature, num = n) %>% 
-  mutate(label2 = ifelse(is.na(label2), label, label2)) %>% 
+  mutate(label2 = ifelse(is.na(label2), label, label2),
+         label2 = fct_recode(label2,
+                             "Sapajus_spp." = "Sapajus_apella",
+                             "Hoolock_hoolock*" = "Hoolock_hoolock",
+                             "Plecturocebus_moloch*" = "Plecturocebus_moloch",
+                             "Callicebus_personatus*" = "Callicebus_personatus",
+                             "Eulemur_rufus*" = "Eulemur_rufus")) %>% 
   select(label, label2, studyID, species, site, num)
 ```
 
