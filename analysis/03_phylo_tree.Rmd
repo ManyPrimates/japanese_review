@@ -45,15 +45,26 @@ data2 <- data %>%
 ```
 
 ```{r}
+species <- species %>% 
+  mutate(updated_nomenclature = fct_recode(updated_nomenclature,
+                                           "Sapajus_spp." = "Sapajus_apella",
+                                           "Hoolock_hoolock*" = "Hoolock_hoolock",
+                                           "Plecturocebus_moloch*" = "Plecturocebus_moloch",
+                                           "Callicebus_personatus*" = "Callicebus_personatus",
+                                           "Eulemur_rufus*" = "Eulemur_rufus"))
+```
+
+```{r}
 # turn tree into tidy dataframe
 tree2 <- fulltree %>% 
   drop.tip(c("Pan_troglodytes_schweinfurthii", "Pan_troglodytes_troglodytes",
              "Pan_troglodytes_vellerosus", "Pongo_pygmaeus", "Cercopithecus_cephus_cephus",
              "Cercopithecus_erythrogaster_erythrogaster", "Eulemur_fulvus_mayottensis",
-             "Hapalemur_griseus_griseus", "Microcebus_lokobensis", "Lepilemur_mitsinjoensis")) %>%
+             "Hapalemur_griseus_griseus", "Microcebus_lokobensis", "Lepilemur_mitsinjoensis",
+             "Gorilla_gorilla_graueri", "Cebus_xanthosternos")) %>%
   as_tibble
 
-inner_nodes <- c(289:298, 307:308, 313:319, 321:325, 327, 329:346, 349:351, 355:357, 359, 375:383, 388, 392:395, 397:403, 405:416, 423:426, 428:432, 438:442, 446:448, 450:454, 457:464, 466:471, 473:477, 481:492, 504, 522:523, 527:529, 532:536, 542:544, 550:552, 555, 557)
+inner_nodes <- c(287:296, 305:306, 311:317, 319:323, 325, 327:344, 347:349, 353:355, 357, 373:381, 386, 390:393, 395:401, 403:412, 420:423, 425:429, 435:439, 443:445, 447:451, 454:461, 463:467, 469:473, 477:488, 500, 518:519, 523:525, 528:532, 538:540, 546:548, 551, 553)
 
 tree3 <- tree2 %>% 
   mutate(label = fct_recode(label, 
@@ -67,8 +78,9 @@ tree3 <- tree2 %>%
     hasN = ifelse(is.na(Nstudies), .1, .5), # used to size branches + color the tip labels
     hasN2 = ifelse(is.na(Nstudies) & !(node %in% inner_nodes), 0, .5), # used to color branches
     label = str_replace_all(label, "_", " "),
-    label = ifelse(is.na(label) & species == "orangutan", "Pongo spp", 
-                   ifelse(is.na(label) & species == "chimpanzee", "Pan troglodytes", label))) %>% 
+    # label = fct_recode(label, "Sapajus spp." = "Sapajus apella", "Hoolock hoolock*" = "Hoolock hoolock"),
+    label = ifelse(is.na(label) & species == "orangutan", "Pongo spp.", 
+              ifelse(is.na(label) & species == "chimpanzee", "Pan troglodytes", label))) %>% 
   left_join(refs) %>% 
   groupClade(refs$node[-1]) %>% 
   mutate(group = fct_recode(group, "2" = "1"))
@@ -86,25 +98,25 @@ cols <- viridis(4, end = .9)
 ```{r}
 p <- ggtree(tree4, aes(alpha = hasN2), layout = "circular") + # size = hasN, 
   # highlight clades with background colors
-  geom_hilight(node = 478, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 481, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 414, fill = cols[2], alpha = .3) +
-  geom_hilight(node = 293, fill = cols[3], alpha = .3) +
-  geom_hilight(node = 397, fill = cols[4], alpha = .3) +
+  geom_hilight(node = 474, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 477, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 411, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 291, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 395, fill = cols[4], alpha = .3) +
   # plot tree again to be on top of the highlights
   geom_tree() +
   # root
   geom_rootpoint(size = 1) +
   # tips
   geom_tippoint(aes(size = Nstudies), alpha = .7) +
-  geom_tiplab2(aes(alpha = hasN), offset = 3, size = 3) +
+  geom_tiplab2(aes(alpha = hasN), offset = 3, size = 2.5) +
   # tweak scales
   scale_alpha_continuous(range = c(.2, 1)) +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 8) +
   # widen plotting area
   xlim(NA, 100)
 
-p <- rotate(p, 292)
+p <- rotate(p, 290)
 ```
 
 ```{r}
@@ -121,13 +133,13 @@ l1 <- get_legend(pcol)
 ```{r}
 psize <- ggplot(data2, aes(size = Nstudies, x = 1, y = 1)) +
   geom_point(alpha = .7) +
-  scale_size_area("Number of Studies", max_size = 15) +
+  scale_size_area("Number of Studies", max_size = 8, breaks = c(1, 5, 10, 25, 50, 100)) +
   theme_cowplot()
 
 l2 <- get_legend(psize)
 ```
 
-```{r, fig.width=7, fig.height=5.5, cache=TRUE}
+```{r, fig.width=7.5, fig.height=5.5, cache=TRUE}
 px <- plot_grid(p, plot_grid(NA, l1, l2, NA, ncol = 1, rel_heights = c(.3, .15, .15, .3)), NA,
           nrow = 1, rel_widths = c(1, .2, .1))
 
@@ -135,9 +147,9 @@ px
 ```
 
 ```{r, cache=TRUE}
-ggsave("../graphs/phylo_full.pdf", px, width = 7, height = 5.5, scale = 2)
-ggsave("../graphs/phylo_full.png", width = 7, height = 5.5, scale = 2)
-ggsave("../graphs/phylo_full.tiff", width = 7, height = 5.5, scale = 2, type = "cairo", 
+ggsave("../graphs/phylo_full.pdf", px, width = 7.5, height = 5.5, scale = 2)
+ggsave("../graphs/phylo_full.png", width = 7.5, height = 5.5, scale = 2)
+ggsave("../graphs/phylo_full.tiff", width = 7.5, height = 5.5, scale = 2, type = "cairo", 
        compression = "lzw")
 ```
 
@@ -150,11 +162,11 @@ ggsave("../graphs/full_tree_nodes_circular.pdf", n1, width = 8, height = 8, scal
 ```{r, fig.width=8, fig.height=20, cache=TRUE, eval=FALSE}
 n2 <- ggtree(tree4, aes(size = hasN, alpha = hasN2)) +
   # highlight clades with background colors
-  geom_hilight(node = 478, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 481, fill = cols[1], alpha = .3) +
-  geom_hilight(node = 414, fill = cols[2], alpha = .3) +
-  geom_hilight(node = 293, fill = cols[3], alpha = .3) +
-  geom_hilight(node = 397, fill = cols[4], alpha = .3) +
+  geom_hilight(node = 474, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 477, fill = cols[1], alpha = .3) +
+  geom_hilight(node = 411, fill = cols[2], alpha = .3) +
+  geom_hilight(node = 291, fill = cols[3], alpha = .3) +
+  geom_hilight(node = 395, fill = cols[4], alpha = .3) +
   # plot tree again to be on top of the highlights
   geom_tree() +
   # root
@@ -167,7 +179,7 @@ n2 <- ggtree(tree4, aes(size = hasN, alpha = hasN2)) +
   geom_tiplab(aes(alpha = hasN), offset = 1.8, size = 3) +
   # tweak scales
   scale_alpha_continuous(range = c(.2, 1)) +
-  scale_size_continuous(range = c(.5, 15)) +
+  scale_size_continuous(range = c(.5, 8)) +
   # widen plotting area
   expand_limits(x = 90) +
   theme_tree2()
@@ -194,7 +206,7 @@ d3 %>% arrange(desc(num))
 
 ```{r}
 # filter super large samples out for visualization? note in caption
-# species with more than X sites can get a density
+# species with more than X studies can get a density
 d3a <- d3 %>% group_by(species) %>% filter(n_distinct(studyID) >= 4, num <= 200)
 d3b <- d3 %>% # setdiff(d3, d3a) %>% ## <- to NOT show points for densities
   group_by(species) %>% 

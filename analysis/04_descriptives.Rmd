@@ -129,7 +129,7 @@ X% of samples (by species & study) have sample sizes of less than/equal to:
 quantile(sample_sizes$N, seq(.05, 1, .05)) %>% round()
 ```
 
-e.g., 74% of samples of a given species included less than 16 individuals
+e.g., 74% of samples included less than 16 individuals
 
 ```{r}
 sample_sizes %>% 
@@ -137,6 +137,27 @@ sample_sizes %>%
     summarise(Nx = sum(N < 16), n(), percent = round(Nx/n(), 2))
 ```
 
+Sample size medians by species
+
+```{r}
+sample_sizes2 <- studies %>% 
+    filter(!is.na(n)) %>% 
+    group_by(species, studyID) %>% 
+    summarise(N = sum(n)) %>% 
+    summarise(Mdn = median(N))
+```
+
+```{r}
+quantile(sample_sizes2$Mdn, seq(.05, 1, .05)) %>% round()
+```
+
+e.g., 66% of species included less than 10 individuals (median)
+
+```{r}
+sample_sizes2 %>% 
+    ungroup %>% 
+    summarise(Mdnx = sum(Mdn < 10), n(), percent = round(Mdnx/n(), 2))
+```
 ## Median/range
 
 > across species & studies
