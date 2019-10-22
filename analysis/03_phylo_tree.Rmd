@@ -36,10 +36,10 @@ data <- studies %>%
   mutate(label2 = ifelse(is.na(label2), label, label2),
          label2 = fct_recode(label2,
                              "Sapajus_spp." = "Sapajus_apella",
-                             "Hoolock_hoolock*" = "Hoolock_hoolock",
-                             "Plecturocebus_moloch*" = "Plecturocebus_moloch",
-                             "Callicebus_personatus*" = "Callicebus_personatus",
-                             "Eulemur_rufus*" = "Eulemur_rufus")) %>% 
+                             "Hoolock_leuconedys*" = "Hoolock_hoolock",
+                             "Plecturocebus_cupreus*" = "Plecturocebus_moloch",
+                             "Callicebus_nigrifrons*" = "Callicebus_personatus",
+                             "Eulemur_rufifrons*" = "Eulemur_rufus")) %>% 
   select(label, label2, studyID, species, site, num)
 ```
 
@@ -54,10 +54,10 @@ data2 <- data %>%
 species <- species %>% 
   mutate(updated_nomenclature = fct_recode(updated_nomenclature,
                                            "Sapajus_spp." = "Sapajus_apella",
-                                           "Hoolock_hoolock*" = "Hoolock_hoolock",
-                                           "Plecturocebus_moloch*" = "Plecturocebus_moloch",
-                                           "Callicebus_personatus*" = "Callicebus_personatus",
-                                           "Eulemur_rufus*" = "Eulemur_rufus"))
+                                           "Hoolock_leuconedys*" = "Hoolock_hoolock",
+                                           "Plecturocebus_cupreus*" = "Plecturocebus_moloch",
+                                           "Callicebus_nigrifrons*" = "Callicebus_personatus",
+                                           "Eulemur_rufifrons*" = "Eulemur_rufus"))
 ```
 
 ```{r}
