@@ -74,7 +74,7 @@ inner_nodes <- c(287:296, 305:306, 311:317, 319:323, 325, 327:344, 347:349, 353:
 
 tree3 <- tree2 %>% 
   mutate(label = fct_recode(label, 
-                            "Pongo_spp" = "Pongo_abelii",
+                            "Pongo_spp." = "Pongo_abelii",
                             "Pan_troglodytes" = "Pan_troglodytes_verus")) %>% 
   left_join(data2) %>% 
   left_join(species, by = c("label" = "species_tree")) %>% 
@@ -197,9 +197,14 @@ ggsave("../graphs/full_tree_nodes.pdf", n2, width = 8, height = 20, scale = 2)
 # Sample size in detail
 
 ```{r}
+studies
+```
+
+```{r}
 # subset tree to just those species who have sample sizes reported, i.e. those who were tested
 to_drop <- tree3 %>% filter(is.na(Nstudies)) %>% pull(label)
-tree5 <- drop.tip(tree4, to_drop)
+to_drop2 <- data %>% group_by(label2) %>% filter(all(is.na(num))) %>% pull(label2) %>% str_replace_all('_', ' ')
+tree5 <- drop.tip(tree4, c(to_drop, to_drop2))
 d3 <- data %>% 
   mutate(label = str_replace_all(label2, "_", " ")) %>% 
   group_by(label, species, studyID) %>% 
@@ -262,6 +267,8 @@ q <- ggtree(tree5, aes(col = group)) +
   theme_tree2() +
   xlim_tree(142) +
   xlim_expand(c(0, 175), "xSample size") +
+  # # node labels if needed for reference
+  # geom_text(aes(label = node, x = branch), size = 2, col = "blue", vjust = -.5) +
   # add axis + Nstudies/sites labels
   geom_text(data = ax, aes(label = lab), col = "black") +
   geom_text(data = Nlab, aes(label = lab), col = "black", size = 2.5) +
@@ -275,7 +282,7 @@ q <- ggtree(tree5, aes(col = group)) +
   theme(strip.text = element_blank(), strip.background = element_blank(),
         plot.margin = unit(c(1, 1, 2, 1.5), "cm"), panel.spacing = unit(1, "cm"))
 
-q <- rotate(q, 72)
+q <- rotate(q, 71)
 ```
 
 ```{r, fig.width=6, fig.height=8, cache=TRUE}

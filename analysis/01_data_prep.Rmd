@@ -56,7 +56,7 @@ filter(species, !is.na(species_file), duplicated(species_file))
 ```{r}
 species <- species %>% 
   add_row(species_tree = "Pan_troglodytes", species_file = "chimpanzee") %>% 
-  add_row(species_tree = "Pongo_spp", species_file = "orangutan") %>% 
+  add_row(species_tree = "Pongo_spp.", species_file = "orangutan") %>% 
   select(-notes)
 ```
 
