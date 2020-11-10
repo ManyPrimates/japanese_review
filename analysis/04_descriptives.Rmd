@@ -37,7 +37,8 @@ studies %>%
     summarise(Nstudies = n_distinct(studyID)) %>% 
 ggplot(aes(year, Nstudies)) +
     geom_bar(stat = "identity", col = "black", fill = "white", width = .5) +
-    geom_text(aes(label = Nstudies), vjust = 2)
+    geom_text(aes(label = Nstudies), vjust = 2) +
+    scale_y_continuous(expand=expansion(mult = c(0, .05)))
 ```
 
 # Number of studies & sites featuring rhesus macaques or chimps
@@ -206,7 +207,7 @@ Number of studies with at least 1 replication attempt (count "yes" and "conceptu
 studies %>% 
   group_by(studyID) %>%
   summarise(Nrep = sum(attempt_replication != "no", na.rm = T)) %>% 
-  summarise(sum(Nrep > 1), n())
+  summarise(sum(Nrep > 0), n())
 ```
 
 
